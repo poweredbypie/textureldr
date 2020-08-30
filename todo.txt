@@ -1,0 +1,14 @@
+TODO:
+
+8/30/2020: forgot to hook keypad input, fix later
+fix crash after detaching from process, change pointer to function in button object to nullptr while detaching
+hook application so that exiting the game doesn't result in a runtime error
+
+learn how to mid function hook so that i can simply add my button to the menulayer without worrying about
+patching wrappers
+
+add a background or something lol
+
+add multiple texture pack support, similar to minecraft's menu
+
+find out why CCNode::setColor ends up with cocos not being able to draw the node correctly
