@@ -22,6 +22,12 @@
     <Filter Include="Header Files\cocos">
       <UniqueIdentifier>{e32d6d36-72ba-4da9-b809-5ea1d4fca1c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{6c7fd7d2-3c7e-4a06-bb15-1a8375b27580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ldr">
+      <UniqueIdentifier>{2ea22d85-7057-4596-a9be-d5a42acb31c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -38,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="hk.h">
       <Filter>Source Files\hk</Filter>
+    </ClInclude>
+    <ClInclude Include="ldr.h">
+      <Filter>Source Files\ldr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,10 +65,16 @@
     <ClCompile Include="hk.cpp">
       <Filter>Source Files\hk</Filter>
     </ClCompile>
+    <ClCompile Include="ldr.cpp">
+      <Filter>Source Files\ldr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\dependencies.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>misc</Filter>
+    </Text>
+    <Text Include="..\todo.txt">
+      <Filter>misc</Filter>
     </Text>
   </ItemGroup>
 </Project>

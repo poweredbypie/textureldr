@@ -19,19 +19,17 @@ namespace gd {
 		void addTo();
 	}
 	namespace menuLayer {
-		extern void** cbGarage;
-		extern void** cbLevelLayer;
-		extern void** cbCreator;
-
-		extern char* oBytesGarage;
-		extern char* oBytesLevelLayer;
-		extern char* oBytesCreator;
-
 		FN_T tCreate = void* (__stdcall*)();
 
 		OFFSET oCreate = 0x190550;
 
 		extern tCreate create;
+		extern void** pMoreGamesStr;
+		extern void** szMoreGamesBtn;
+		extern void** pcbMoreGames;
+		extern char* oMoreGamesStr;
+		extern char* oFolderBtnStr;
+		extern char* cbMoreGames;
 
 		void addTo();
 	}

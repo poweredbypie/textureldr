@@ -15,13 +15,12 @@ namespace gd {
 		}
 	}
 	namespace menuLayer {
-		void** cbGarage;
-		void** cbLevelLayer;
-		void** cbCreator;
-		char* oBytesGarage;
-		char* oBytesLevelLayer;
-		char* oBytesCreator;
-
+		void** pMoreGamesStr;
+		void** szMoreGamesBtn;
+		void** pcbMoreGames;
+		char* oMoreGamesStr;
+		char* oFolderBtnStr;
+		char* cbMoreGames;
 		tCreate create;
 
 		void addTo() {
@@ -48,10 +47,11 @@ namespace gd {
 		//get offsets
 		hmodule = GetModuleHandle(0);
 		gamemanager::ptr = *(int**)((char*)hmodule + 0x3222D0);
-		menuLayer::cbGarage = (void**)((char*)hmodule + 0x12608A);
-		menuLayer::cbLevelLayer = (void**)((char*)hmodule + 0x185DC7);
-		menuLayer::cbCreator = (void**)((char*)hmodule + 0x4E8E3);
-
+		menuLayer::pMoreGamesStr = (void**)((char*)hmodule + 0x190EF2);
+		menuLayer::szMoreGamesBtn = (void**)((char*)hmodule + 0x190F01);
+		menuLayer::pcbMoreGames = (void**)((char*)hmodule + 0x190F13);
+		menuLayer::oMoreGamesStr = ((char*)hmodule + 0x2CD790);
+		menuLayer::oFolderBtnStr = ((char*)hmodule + 0x297B34);
 
 		for (std::pair<void*&, int> pair : fcnPtrInfo) {
 			pair.first = ((char*)hmodule + pair.second);
