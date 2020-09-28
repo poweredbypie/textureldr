@@ -120,7 +120,7 @@ namespace cocos {
 
 		void addTo();
 	}
-	//---
+	//--- unnecessary, was for executing code in cocos thread but unneeded after patching callbacks
 	namespace scheduler {
 		PATH paUpdate{ "?update@CCScheduler@cocos2d@@UAEXM@Z" };
 
