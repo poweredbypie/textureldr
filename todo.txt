@@ -9,3 +9,7 @@ find out why CCNode::setColor ends up with cocos not being able to draw the node
 
 change gd.h and cocos.h so that not as much of the variables are exposed for no reason, since they are unused in dllmain 
 and do not need to be available to me / listed in autocomplete 
+
+add quality selector, iterate through directories to determine which detail level each pack supports
+
+add warning for packs that don't have .fnt/.plist files for corresponding .pngs, to warn of potential garbled packs
