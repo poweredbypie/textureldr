@@ -1,9 +1,9 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
-#include "cocos.h"
-#include "gd.h"
-#include "hk.h"
+#include "extern/cocos.h"
+#include "extern/gd.h"
+#include "classes/hk.h"
 #include "ldr.h"
 
 BOOL WINAPI attach(HMODULE hModule) {

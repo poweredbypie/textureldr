@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pch.h"
+
 void patch(char* dst, char* src, char* buff, const int len);
 
 bool detour(const char* src, const char* dst, const int len);

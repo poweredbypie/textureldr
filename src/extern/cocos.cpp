@@ -26,11 +26,15 @@ namespace cocos {
 		tAddChild addChild;
 		tSetPos setPos;
 		tSetRot setRot;
+		tSetScale setScale;
+		tSetVisible setVisible;
 
 		void addTo() {
 			fcnPtrInfo.push_back({ (void*&)addChild, paAddChild });
 			fcnPtrInfo.push_back({ (void*&)setPos, paSetPos });
 			fcnPtrInfo.push_back({ (void*&)setRot, paSetRot });
+			fcnPtrInfo.push_back({ (void*&)setScale, paSetScale });
+			fcnPtrInfo.push_back({ (void*&)setVisible, paSetVisible });
 		}
 	}
 	//---
@@ -59,10 +63,12 @@ namespace cocos {
 	namespace menuItem {
 		tCreateImg createImg;
 		tCreateSpr createSpr;
+		tSetEnabled setEnabled;
 
 		void addTo() {
 			fcnPtrInfo.push_back({ (void*&)createImg, paCreateImg });
 			fcnPtrInfo.push_back({ (void*&)createSpr, paCreateSpr });
+			fcnPtrInfo.push_back({ (void*&)setEnabled, paSetEnabled });
 		}
 	}
 	namespace label {
@@ -115,11 +121,14 @@ namespace cocos {
 
 		hmodule = GetModuleHandle("libcocos2d.dll");
 
-		for (std::pair<void*&, const char*>& pair : fcnPtrInfo) {
-			pair.first = (void*)GetProcAddress(hmodule, pair.second);
-			if (!pair.first)
-				return false;
+		if (hmodule) {
+			for (std::pair<void*&, const char*>& pair : fcnPtrInfo) {
+				pair.first = (void*)GetProcAddress(hmodule, pair.second);
+				if (!pair.first)
+					return false;
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 }

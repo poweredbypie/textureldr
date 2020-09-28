@@ -1,5 +1,6 @@
-#include "pch.h"
 #pragma once
+
+#include "pch.h"
 #define FN_T using
 #define OFFSET static inline const int
 

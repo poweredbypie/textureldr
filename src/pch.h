@@ -7,12 +7,9 @@
 #ifndef PCH_H
 #define PCH_H
 
-// add headers that you want to pre-compile here
 #include "framework.h"
-//vector for array of function pointers so initialization is less tedious
+//vector for array of function pointers so initialization is less tedious, and packs list
 #include <vector>
-//for debugging purposes
-#include <iostream>
 //for detecting and reading packs
 #include <filesystem>
 //for messagebox instantiation

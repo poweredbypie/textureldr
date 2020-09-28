@@ -1,5 +1,6 @@
-#include "pch.h"
 #pragma once
+
+#include "pch.h"
 #define PATH static inline const char*
 #define FN_T using
 
@@ -28,14 +29,20 @@ namespace cocos {
 		PATH paAddChild{ "?addChild@CCNode@cocos2d@@UAEXPAV12@@Z" };
 		PATH paSetPos{ "?setPosition@CCNode@cocos2d@@UAEXMM@Z" };
 		PATH paSetRot{ "?setRotation@CCNode@cocos2d@@UAEXM@Z" };
+		PATH paSetScale{ "?setScale@CCNode@cocos2d@@UAEXM@Z" };
+		PATH paSetVisible{ "?setVisible@CCNode@cocos2d@@UAEX_N@Z" };
 
 		FN_T tAddChild = void(__thiscall*)(void* CCNode, void* childNode);
 		FN_T tSetPos = void(__thiscall*)(void* CCNode, float x, float y);
 		FN_T tSetRot = void(__thiscall*)(void* CCNode, float rotation);
+		FN_T tSetScale = void(__thiscall*)(void* CCNode, float scale);
+		FN_T tSetVisible = void(__thiscall*)(void* CCNode, bool visible);
 
 		extern tAddChild addChild;
 		extern tSetPos setPos;
 		extern tSetRot setRot;
+		extern tSetScale setScale;
+		extern tSetVisible setVisible;
 
 		void addTo();
 	}
@@ -71,12 +78,15 @@ namespace cocos {
 	namespace menuItem {
 		PATH paCreateImg{ "?create@CCMenuItemImage@cocos2d@@SAPAV12@PBD00PAVCCObject@2@P832@AEX1@Z@Z" };
 		PATH paCreateSpr{ "?create@CCMenuItemSprite@cocos2d@@SAPAV12@PAVCCNode@2@00PAVCCObject@2@P842@AEX1@Z@Z" };
+		PATH paSetEnabled{ "?setEnabled@CCMenuItem@cocos2d@@UAEX_N@Z" };
 
 		FN_T tCreateImg = void* (__cdecl*)(const char* normal, const char* selected, const char* disabled, void* target, void* selector);
 		FN_T tCreateSpr = void* (__cdecl*)(void* normal, void* selected, void* disabled, void* target, void* selector);
+		FN_T tSetEnabled = void(__thiscall*)(void* CCMenuItem, bool value);
 
 		extern tCreateImg createImg;
 		extern tCreateSpr createSpr;
+		extern tSetEnabled setEnabled;
 
 		void addTo();
 	}

@@ -13,20 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\hk">
-      <UniqueIdentifier>{0f402181-22a8-4f1a-a985-6512db60cbb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gd">
-      <UniqueIdentifier>{517f21af-4d80-44bc-a04d-48a5d7333e86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\cocos">
-      <UniqueIdentifier>{e32d6d36-72ba-4da9-b809-5ea1d4fca1c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="misc">
       <UniqueIdentifier>{6c7fd7d2-3c7e-4a06-bb15-1a8375b27580}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ldr">
-      <UniqueIdentifier>{2ea22d85-7057-4596-a9be-d5a42acb31c7}</UniqueIdentifier>
+    <Filter Include="Source Files\classes">
+      <UniqueIdentifier>{17676a58-bdf1-4e0a-8933-a6874a2a692e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\extern">
+      <UniqueIdentifier>{6d0d382c-d401-40c4-b459-b3fcbbae13e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,37 +30,43 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cocos.h">
-      <Filter>Header Files\cocos</Filter>
-    </ClInclude>
-    <ClInclude Include="gd.h">
-      <Filter>Header Files\gd</Filter>
-    </ClInclude>
-    <ClInclude Include="hk.h">
-      <Filter>Source Files\hk</Filter>
+    <ClInclude Include="classes\hk.h">
+      <Filter>Source Files\classes</Filter>
     </ClInclude>
     <ClInclude Include="ldr.h">
-      <Filter>Source Files\ldr</Filter>
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="extern\cocos.h">
+      <Filter>Header Files\extern</Filter>
+    </ClInclude>
+    <ClInclude Include="extern\gd.h">
+      <Filter>Header Files\extern</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\list.h">
+      <Filter>Source Files\classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cocos.cpp">
-      <Filter>Header Files\cocos</Filter>
+    <ClCompile Include="classes\hk.cpp">
+      <Filter>Source Files\classes</Filter>
     </ClCompile>
-    <ClCompile Include="gd.cpp">
-      <Filter>Header Files\gd</Filter>
-    </ClCompile>
-    <ClCompile Include="hk.cpp">
-      <Filter>Source Files\hk</Filter>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ldr.cpp">
-      <Filter>Source Files\ldr</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="extern\cocos.cpp">
+      <Filter>Header Files\extern</Filter>
+    </ClCompile>
+    <ClCompile Include="extern\gd.cpp">
+      <Filter>Header Files\extern</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\list.cpp">
+      <Filter>Source Files\classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
