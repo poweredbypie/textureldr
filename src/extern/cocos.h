@@ -6,6 +6,7 @@
 
 namespace cocos {
 	struct vec2 { float x, y; };
+	struct color3b { unsigned char r, g, b; };
 	extern std::vector<std::pair<void*&, const char*>> fcnPtrInfo;
 	extern HMODULE hmodule;
 
@@ -120,7 +121,7 @@ namespace cocos {
 
 		void addTo();
 	}
-	//--- unnecessary, was for executing code in cocos thread but unneeded after patching callbacks
+	//---
 	namespace scheduler {
 		PATH paUpdate{ "?update@CCScheduler@cocos2d@@UAEXM@Z" };
 
