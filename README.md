@@ -7,6 +7,7 @@ not stable. please do not download this if you are not willing to take risks wit
 # known issues
 - the textureldr button still appears after ejecting the dll. clicking the button will cause the game to crash, as the game is trying to access deallocated memory. (same goes for ejecting while inside of the loader menu)
 - it's ugly.
+- swap button can trigger vector out of range, which is not ideal
 
 # to do
 see todo.txt.
