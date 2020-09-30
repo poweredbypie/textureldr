@@ -3,56 +3,103 @@
 #include "pch.h"
 #include "extern/cocos.h"
 #define LIST_LENGTH 10
+#define FCNPTR_T void*
+#define BUTTON_T void*
 
 class listManager;
+
 
 /*the list class embodies all elements needed to form a list: a title, the actual list, navigation buttons,
 * swap list element buttons, and a button to move the list to its target list.
 */
 
-class list {
-private:
-
+class horizontalList {
+protected:
     const char* m_titleStr{};
     void* m_titleLabel{};
 
     std::vector<std::string> m_listStrings{};
-    void* m_listLabels[LIST_LENGTH]{};
+    void** m_pArrListLabels{};
     int m_listLength{};
-    bool m_init{};
+    bool m_init{ false };
     float m_x{}, m_y{};
 
-    void* m_upBtn{};
-    void* m_downBtn{};
-    void* m_navFn{};
-    int m_listOffset{};
-
-    void* m_moveBtn{};
-    void* m_moveFn{};
-    int m_moveIndex{};
-
-    void* m_swapUpBtn{};
-    void* m_swapDownBtn{};
-    void* m_swapFn{};
+    BUTTON_T m_upBtn{};
+    BUTTON_T m_downBtn{};
+    FCNPTR_T m_navFn{};
+    int m_listOffset{ 0 };
 
     void* m_menu{};
 
-    list* m_target;
-
-    void getLength();
+protected:
     void toggle(void*& button, bool enabled);
-    void updateLabels();
-    void updateSelector();
+    virtual void getLength() = 0;
+
+    virtual bool isParent(void* button);
+    virtual bool isUp(void* button);
+
+    virtual void navigate(bool sub);
+    virtual void swap(bool up) = 0;
+    virtual void move() = 0;
+
+    virtual void update();
+    virtual void enter(void* scene);
+    virtual void exit();
 
 public:
-
-    list(const char* title, list* target, listManager* manager);
-    void loadArray();
-    std::vector<std::string>& getArray();
+    horizontalList(const char* title, int length);
+    
     void setPosition(float x, float y);
-    void enter(void* scene);
-    void update();
-    void exit();
+
+    friend class listManager;
+};
+
+class verticalList : public horizontalList {
+    enum buttonType {
+        NAVIGATE,
+        SWAP,
+        MOVE
+    };
+    struct listAttributes {
+        buttonType m_type;
+        bool m_up;
+    };
+
+protected:
+    BUTTON_T m_swapUpBtn{};
+    BUTTON_T m_swapDownBtn{};
+    FCNPTR_T m_swapFn{};
+
+    BUTTON_T m_moveBtn{};
+    FCNPTR_T m_moveFn{};
+    int m_moveIndex{};
+
+    void* m_menu{};
+
+    verticalList* m_target;
+
+protected:
+    virtual void getLength();
+
+    virtual bool isParent(void* button);
+    virtual bool isUp(void* button);
+
+    virtual void navigate(bool sub);
+    virtual void swap(bool up);
+    virtual void move();
+
+    void updateLabels();
+    void updateSelector();
+    virtual void update();
+    
+    virtual void enter(void* scene);
+    virtual void exit();
+
+public:
+    verticalList(const char* title, int length, verticalList* target);
+    void loadArray();
+
+    std::vector<std::string>& getArray();
 
     friend class listManager;
 };
@@ -64,18 +111,21 @@ public:
 */
 
 class listManager {
-    static inline std::vector<list*> listOfLists;
-    static inline bool up;
+private:
+    static inline std::vector<horizontalList*> m_vec;
+    static inline bool m_up;
 
 private:
-    static list* getAttributes(void* pSender);
+    static void add(horizontalList* list);
 
-public:
     static void __stdcall navigate(void* pSender);
     static void __stdcall swap(void* pSender);
     static void __stdcall move(void* pSender);
 
-    static void add(list* list);
+public:
     static void enter(void* scene);
     static void exit();
+
+    friend class verticalList;
+    friend class horizontalList;
 };

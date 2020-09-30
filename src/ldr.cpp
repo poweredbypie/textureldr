@@ -14,11 +14,10 @@ namespace ldr {
     };
 
     namespace vars {
-        listManager manager;
 
-        extern list applied;
-        list all{ "available", &applied, &manager };
-        list applied{ "applied", &all, &manager };
+        extern verticalList applied;
+        verticalList all{ "available", LIST_LENGTH, &applied};
+        verticalList applied{ "applied", LIST_LENGTH, &all};
 
         bool bTransition{ true };
 
@@ -29,7 +28,7 @@ namespace ldr {
         void COCOS_HOOK addPath(void* CCFileUtils, void* __EDX, const char* path) {
             using namespace vars;
 
-            for (int i{}; i < applied.getArray().size(); ++i) {
+            for (int i{}; i < (int)applied.getArray().size(); ++i) {
                 gAddPath(CCFileUtils, ("packs\\" + applied.getArray()[i]).c_str());
             }
             return gAddPath(CCFileUtils, path);
@@ -54,7 +53,7 @@ namespace ldr {
 
         void* ldrScene = scene::create();
 
-        manager.enter(ldrScene);
+        listManager::enter(ldrScene);
 
         void* miscBtns = menu::create();
         node::addChild(ldrScene, miscBtns);
@@ -86,7 +85,7 @@ namespace ldr {
         using namespace gd;
         using namespace vars;
 
-        manager.exit();
+        listManager::exit();
 
         void* director = director::get();
 
@@ -116,7 +115,6 @@ namespace ldr {
     BTN_CALLBACK(apply) {
         using namespace cocos;
         using namespace gd;
-        using namespace vars;
 
         void* director = director::get();
         director::updateScale(director, HIGH);
