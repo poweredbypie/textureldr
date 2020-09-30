@@ -6,7 +6,6 @@
 #include "classes/list.h"
 #define BTN_CALLBACK(__fcnName) void __stdcall __fcnName(void* pSender)
 #define COCOS_HOOK __fastcall
-#define LIST_LENGTH 10
 
 namespace ldr {
 	namespace vars {

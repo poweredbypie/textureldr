@@ -1,39 +1,112 @@
 #include "pch.h"
 #include "list.h"
 
-void horizontalList::toggle(void*& button, bool enabled) {
+void list::getLength() {
+    m_displayedLength = (int)(m_listStrings.size() - m_listOffset) < m_maxDisplayedLength ? (m_listStrings.size() - m_listOffset) : m_maxDisplayedLength;
+}
+
+void list::toggle(void*& button, bool enabled) {
     using namespace cocos;
 
     menuItem::setEnabled(button, enabled);
     node::setVisible(button, enabled);
 }
 
-bool horizontalList::isParent(void* button) {
-    return false;
+bool list::isParent(void* button) {
+    return (button == m_upBtn || button == m_downBtn);
 }
 
-bool horizontalList::isUp(void* button) {
-    return false;
+bool list::isUp(void* button) {
+    return (button == m_upBtn);
 }
 
-void horizontalList::navigate(bool sub) {
+void list::navigate(bool up) {
+    if (!m_listStrings.empty()) {
+        if (up) {
+            if (m_listOffset > 0)
+                --m_listOffset;
+        }
+        else {
+            if (m_listOffset < (int)m_listStrings.size() - 1)
+                ++m_listOffset;
+        }
 
+        update();
+    }
 }
 
-void horizontalList::update() {
-
+void list::swap(bool up) {
+    /*this call will never happen as the button that calls it doesn't exist.
+    * it's just here so listExt / listManager can use it, and so that list 
+    * instances can be instantiated (pure virtual functions mean instances
+    * of a class can't be instantiated)*/
+    return;
 }
 
-void horizontalList::enter(void* scene) {
-
+void list::move() {
+    /*this call will never happen as the button that calls it doesn't exist.
+    * it's just here so listExt / listManager can use it, and so that list
+    * instances can be instantiated (pure virtual functions mean instances
+    * of a class can't be instantiated)*/
+    return;
 }
 
-void horizontalList::exit() {
+void list::update() {
+    using namespace cocos;
 
+    getLength();
+
+    if (m_displayedLength) {
+        if (!m_init) {
+            m_pArrListLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
+            node::setPos(m_pArrListLabels[0], m_x, m_y);
+            node::setScale(m_pArrListLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+            node::addChild(m_menu, m_pArrListLabels[0]);
+        }
+        else {
+            label::set(m_pArrListLabels[0], m_listStrings[m_listOffset].c_str(), true);
+            node::setScale(m_pArrListLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+        }
+    }
 }
 
-horizontalList::horizontalList(const char* title, int length) {
+void list::enter(void* scene) {
+    using namespace cocos;
+
+    m_menu = menu::create();
+
+    m_titleLabel = label::create(m_titleStr, "goldFont.fnt");
+    node::setPos(m_titleLabel, m_x, m_y + 30.0f);
+    node::addChild(m_menu, m_titleLabel);
+
+    void* navSprite = sprite::create("navArrowBtn_001.png");
+
+    m_upBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
+    node::setPos(m_upBtn, m_x - 70.0f, m_y);
+    node::setRot(m_upBtn, -180.0f);
+    node::setScale(m_upBtn, 0.60f);
+    node::addChild(m_menu, m_upBtn);
+
+    m_downBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
+    node::setPos(m_downBtn, m_x + 70.0f, m_y);
+    node::setScale(m_downBtn, 0.60f);
+    node::addChild(m_menu, m_downBtn);
+
+    update();
+
+    node::addChild(scene, m_menu);
+
+    m_init = true;
+}
+
+void list::exit() {
+    m_init = false;
+}
+
+list::list(const char* title, int length) {
     m_titleStr = title;
+
+    m_maxDisplayedLength = length;
 
     m_navFn = listManager::navigate;
 
@@ -43,42 +116,52 @@ horizontalList::horizontalList(const char* title, int length) {
     listManager::add(this);
 }
 
-void horizontalList::setPosition(float x, float y) {
+void list::setArray(const std::vector<std::string>& arr) {
+    m_listStrings = arr;
+}
+
+const std::vector<std::string>& list::getArray() {
+    return m_listStrings;
+}
+
+const int list::getCurrentIndex() {
+    return m_listOffset;
+}
+
+void list::setPosition(float x, float y) {
     m_x = x;
     m_y = y;
 }
 
-void verticalList::getLength() {
-    m_listLength = (m_listStrings.size() - m_listOffset) < LIST_LENGTH ? (m_listStrings.size() - m_listOffset) : LIST_LENGTH;
-}
+//listExt
 
-bool verticalList::isParent(void* button) {
+bool listExt::isParent(void* button) {
     return (button == m_upBtn || button == m_downBtn || button == m_swapUpBtn || button == m_swapDownBtn || button == m_moveBtn);
 }
 
 
-bool verticalList::isUp(void* button) {
+bool listExt::isUp(void* button) {
     return (button == m_upBtn || button == m_swapUpBtn);
 }
 
-void verticalList::navigate(bool sub) {
-    if (sub) {
+void listExt::navigate(bool up) {
+    if (up) {
         if (m_moveIndex > 0)
             --m_moveIndex;
         else if (m_listOffset > 0)
             --m_listOffset;
     }
     else {
-        if (m_moveIndex < m_listLength - 1)
+        if (m_moveIndex < m_displayedLength - 1)
             ++m_moveIndex;
-        else if (m_listOffset < (int)m_listStrings.size() - LIST_LENGTH)
+        else if (m_listOffset < (int)m_listStrings.size() - m_maxDisplayedLength)
             ++m_listOffset;
     }
 
     update();
 }
 
-void verticalList::swap(bool up) {
+void listExt::swap(bool up) {
     if (up) {
         if (m_moveIndex + m_listOffset != 0) {
             std::iter_swap(m_listStrings.begin() + m_moveIndex + m_listOffset, m_listStrings.begin() + m_moveIndex + m_listOffset - 1);
@@ -95,7 +178,7 @@ void verticalList::swap(bool up) {
     update();
 }
 
-void verticalList::move() {
+void listExt::move() {
     m_target->m_listStrings.insert(m_target->m_listStrings.begin(), m_listStrings[m_moveIndex + m_listOffset]);
     m_listStrings.erase(m_listStrings.begin() + m_moveIndex + m_listOffset);
 
@@ -108,13 +191,15 @@ void verticalList::move() {
 }
 
 
-void verticalList::updateLabels() {
+void listExt::updateLabels() {
     using namespace cocos;
+    
+    getLength();
 
     if (!m_init) {
-        getLength();
-        for (int i{}; i < LIST_LENGTH; ++i) {
-            if (i < m_listLength) {
+
+        for (int i{}; i < m_maxDisplayedLength; ++i) {
+            if (i < m_displayedLength) {
                 m_pArrListLabels[i] = label::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
                 node::setPos(m_pArrListLabels[i], m_x, m_y - (20.0f * i));
                 node::setScale(m_pArrListLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
@@ -128,9 +213,8 @@ void verticalList::updateLabels() {
         }
     }
     else {
-        getLength();
-        for (int i{}; i < LIST_LENGTH; ++i) {
-            if (i < m_listLength) {
+        for (int i{}; i < m_maxDisplayedLength; ++i) {
+            if (i < m_displayedLength) {
                 label::set(m_pArrListLabels[i], m_listStrings[m_listOffset + i].c_str(), true);
                 node::setScale(m_pArrListLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
             }
@@ -141,7 +225,7 @@ void verticalList::updateLabels() {
     }
 }
 
-void verticalList::updateSelector() {
+void listExt::updateSelector() {
     using namespace cocos;
 
     if (!m_init) {
@@ -210,15 +294,14 @@ void verticalList::updateSelector() {
     }
 }
 
-void verticalList::update() {
+void listExt::update() {
     updateLabels();
     updateSelector();
 }
 
-void verticalList::enter(void* scene) {
+void listExt::enter(void* scene) {
     using namespace cocos;
 
-    void* director = director::get();
     m_menu = menu::create();
 
     m_titleLabel = label::create(m_titleStr, "goldFont.fnt");
@@ -246,11 +329,11 @@ void verticalList::enter(void* scene) {
     m_init = true;
 }
 
-void verticalList::exit() {
+void listExt::exit() {
     m_init = false;
 }
 
-verticalList::verticalList(const char* title, int length, verticalList* target) : horizontalList(title, length) {
+listExt::listExt(const char* title, int length, listExt* target) : list(title, length) {
     m_moveFn = listManager::move;
     m_swapFn = listManager::swap;
 
@@ -259,43 +342,16 @@ verticalList::verticalList(const char* title, int length, verticalList* target) 
     listManager::add(this);
 }
 
-void verticalList::loadArray() {
-    using namespace std::filesystem;
+//listManager
 
-    m_listStrings.clear();
-    path packs = current_path() / "packs";
-    if (exists(packs)) {
-        if (is_directory(packs)) {
-            directory_iterator packsIter{ packs };
-            for (directory_entry pack : packsIter) {
-                if (is_directory(pack))
-                    m_listStrings.push_back(pack.path().filename().string());
-            }
-        }
-        else {
-            MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
-        }
-    }
-    else {
-        //TODO: change this to fading text so it doesn't exit you out of fullscreen
-        create_directories(packs);
-        MessageBox(0, "created packs folder.", "textureldr", MB_OK);
-    }
-}
-
-std::vector<std::string>& verticalList::getArray() {
-    return m_listStrings;
-}
-//listmanager starts here
-
-void listManager::add(horizontalList* list) {
+void listManager::add(list* list) {
     m_vec.push_back(list);
 }
 
 void __stdcall listManager::navigate(void* pSender) {
-    horizontalList* target{};
+    list* target{};
     
-    for (horizontalList* i : m_vec) {
+    for (list* i : m_vec) {
         if (i->isParent(pSender)) {
             target = i;
             break;
@@ -308,9 +364,9 @@ void __stdcall listManager::navigate(void* pSender) {
 }
 
 void __stdcall listManager::swap(void* pSender) {
-    horizontalList* target{};
+    list* target{};
 
-    for (horizontalList* i : m_vec) {
+    for (list* i : m_vec) {
         if (i->isParent(pSender)) {
             target = i;
             break;
@@ -323,9 +379,9 @@ void __stdcall listManager::swap(void* pSender) {
 }
 
 void __stdcall listManager::move(void* pSender) {
-    horizontalList* target{};
+    list* target{};
 
-    for (horizontalList* i : m_vec) {
+    for (list* i : m_vec) {
         if (i->isParent(pSender)) {
             target = i;
             break;
@@ -338,13 +394,13 @@ void __stdcall listManager::move(void* pSender) {
 }
 
 void listManager::enter(void* scene) {
-    for (horizontalList* i : m_vec) {
+    for (list* i : m_vec) {
         i->enter(scene);
     }
 }
 
 void listManager::exit() {
-    for (horizontalList* i : m_vec) {
+    for (list* i : m_vec) {
         i->exit();
     }
 }

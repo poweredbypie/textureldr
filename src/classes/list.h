@@ -2,25 +2,22 @@
 
 #include "pch.h"
 #include "extern/cocos.h"
-#define LIST_LENGTH 10
 #define FCNPTR_T void*
 #define BUTTON_T void*
 
 class listManager;
 
+//the list class embodies all elements needed to form a list: a title, the actual list and navigation buttons,
 
-/*the list class embodies all elements needed to form a list: a title, the actual list, navigation buttons,
-* swap list element buttons, and a button to move the list to its target list.
-*/
-
-class horizontalList {
+class list {
 protected:
     const char* m_titleStr{};
     void* m_titleLabel{};
 
     std::vector<std::string> m_listStrings{};
     void** m_pArrListLabels{};
-    int m_listLength{};
+    int m_maxDisplayedLength{};
+    int m_displayedLength{};
     bool m_init{ false };
     float m_x{}, m_y{};
 
@@ -32,39 +29,34 @@ protected:
     void* m_menu{};
 
 protected:
+    void getLength();
     void toggle(void*& button, bool enabled);
-    virtual void getLength() = 0;
 
     virtual bool isParent(void* button);
     virtual bool isUp(void* button);
 
-    virtual void navigate(bool sub);
-    virtual void swap(bool up) = 0;
-    virtual void move() = 0;
+    virtual void navigate(bool up);
+    virtual void swap(bool up);
+    virtual void move();
 
     virtual void update();
     virtual void enter(void* scene);
     virtual void exit();
 
 public:
-    horizontalList(const char* title, int length);
+    list(const char* title, int length);
+    void setArray(const std::vector<std::string>& arr);
+    const std::vector<std::string>& getArray();
+    const int getCurrentIndex();
     
     void setPosition(float x, float y);
 
     friend class listManager;
 };
 
-class verticalList : public horizontalList {
-    enum buttonType {
-        NAVIGATE,
-        SWAP,
-        MOVE
-    };
-    struct listAttributes {
-        buttonType m_type;
-        bool m_up;
-    };
+//listExt adds swap and move abilities to the list, and also allows for the list to display more than one element at a time.
 
+class listExt : public list {
 protected:
     BUTTON_T m_swapUpBtn{};
     BUTTON_T m_swapDownBtn{};
@@ -76,15 +68,13 @@ protected:
 
     void* m_menu{};
 
-    verticalList* m_target;
+    listExt* m_target;
 
 protected:
-    virtual void getLength();
-
     virtual bool isParent(void* button);
     virtual bool isUp(void* button);
 
-    virtual void navigate(bool sub);
+    virtual void navigate(bool up);
     virtual void swap(bool up);
     virtual void move();
 
@@ -96,10 +86,7 @@ protected:
     virtual void exit();
 
 public:
-    verticalList(const char* title, int length, verticalList* target);
-    void loadArray();
-
-    std::vector<std::string>& getArray();
+    listExt(const char* title, int length, listExt* target);
 
     friend class listManager;
 };
@@ -112,11 +99,10 @@ public:
 
 class listManager {
 private:
-    static inline std::vector<horizontalList*> m_vec;
-    static inline bool m_up;
+    static inline std::vector<list*> m_vec;
 
 private:
-    static void add(horizontalList* list);
+    static void add(list* list);
 
     static void __stdcall navigate(void* pSender);
     static void __stdcall swap(void* pSender);
@@ -126,6 +112,6 @@ public:
     static void enter(void* scene);
     static void exit();
 
-    friend class verticalList;
-    friend class horizontalList;
+    friend class listExt;
+    friend class list;
 };
