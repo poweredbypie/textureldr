@@ -7,7 +7,7 @@
 
 class listManager;
 
-//the list class embodies all elements needed to form a list: a title, the actual list and navigation buttons,
+//the list class embodies all elements needed to form a list: a title, the actual list, and navigation buttons.
 
 class list {
 protected:
@@ -36,8 +36,6 @@ protected:
     virtual bool isUp(void* button);
 
     virtual void navigate(bool up);
-    virtual void swap(bool up);
-    virtual void move();
 
     virtual void update();
     virtual void enter(void* scene);
@@ -75,8 +73,8 @@ protected:
     virtual bool isUp(void* button);
 
     virtual void navigate(bool up);
-    virtual void swap(bool up);
-    virtual void move();
+    void swap(bool up);
+    void move();
 
     void updateLabels();
     void updateSelector();

@@ -35,22 +35,6 @@ void list::navigate(bool up) {
     }
 }
 
-void list::swap(bool up) {
-    /*this call will never happen as the button that calls it doesn't exist.
-    * it's just here so listExt / listManager can use it, and so that list 
-    * instances can be instantiated (pure virtual functions mean instances
-    * of a class can't be instantiated)*/
-    return;
-}
-
-void list::move() {
-    /*this call will never happen as the button that calls it doesn't exist.
-    * it's just here so listExt / listManager can use it, and so that list
-    * instances can be instantiated (pure virtual functions mean instances
-    * of a class can't be instantiated)*/
-    return;
-}
-
 void list::update() {
     using namespace cocos;
 
@@ -112,7 +96,6 @@ list::list(const char* title, int length) {
 
     m_pArrListLabels = new void*[length];
 
-    //fix listManager to handle this
     listManager::add(this);
 }
 
@@ -338,8 +321,6 @@ listExt::listExt(const char* title, int length, listExt* target) : list(title, l
     m_swapFn = listManager::swap;
 
     m_target = target;
-
-    listManager::add(this);
 }
 
 //listManager
@@ -364,11 +345,11 @@ void __stdcall listManager::navigate(void* pSender) {
 }
 
 void __stdcall listManager::swap(void* pSender) {
-    list* target{};
+    listExt* target{};
 
     for (list* i : m_vec) {
         if (i->isParent(pSender)) {
-            target = i;
+            target = (listExt*)i;
             break;
         }
     }
@@ -379,11 +360,11 @@ void __stdcall listManager::swap(void* pSender) {
 }
 
 void __stdcall listManager::move(void* pSender) {
-    list* target{};
+    listExt* target{};
 
     for (list* i : m_vec) {
         if (i->isParent(pSender)) {
-            target = i;
+            target = (listExt*)i;
             break;
         }
     }
