@@ -7,7 +7,6 @@ not stable. please do not download this if you are not willing to take risks wit
 # known issues
 - the textureldr button still appears after ejecting the dll. clicking the button will cause the game to crash, as the game is trying to access deallocated memory. (same goes for ejecting while inside of the loader menu)
 - it's ugly.
-- swap down button doesn't work when the selector is on the second to last entry for some reason lol, will look into it
 - removing 10 or more packs from the packs folder and clicking the reload button will end up with the selector looking weird, although i dont think it breaks the app
 
 # to do
