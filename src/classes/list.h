@@ -18,7 +18,7 @@ protected:
     void** m_pArrListLabels{};
     int m_maxDisplayedLength{};
     int m_displayedLength{};
-    bool m_init{ false };
+    bool m_entered{ false };
     float m_x{}, m_y{};
 
     BUTTON_T m_upBtn{};
@@ -43,8 +43,9 @@ protected:
 
 public:
     list(const char* title, int length);
-    void setArray(const std::vector<std::string>& arr);
-    const std::vector<std::string>& getArray();
+    void setVector(const std::vector<std::string>& vec);
+    virtual void removeIfNotFound(const std::vector<std::string>& other, bool isTarget);
+    std::vector<std::string>& getVector();
     const int getCurrentIndex();
     
     void setPosition(float x, float y);
@@ -85,6 +86,7 @@ protected:
 
 public:
     listExt(const char* title, int length, listExt* target);
+    virtual void removeIfNotFound(const std::vector<std::string>& other, bool isTarget);
 
     friend class listManager;
 };

@@ -9,8 +9,8 @@ namespace ldr {
         list quality{ "quality", 1 };
 
         extern listExt applied;
-        listExt all{ "available", 10, &applied};
-        listExt applied{ "applied", 10, &all};
+        listExt all{ "available", 10, &applied };
+        listExt applied{ "applied", 10, &all };
 
         bool bTransition{ true };
 
@@ -21,8 +21,8 @@ namespace ldr {
         void COCOS_HOOK addPath(void* CCFileUtils, void* __EDX, const char* path) {
             using namespace vars;
 
-            for (int i{}; i < (int)applied.getArray().size(); ++i) {
-                gAddPath(CCFileUtils, ("packs\\" + applied.getArray()[i]).c_str());
+            for (int i{}; i < (int)applied.getVector().size(); ++i) {
+                gAddPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
             }
             return gAddPath(CCFileUtils, path);
         }
@@ -35,10 +35,11 @@ namespace ldr {
         }
     }
 
-    std::vector<std::string> getPacks() {
+    BTN_CALLBACK(getPacks) {
         using namespace std::filesystem;
+        using namespace vars;
 
-        std::vector<std::string> packList{};
+        std::vector<std::string> packsList{};
 
         path packs = current_path() / "packs";
         if (exists(packs)) {
@@ -46,7 +47,7 @@ namespace ldr {
                 directory_iterator packsIter{ packs };
                 for (directory_entry pack : packsIter) {
                     if (is_directory(pack))
-                        packList.push_back(pack.path().filename().string());
+                        packsList.push_back(pack.path().filename().string());
                 }
             }
             else {
@@ -58,7 +59,22 @@ namespace ldr {
             create_directories(packs);
             MessageBox(0, "created packs folder.", "textureldr", MB_OK);
         }
-        return packList;
+
+        if (!(all.getVector().empty() && applied.getVector().empty())) {
+            std::vector<std::string> oldPacks{ all.getVector() };
+            oldPacks.insert(oldPacks.end(), applied.getVector().begin(), applied.getVector().end());
+
+            for (std::string pack : packsList) {
+                if (std::find(oldPacks.begin(), oldPacks.end(), pack) == oldPacks.end()) {
+                    all.getVector().insert(all.getVector().begin(), pack);
+                }
+            }
+            all.removeIfNotFound(packsList, false);
+            applied.removeIfNotFound(packsList, false);
+        }
+        else {
+            all.setVector(packsList);
+        }
     }
 
 	BTN_CALLBACK(enterScene) {
@@ -86,14 +102,11 @@ namespace ldr {
         node::setPos(backBtn, -winSize.x / 2 + 25.0f, winSize.y / 2 - 25.0f);
         node::addChild(miscBtns, backBtn);
 
-        void* navSprite = sprite::create("navArrowBtn_001.png");
-        /*void* leftBtn = menuItem::createSpr(navSprite, navSprite, 0, miscBtns, left);
-        node::setPos(leftBtn, -winSize.x / 2 + 25.0f, 0.0f);
-        node::setRot(leftBtn, 180.0f);
-        node::addChild(miscBtns, leftBtn);
-        void* rightBtn = menuItem::createSpr(navSprite, navSprite, 0, miscBtns, right);
-        node::setPos(rightBtn, winSize.x / 2 - 25.0f, 0.0f);
-        node::addChild(miscBtns, rightBtn);*/
+        void* reloadSprite = sprite::create("GJ_updateBtn_001.png");
+        void* reloadBtn = menuItem::createSpr(reloadSprite, reloadSprite, 0, miscBtns, getPacks);
+        node::setPos(reloadBtn, winSize.x / 2 - 35.0f, -winSize.y / 2 + 35.0f);
+        node::setScale(reloadBtn, 1.1f);
+        node::addChild(miscBtns, reloadBtn);
 
         void* transition = transition::create(0.5f, ldrScene);
         director::replaceScene(director, transition);
@@ -128,8 +141,6 @@ namespace ldr {
         using namespace gd;
         using namespace vars;
 
-
-
         void* director = director::get();
         director::updateScale(director, quality.getCurrentIndex() + 1);
         *(gd::gamemanager::ptr + 0xB8) = quality.getCurrentIndex() + 1;
@@ -139,10 +150,10 @@ namespace ldr {
     bool init() {
         using namespace vars;
 
-        quality.setArray({"LOW", "MEDIUM", "HIGH"});
+        quality.setVector({"LOW", "MEDIUM", "HIGH"});
         quality.setPosition(0.0f, -130.0f);
 
-        all.setArray(getPacks());
+        getPacks(0);
         all.setPosition(-90.0f, 95.0f);
         applied.setPosition(90.0f, 95.0f);
 

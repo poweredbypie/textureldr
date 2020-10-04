@@ -41,7 +41,7 @@ void list::update() {
     getLength();
 
     if (m_displayedLength) {
-        if (!m_init) {
+        if (!m_entered) {
             m_pArrListLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
             node::setPos(m_pArrListLabels[0], m_x, m_y);
             node::setScale(m_pArrListLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
@@ -80,11 +80,11 @@ void list::enter(void* scene) {
 
     node::addChild(scene, m_menu);
 
-    m_init = true;
+    m_entered = true;
 }
 
 void list::exit() {
-    m_init = false;
+    m_entered = false;
 }
 
 list::list(const char* title, int length) {
@@ -99,11 +99,44 @@ list::list(const char* title, int length) {
     listManager::add(this);
 }
 
-void list::setArray(const std::vector<std::string>& arr) {
-    m_listStrings = arr;
+void list::setVector(const std::vector<std::string>& vec) {
+    m_listStrings = vec;
 }
 
-const std::vector<std::string>& list::getArray() {
+void list::removeIfNotFound(const std::vector<std::string>& other, bool isTarget) {
+    if (isTarget) {
+        for (int i{}; i < (int)other.size(); ++i) {
+            if (std::find(m_listStrings.begin(), m_listStrings.end(), other[i]) == m_listStrings.end()) {
+                m_listStrings.erase(m_listStrings.begin() + i);
+                --i;
+            }
+
+        }
+    }
+    else {
+        for (int i{}; i < (int)m_listStrings.size(); ++i) {
+            if (std::find(other.begin(), other.end(), m_listStrings[i]) == other.end()) {
+                m_listStrings.erase(m_listStrings.begin() + i);
+                --i;
+            }
+        }
+    }
+    
+    getLength();
+
+    //not tested, maybe do it later but the use case isnt functional in this instance
+    if (!m_listStrings.empty()) {
+        if (m_listOffset > (int)m_listStrings.size() - 1)
+            m_listOffset = (int)m_listStrings.size() - 1;
+    }
+    else {
+        m_listOffset = 0;
+    }
+
+    update();
+}
+
+std::vector<std::string>& list::getVector() {
     return m_listStrings;
 }
 
@@ -146,13 +179,13 @@ void listExt::navigate(bool up) {
 
 void listExt::swap(bool up) {
     if (up) {
-        if (m_moveIndex + m_listOffset != 0) {
+        if (m_moveIndex > 0) {
             std::iter_swap(m_listStrings.begin() + m_moveIndex + m_listOffset, m_listStrings.begin() + m_moveIndex + m_listOffset - 1);
             --m_moveIndex;
         }
     }
     else {
-        if (m_moveIndex + m_listOffset + 1 != m_listStrings.size()) {
+        if (m_moveIndex < m_displayedLength - 1) {
             std::iter_swap(m_listStrings.begin() + m_moveIndex + m_listOffset, m_listStrings.begin() + m_moveIndex + m_listOffset + 1);
             ++m_moveIndex;
         }
@@ -179,7 +212,7 @@ void listExt::updateLabels() {
     
     getLength();
 
-    if (!m_init) {
+    if (!m_entered) {
 
         for (int i{}; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
@@ -211,7 +244,7 @@ void listExt::updateLabels() {
 void listExt::updateSelector() {
     using namespace cocos;
 
-    if (!m_init) {
+    if (!m_entered) {
         void* navSprite = sprite::create("navArrowBtn_001.png");
         m_moveBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_moveFn);
 
@@ -309,11 +342,11 @@ void listExt::enter(void* scene) {
 
     node::addChild(scene, m_menu);
 
-    m_init = true;
+    m_entered = true;
 }
 
 void listExt::exit() {
-    m_init = false;
+    m_entered = false;
 }
 
 listExt::listExt(const char* title, int length, listExt* target) : list(title, length) {
@@ -321,6 +354,38 @@ listExt::listExt(const char* title, int length, listExt* target) : list(title, l
     m_swapFn = listManager::swap;
 
     m_target = target;
+}
+
+void listExt::removeIfNotFound(const std::vector<std::string>& other, bool isTarget) {
+    if (isTarget) {
+        for (int i{}; i < (int)other.size(); ++i) {
+            if (std::find(m_listStrings.begin(), m_listStrings.end(), other[i]) == m_listStrings.end()) {
+                m_listStrings.erase(m_listStrings.begin() + i);
+                --i;
+            }
+
+        }
+    }
+    else {
+        for (int i{}; i < (int)m_listStrings.size(); ++i) {
+            if (std::find(other.begin(), other.end(), m_listStrings[i]) == other.end()) {
+                m_listStrings.erase(m_listStrings.begin() + i);
+                --i;
+            }
+        }
+    }
+
+    getLength();
+
+    //make this better. if you move more than 10 items, it'll look weird. i dont think it breaks, but it just isn't very clean.
+    if (m_moveIndex + 1 > m_displayedLength) {
+        if (m_displayedLength > 1)
+            m_moveIndex = m_displayedLength - 1;
+        else
+            m_moveIndex = 0;
+    }
+
+    update();
 }
 
 //listManager
