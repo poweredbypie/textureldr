@@ -6,9 +6,9 @@ namespace cocos {
 	HMODULE hmodule{};
 
 	namespace director {
-		tGet get;
-		tReplaceScene replaceScene;
-		tUpdateScale updateScale;	
+		void* (__cdecl* get)();
+		bool(__thiscall* replaceScene)(void* CCDirector, void* CCScene);
+		void(__thiscall* updateScale)(void* CCDirector, int TextureQuality);
 
 		vec2 getWinSize(void* CCDirector) {
 			vec2 winSize;
@@ -17,89 +17,123 @@ namespace cocos {
 			return winSize;
 		}
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)get, paGet });
-			fcnPtrInfo.push_back({ (void*&)replaceScene, paReplaceScene });
-			fcnPtrInfo.push_back({ (void*&)updateScale, paUpdateScale });
+			fcnPtrInfo.push_back({ (void*&)get, "?sharedDirector@CCDirector@cocos2d@@SAPAV12@XZ" });
+			fcnPtrInfo.push_back({ (void*&)replaceScene, "?replaceScene@CCDirector@cocos2d@@QAE_NPAVCCScene@2@@Z" });
+			fcnPtrInfo.push_back({ (void*&)updateScale, "?updateContentScale@CCDirector@cocos2d@@QAEXW4TextureQuality@2@@Z" });
 		}
 	}
 	namespace node {
-		tAddChild addChild;
-		tSetPos setPos;
-		tSetRot setRot;
-		tSetScale setScale;
-		tSetVisible setVisible;
+		void(__thiscall* addChild)(void* CCNode, void* childNode);
+		void(__thiscall* setPos)(void* CCNode, float x, float y);
+		void(__thiscall* setRot)(void* CCNode, float rotation);
+		void(__thiscall* setScale)(void* CCNode, float scale);
+		void(__thiscall* setVisible)(void* CCNode, bool visible);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)addChild, paAddChild });
-			fcnPtrInfo.push_back({ (void*&)setPos, paSetPos });
-			fcnPtrInfo.push_back({ (void*&)setRot, paSetRot });
-			fcnPtrInfo.push_back({ (void*&)setScale, paSetScale });
-			fcnPtrInfo.push_back({ (void*&)setVisible, paSetVisible });
+			fcnPtrInfo.push_back({ (void*&)addChild, "?addChild@CCNode@cocos2d@@UAEXPAV12@@Z" });
+			fcnPtrInfo.push_back({ (void*&)setPos, "?setPosition@CCNode@cocos2d@@UAEXMM@Z" });
+			fcnPtrInfo.push_back({ (void*&)setRot, "?setRotation@CCNode@cocos2d@@UAEXM@Z" });
+			fcnPtrInfo.push_back({ (void*&)setScale, "?setScale@CCNode@cocos2d@@UAEXM@Z" });
+			fcnPtrInfo.push_back({ (void*&)setVisible, "?setVisible@CCNode@cocos2d@@UAEX_N@Z" });
 		}
 	}
 	//---
 	namespace scene {
-		tCreate create;
+		void* (__cdecl* create)();
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, paCreate });
+			fcnPtrInfo.push_back({ (void*&)create, "?create@CCScene@cocos2d@@SAPAV12@XZ" });
 		}
 	}
 	namespace transition {
-		tCreate create;
+		void* (__cdecl* create)(float length, void* CCScene);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, paCreate });
+			fcnPtrInfo.push_back({ (void*&)create, "?create@CCTransitionFade@cocos2d@@SAPAV12@MPAVCCScene@2@@Z" });
 		}
 	}
 	//---
 	namespace menu {
-		tCreate create;
+		void* (__cdecl* create)();
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, paCreate });
+			fcnPtrInfo.push_back({ (void*&)create, "?create@CCMenu@cocos2d@@SAPAV12@XZ" });
 		}
 	}
 	namespace menuItem {
-		tCreateImg createImg;
-		tCreateSpr createSpr;
-		tSetEnabled setEnabled;
+		void* (__cdecl* createImg)(const char* normal, const char* selected, const char* disabled, void* target, void* selector);
+		void* (__cdecl* createSpr)(void* normal, void* selected, void* disabled, void* target, void* selector);
+		void(__thiscall* setEnabled)(void* CCMenuItem, bool value);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)createImg, paCreateImg });
-			fcnPtrInfo.push_back({ (void*&)createSpr, paCreateSpr });
-			fcnPtrInfo.push_back({ (void*&)setEnabled, paSetEnabled });
+			fcnPtrInfo.push_back({ (void*&)createImg, "?create@CCMenuItemImage@cocos2d@@SAPAV12@PBD00PAVCCObject@2@P832@AEX1@Z@Z" });
+			fcnPtrInfo.push_back({ (void*&)createSpr, "?create@CCMenuItemSprite@cocos2d@@SAPAV12@PAVCCNode@2@00PAVCCObject@2@P842@AEX1@Z@Z" });
+			fcnPtrInfo.push_back({ (void*&)setEnabled, "?setEnabled@CCMenuItem@cocos2d@@UAEX_N@Z" });
 		}
 	}
 	namespace label {
-		tCreate create;
-		tSet set;
+		void* (__cdecl* create)(const char* str, const char* fntFile);
+		void(__thiscall* set)(void* CCLabelBMFont, const char* str, bool update);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, paCreate });
-			fcnPtrInfo.push_back({ (void*&)set, paSet });
+			fcnPtrInfo.push_back({ (void*&)create, "?create@CCLabelBMFont@cocos2d@@SAPAV12@PBD0@Z" });
+			fcnPtrInfo.push_back({ (void*&)set, "?setString@CCLabelBMFont@cocos2d@@UAEXPBD_N@Z" });
 		}
 	}
 	namespace sprite {
-		tCreate create;
+		void* (__cdecl* create)(const char* txtrFile);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, paCreate });
+			fcnPtrInfo.push_back({ (void*&)create, "?createWithSpriteFrameName@CCSprite@cocos2d@@SAPAV12@PBD@Z" });
 		}
 	}
 	namespace fileUtils {
-		tAddPath addPath;
+		void(__thiscall* addPath)(void* CCFileUtils, const char* path);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)addPath, paAddPath});
+			fcnPtrInfo.push_back({ (void*&)addPath, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z" });
 		}
 	}
 	//---
-	namespace scheduler {
-		tUpdate update;
+	namespace xml {
+		void(__thiscall* init)(void* XMLDocument, bool processEntities, int whitespaceMode);
+		void(__thiscall* destruct)(void* XMLDocument);
+		int(__thiscall* loadFile)(void* XMLDocument, const char* filename);
+		int(__thiscall* saveFile)(void* XMLDocument, const char* filename, bool compact);
+		void(__thiscall* deleteChildren)(void* XMLDocument);
+		void* (__thiscall* newElement)(void* XMLDocument, const char* name);
+		void* (__thiscall* newText)(void* XMLDocument, const char* text);
+		void* (__thiscall* firstChildElement)(void* XMLNode, const char* name);
+		void* (__thiscall* nextSiblingElement)(void* XMLNode, const char* name);
+		void* (__thiscall* insertEndChild)(void* XMLNode, void* addThis);
+		void* (__thiscall* insertFirstChild)(void* XMLNode, void* addThis);
+		const char* (__thiscall* getText)(void* XMLElement);
+		void(__thiscall* setValue)(void* XMLElement, const char* str, bool staticMem);
 
+		void* create(bool processEntities, int whitespaceMode) {
+			//dont want to deal with tinyxml dependencies, so this will do
+			void* pRet = new char[0x170];
+			if (pRet) {
+				init(pRet, processEntities, whitespaceMode);
+				return pRet;
+			}
+			else
+				return 0;
+		}
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)update, paUpdate });
+			fcnPtrInfo.push_back({ (void*&)init, "??0XMLDocument@tinyxml2@@QAE@_NW4Whitespace@1@@Z" });
+			fcnPtrInfo.push_back({ (void*&)destruct, "??1XMLDocument@tinyxml2@@UAE@XZ" });
+			fcnPtrInfo.push_back({ (void*&)loadFile, "?LoadFile@XMLDocument@tinyxml2@@QAE?AW4XMLError@2@PBD@Z" });
+			fcnPtrInfo.push_back({ (void*&)saveFile, "?SaveFile@XMLDocument@tinyxml2@@QAE?AW4XMLError@2@PBD_N@Z" });
+			fcnPtrInfo.push_back({ (void*&)deleteChildren, "?DeleteChildren@XMLNode@tinyxml2@@QAEXXZ" });
+			fcnPtrInfo.push_back({ (void*&)newElement, "?NewElement@XMLDocument@tinyxml2@@QAEPAVXMLElement@2@PBD@Z" });
+			fcnPtrInfo.push_back({ (void*&)newText, "?NewText@XMLDocument@tinyxml2@@QAEPAVXMLText@2@PBD@Z" });
+			fcnPtrInfo.push_back({ (void*&)getText, "?GetText@XMLElement@tinyxml2@@QBEPBDXZ" });
+			fcnPtrInfo.push_back({ (void*&)firstChildElement, "?FirstChildElement@XMLNode@tinyxml2@@QBEPBVXMLElement@2@PBD@Z" });
+			fcnPtrInfo.push_back({ (void*&)nextSiblingElement, "?NextSiblingElement@XMLNode@tinyxml2@@QBEPBVXMLElement@2@PBD@Z" });
+			fcnPtrInfo.push_back({ (void*&)insertEndChild, "?InsertEndChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@@Z" });
+			fcnPtrInfo.push_back({ (void*&)insertFirstChild, "?InsertFirstChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@@Z" }); 
+			fcnPtrInfo.push_back({ (void*&)setValue, "?SetValue@XMLNode@tinyxml2@@QAEXPBD_N@Z" });
 		}
 	}
 
@@ -113,7 +147,7 @@ namespace cocos {
 		label::addTo();
 		sprite::addTo();
 		fileUtils::addTo();
-		scheduler::addTo();
+		xml::addTo();
 	}
 
 	bool init() {

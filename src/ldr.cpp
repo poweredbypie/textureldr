@@ -6,15 +6,19 @@ namespace ldr {
     BTN_CALLBACK(apply);
 
     namespace vars {
-        list quality{ "quality", 1 };
+        list quality{ "Quality", 1 };
 
         extern listExt applied;
-        listExt all{ "available", 10, &applied };
-        listExt applied{ "applied", 10, &all };
+        listExt all{ "Available", 10, &applied };
+        listExt applied{ "Applied", 10, &all };
 
         bool bTransition{ true };
 
-        cocos::fileUtils::tAddPath gAddPath;
+        
+    }
+    namespace gates {
+        void(__thiscall* addPath)(void* CCFileUtils, const char* path);
+        void(__thiscall* trySaveGame)(void* AppDelegate);
     }
 
     namespace hooks {
@@ -22,9 +26,9 @@ namespace ldr {
             using namespace vars;
 
             for (int i{}; i < (int)applied.getVector().size(); ++i) {
-                gAddPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
+                gates::addPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
             }
-            return gAddPath(CCFileUtils, path);
+            return gates::addPath(CCFileUtils, path);
         }
 
         void COCOS_HOOK loadingFinished(void* LoadingLayer) {
@@ -32,6 +36,11 @@ namespace ldr {
 
             bTransition = false;
             exitScene(LoadingLayer);
+        }
+
+        void COCOS_HOOK trySaveGame(void* AppDelegate) {
+            listManager::save();
+            return gates::trySaveGame(AppDelegate);
         }
     }
 
@@ -150,10 +159,13 @@ namespace ldr {
     bool init() {
         using namespace vars;
 
-        quality.setVector({"LOW", "MEDIUM", "HIGH"});
-        quality.setPosition(0.0f, -130.0f);
+        listManager::setSaveTargets("packs\\config.dat", "packs\\backup.dat");
 
-        getPacks(0);
+        if (!listManager::load()) {
+            getPacks(0);
+            quality.setVector({ "Low", "Medium", "High" });
+        }
+        quality.setPosition(0.0f, -130.0f);
         all.setPosition(-90.0f, 95.0f);
         applied.setPosition(90.0f, 95.0f);
 

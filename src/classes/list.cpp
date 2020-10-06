@@ -450,3 +450,52 @@ void listManager::exit() {
         i->exit();
     }
 }
+
+void listManager::setSaveTargets(const char* file, const char* backup) {
+    m_filePath = file;
+    m_backupPath = backup;
+}
+
+bool listManager::load() {
+    using namespace cocos::xml;
+
+    m_saveFile = create(true, 1);
+    if (loadFile(m_saveFile, m_filePath)) {
+        if (loadFile(m_saveFile, m_backupPath))
+            return false;
+
+        saveFile(m_saveFile, m_filePath, false);
+    }
+    else
+        saveFile(m_saveFile, m_backupPath, false);
+    for (list* i : m_vec) {
+        if (void* node = firstChildElement(m_saveFile, i->m_titleStr)) {
+            for (void* element = firstChildElement(node, 0); element; element = nextSiblingElement(element, 0))
+                i->m_listStrings.push_back(getText(element));
+        }
+        else
+            return false;
+    }
+    return true;
+}
+
+bool listManager::save() {
+    using namespace cocos::xml;
+
+    deleteChildren(m_saveFile);
+
+    for (list* i : m_vec) {
+        void* node = newElement(m_saveFile, i->m_titleStr);
+        insertEndChild(m_saveFile, node);
+        for (std::string pack : i->m_listStrings) {
+            void* element = newElement(m_saveFile, "pack");
+            insertEndChild(element, newText(m_saveFile, pack.c_str()));
+            insertEndChild(node, element);
+        }
+    }
+
+    if (!saveFile(m_saveFile, m_filePath, false))
+        return false;
+
+    return true;
+}

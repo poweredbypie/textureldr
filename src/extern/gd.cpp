@@ -5,13 +5,20 @@ namespace gd {
 	std::vector<std::pair<void*&, int>> fcnPtrInfo{};
 	HMODULE hmodule{};
 
+	namespace appDelegate {
+		void(__thiscall* trySaveGame)(void* AppDelegate);
+
+		void addTo() {
+			fcnPtrInfo.push_back({ (void*&)trySaveGame, 0x3D5E0 });
+		}
+	}
 	namespace gamemanager {
 		int* ptr;
 
-		tReloadAll reloadAll;
+		int(__thiscall* reloadAll)(void* GameManager, bool bSwitch, bool bFullscreen, bool bReloadedInSession);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)reloadAll, oReloadAll });
+			fcnPtrInfo.push_back({ (void*&)reloadAll, 0xCE950 });
 		}
 	}
 	namespace menuLayer {
@@ -21,21 +28,23 @@ namespace gd {
 		char* oMoreGamesStr;
 		char* oFolderBtnStr;
 		char* cbMoreGames;
-		tCreate create;
+
+		void* (__stdcall* create)();
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)create, oCreate });
+			fcnPtrInfo.push_back({ (void*&)create, 0x190550 });
 		}
 	}
 	namespace loadingLayer {
-		tLoadingFinished loadingFinished;
+		void(__thiscall* loadingFinished)(void* LoadingLayer);
 
 		void addTo() {
-			fcnPtrInfo.push_back({ (void*&)loadingFinished, oLoadingFinished });
+			fcnPtrInfo.push_back({ (void*&)loadingFinished, 0x18C790 });
 		}
 	}
 	
 	void addFunctions() {
+		appDelegate::addTo();
 		gamemanager::addTo();
 		menuLayer::addTo();
 		loadingLayer::addTo();

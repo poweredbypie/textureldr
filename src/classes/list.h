@@ -100,8 +100,14 @@ public:
 class listManager {
 private:
     static inline std::vector<list*> m_vec;
+    static inline void* m_saveFile;
+    static inline const char* m_filePath;
+    static inline const char* m_backupPath;
 
 private:
+    //you shouldn't be able to make instances of this class, as all members are static
+    listManager() {};
+
     static void add(list* list);
 
     static void __stdcall navigate(void* pSender);
@@ -111,6 +117,9 @@ private:
 public:
     static void enter(void* scene);
     static void exit();
+    static void setSaveTargets(const char* file, const char* backup);
+    static bool load();
+    static bool save();
 
     friend class listExt;
     friend class list;

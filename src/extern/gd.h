@@ -8,23 +8,15 @@ namespace gd {
 	extern std::vector<std::pair<void*&, int>> fcnPtrInfo;
 	extern HMODULE hmodule;
 
+	namespace appDelegate {
+		extern void(__thiscall* trySaveGame)(void* AppDelegate);
+	}
 	namespace gamemanager {
 		extern int* ptr;
 
-		FN_T tReloadAll = int(__thiscall*)(void* GameManager, bool bSwitch, bool bFullscreen, bool bReloadedInSession);
-
-		OFFSET oReloadAll = 0xCE950;
-
-		extern tReloadAll reloadAll;
-
-		void addTo();
+		extern int(__thiscall* reloadAll)(void* GameManager, bool bSwitch, bool bFullscreen, bool bReloadedInSession);
 	}
 	namespace menuLayer {
-		FN_T tCreate = void* (__stdcall*)();
-
-		OFFSET oCreate = 0x190550;
-
-		extern tCreate create;
 		extern void** pMoreGamesStr;
 		extern void** szMoreGamesBtn;
 		extern void** pcbMoreGames;
@@ -32,19 +24,11 @@ namespace gd {
 		extern char* oFolderBtnStr;
 		extern char* cbMoreGames;
 
-		void addTo();
+		extern void* (__stdcall* create)();
 	}
 	namespace loadingLayer {
-		FN_T tLoadingFinished = void(__thiscall*)(void* LoadingLayer);
-
-		OFFSET oLoadingFinished = 0x18C790;
-		
-		extern tLoadingFinished loadingFinished;
-
-		void addTo();
+		extern void(__thiscall* loadingFinished)(void* LoadingLayer);
 	}
-
-	void addFunctions();
 
 	bool init();
 }

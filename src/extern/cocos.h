@@ -11,128 +11,62 @@ namespace cocos {
 	extern HMODULE hmodule;
 
 	namespace director {
-		PATH paGet{ "?sharedDirector@CCDirector@cocos2d@@SAPAV12@XZ" };
-		PATH paReplaceScene{ "?replaceScene@CCDirector@cocos2d@@QAE_NPAVCCScene@2@@Z" };
-		PATH paUpdateScale{ "?updateContentScale@CCDirector@cocos2d@@QAEXW4TextureQuality@2@@Z" };
-
-		FN_T tGet = void* (__cdecl*)();
-		FN_T tReplaceScene = bool(__thiscall*)(void* CCDirector, void* CCScene);
-		FN_T tUpdateScale = void(__thiscall*)(void* CCDirector, int TextureQuality);
-
-		extern tGet get;
-		extern tReplaceScene replaceScene;
-		extern tUpdateScale updateScale;
+		extern void* (__cdecl* get)();
+		extern bool(__thiscall* replaceScene)(void* CCDirector, void* CCScene);
+		extern void(__thiscall* updateScale)(void* CCDirector, int TextureQuality);
 
 		vec2 getWinSize(void* CCDirector);
-		void addTo();
 	}
 	namespace node {
-		PATH paAddChild{ "?addChild@CCNode@cocos2d@@UAEXPAV12@@Z" };
-		PATH paSetPos{ "?setPosition@CCNode@cocos2d@@UAEXMM@Z" };
-		PATH paSetRot{ "?setRotation@CCNode@cocos2d@@UAEXM@Z" };
-		PATH paSetScale{ "?setScale@CCNode@cocos2d@@UAEXM@Z" };
-		PATH paSetVisible{ "?setVisible@CCNode@cocos2d@@UAEX_N@Z" };
-
-		FN_T tAddChild = void(__thiscall*)(void* CCNode, void* childNode);
-		FN_T tSetPos = void(__thiscall*)(void* CCNode, float x, float y);
-		FN_T tSetRot = void(__thiscall*)(void* CCNode, float rotation);
-		FN_T tSetScale = void(__thiscall*)(void* CCNode, float scale);
-		FN_T tSetVisible = void(__thiscall*)(void* CCNode, bool visible);
-
-		extern tAddChild addChild;
-		extern tSetPos setPos;
-		extern tSetRot setRot;
-		extern tSetScale setScale;
-		extern tSetVisible setVisible;
-
-		void addTo();
+		extern void(__thiscall* addChild)(void* CCNode, void* childNode);
+		extern void(__thiscall* setPos)(void* CCNode, float x, float y);
+		extern void(__thiscall* setRot)(void* CCNode, float rotation);
+		extern void(__thiscall* setScale)(void* CCNode, float scale);
+		extern void(__thiscall* setVisible)(void* CCNode, bool visible);
 	}
 	//---
 	namespace scene {
-		PATH paCreate{ "?create@CCScene@cocos2d@@SAPAV12@XZ" };
-
-		FN_T tCreate = void* (__cdecl*)();
-
-		extern tCreate create;
-
-		void addTo();
+		extern void* (__cdecl* create)();
 	}
 	namespace transition {
-		PATH paCreate{ "?create@CCTransitionFade@cocos2d@@SAPAV12@MPAVCCScene@2@@Z" };
-
-		FN_T tCreate = void* (__cdecl*)(float length, void* CCScene);
-
-		extern tCreate create;
-
-		void addTo();
+		extern void* (__cdecl* create)(float length, void* CCScene);
 	}
 	//---
 	namespace menu {
-		PATH paCreate{ "?create@CCMenu@cocos2d@@SAPAV12@XZ" };
-
-		FN_T tCreate = void* (__cdecl*)();
-
-		extern tCreate create;
-
-		void addTo();
+		extern void* (__cdecl* create)();
 	}
 	namespace menuItem {
-		PATH paCreateImg{ "?create@CCMenuItemImage@cocos2d@@SAPAV12@PBD00PAVCCObject@2@P832@AEX1@Z@Z" };
-		PATH paCreateSpr{ "?create@CCMenuItemSprite@cocos2d@@SAPAV12@PAVCCNode@2@00PAVCCObject@2@P842@AEX1@Z@Z" };
-		PATH paSetEnabled{ "?setEnabled@CCMenuItem@cocos2d@@UAEX_N@Z" };
-
-		FN_T tCreateImg = void* (__cdecl*)(const char* normal, const char* selected, const char* disabled, void* target, void* selector);
-		FN_T tCreateSpr = void* (__cdecl*)(void* normal, void* selected, void* disabled, void* target, void* selector);
-		FN_T tSetEnabled = void(__thiscall*)(void* CCMenuItem, bool value);
-
-		extern tCreateImg createImg;
-		extern tCreateSpr createSpr;
-		extern tSetEnabled setEnabled;
-
-		void addTo();
+		extern void* (__cdecl* createImg)(const char* normal, const char* selected, const char* disabled, void* target, void* selector);
+		extern void* (__cdecl* createSpr)(void* normal, void* selected, void* disabled, void* target, void* selector);
+		extern void(__thiscall* setEnabled)(void* CCMenuItem, bool value);
 	}
 	namespace label {
-		PATH paCreate{ "?create@CCLabelBMFont@cocos2d@@SAPAV12@PBD0@Z" };
-		PATH paSet{ "?setString@CCLabelBMFont@cocos2d@@UAEXPBD_N@Z" };
-
-		FN_T tCreate = void* (__cdecl*)(const char* str, const char* fntFile);
-		FN_T tSet = void(__thiscall*)(void* CCLabelBMFont, const char* str, bool update);
-
-		extern tCreate create;
-		extern tSet set;
-
-		void addTo();
+		extern void* (__cdecl* create)(const char* str, const char* fntFile);
+		extern void(__thiscall* set)(void* CCLabelBMFont, const char* str, bool update);
 	}
 	namespace sprite {
-		PATH paCreate{ "?createWithSpriteFrameName@CCSprite@cocos2d@@SAPAV12@PBD@Z" };
-
-		FN_T tCreate = void* (__cdecl*)(const char* txtrFile);
-
-		extern tCreate create;
-
-		void addTo();
+		extern void* (__cdecl* create)(const char* txtrFile);
 	}
 	namespace fileUtils {
-		PATH paAddPath{ "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z" };
-
-		FN_T tAddPath = void(__thiscall*)(void* CCFileUtils, const char* path);
-
-		extern tAddPath addPath;
-
-		void addTo();
+		extern void(__thiscall* addPath)(void* CCFileUtils, const char* path);
 	}
 	//---
-	namespace scheduler {
-		PATH paUpdate{ "?update@CCScheduler@cocos2d@@UAEXM@Z" };
+	namespace xml {
+		extern void(__thiscall* destruct)(void* XMLDocument);
+		extern int(__thiscall* loadFile)(void* XMLDocument, const char* filename);
+		extern int(__thiscall* saveFile)(void* XMLDocument, const char* filename, bool compact);
+		extern void(__thiscall* deleteChildren)(void* XMLDocument);
+		extern void* (__thiscall* newElement)(void* XMLDocument, const char* name);
+		extern void* (__thiscall* newText)(void* XMLDocument, const char* text);
+		extern void* (__thiscall* firstChildElement)(void* XMLNode, const char* name);
+		extern void* (__thiscall* nextSiblingElement)(void* XMLNode, const char* name);
+		extern void* (__thiscall* insertEndChild)(void* XMLNode, void* addThis);
+		extern void* (__thiscall* insertFirstChild)(void* XMLNode, void* addThis);
+		extern const char* (__thiscall* getText)(void* XMLElement);
+		extern void(__thiscall* setValue)(void* XMLElement, const char* str, bool staticMem);
 
-		FN_T tUpdate = void(__thiscall*)(void* CCScheduler, float time);
-
-		extern tUpdate update;
-
-		void addTo();
+		void* create(bool processEntities, int whitespaceMode);
 	}
-
-	void addFunctions();
 
 	bool init();
 }
