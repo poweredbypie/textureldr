@@ -2,7 +2,7 @@
 open source, integrated texture pack management system for geometry dash
 
 # note
-not stable. please do not download this if you are not willing to take risks with geometry dash.
+i'm pretty sure this is relatively stable, but i can't make any guarantees. if you want 0% chance of anything breaking, please do not use this mod, and if you don't trust me, please back up your savefiles (%localappdata%/GeometryDash/ + CCGameManager.dat / + CCLocalLevels.dat).
 
 # known issues
 - the textureldr button still appears after ejecting the dll. clicking the button will cause the game to crash, as the game is trying to access deallocated memory. (same goes for ejecting while inside of the loader menu)
