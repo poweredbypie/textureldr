@@ -14,7 +14,7 @@ see todo.txt.
 
 # usage
 - download the .dll in releases (to the right)
-- inject it with some dll injector (mega hack provides one, or you can use another one if you'd like more options)
+- inject it with some dll injector (mega hack provides one). do NOT click ok on the message box that pops up, or you will exit the program.
 - find the "packs" folder in the directory where your geometry dash exe is. drag in a folder with the textures you'd like to use in-game.
 - click the folder button that is now in place of the "more games" button.
 - select a texture pack and click the apply button!
