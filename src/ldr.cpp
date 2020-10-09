@@ -152,8 +152,8 @@ namespace ldr {
 
         void* director = director::get();
         director::updateScale(director, quality.getCurrentIndex() + 1);
-        *(gd::gamemanager::ptr + 0xB8) = quality.getCurrentIndex() + 1;
-        gamemanager::reloadAll(gd::gamemanager::ptr, 0, 0, 1);
+        *((char*)gd::gamemanager::get() + 0x2E0) = quality.getCurrentIndex() + 1;
+        gamemanager::reloadAll(gd::gamemanager::get(), 0, 0, 1);
     }
 
     bool init() {
@@ -166,8 +166,8 @@ namespace ldr {
             quality.setVector({ "Low", "Medium", "High" });
         }
         quality.setPosition(0.0f, -130.0f);
-        all.setPosition(-90.0f, 95.0f);
-        applied.setPosition(90.0f, 95.0f);
+        all.setPosition(-120.0f, 95.0f);
+        applied.setPosition(120.0f, 95.0f);
 
         return true;
     }

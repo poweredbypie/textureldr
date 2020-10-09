@@ -40,7 +40,7 @@ void list::update() {
 
     getLength();
 
-    if (m_displayedLength) {
+    if (m_displayedLength > 0) {
         if (!m_entered) {
             m_pArrListLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
             node::setPos(m_pArrListLabels[0], m_x, m_y);
@@ -87,6 +87,43 @@ void list::exit() {
     m_entered = false;
 }
 
+bool list::load(void* file) {
+    using namespace cocos::xml;
+
+    if (void* list = firstChildElement(file, m_titleStr)) {
+        if (queryAttribute(list, "offset", &m_listOffset))
+            return false;
+
+        for (void* i = firstChildElement(list, "entry"); i; i = nextSiblingElement(i, 0))
+            m_listStrings.push_back(getText(i));
+        
+        if (m_maxDisplayedLength < (int)m_listStrings.size()) {
+            if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
+                m_listOffset = (int)m_listStrings.size() - m_maxDisplayedLength;
+            else if (m_listOffset < 0)
+                m_listOffset = 0;
+        }
+        else
+            m_listOffset = 0;
+
+        return true;
+    }
+    return false;
+}
+
+void list::save(void* file) {
+    using namespace cocos::xml;
+
+    void* list = newElement(file, m_titleStr);
+    setAttribute(list, "offset", m_listOffset);
+    insertEndChild(file, list);
+    for (std::string entry : m_listStrings) {
+        void* i = newElement(file, "entry");
+        insertEndChild(i, newText(file, entry.c_str()));
+        insertEndChild(list, i);
+    }
+}
+
 list::list(const char* title, int length) {
     m_titleStr = title;
 
@@ -121,17 +158,8 @@ void list::removeIfNotFound(const std::vector<std::string>& other, bool isTarget
             }
         }
     }
-    
-    getLength();
 
-    //not tested, maybe do it later but the use case isnt functional in this instance
-    if (!m_listStrings.empty()) {
-        if (m_listOffset > (int)m_listStrings.size() - 1)
-            m_listOffset = (int)m_listStrings.size() - 1;
-    }
-    else {
-        m_listOffset = 0;
-    }
+    m_listOffset = 0;
 
     update();
 }
@@ -168,7 +196,7 @@ void listExt::navigate(bool up) {
             --m_listOffset;
     }
     else {
-        if (m_moveIndex < m_displayedLength - 1)
+        if (m_moveIndex + 1 < m_displayedLength)
             ++m_moveIndex;
         else if (m_listOffset < (int)m_listStrings.size() - m_maxDisplayedLength)
             ++m_listOffset;
@@ -185,7 +213,7 @@ void listExt::swap(bool up) {
         }
     }
     else {
-        if (m_moveIndex < m_displayedLength - 1) {
+        if (m_moveIndex + 1 < m_displayedLength) {
             std::iter_swap(m_listStrings.begin() + m_moveIndex + m_listOffset, m_listStrings.begin() + m_moveIndex + m_listOffset + 1);
             ++m_moveIndex;
         }
@@ -198,8 +226,13 @@ void listExt::move() {
     m_target->m_listStrings.insert(m_target->m_listStrings.begin(), m_listStrings[m_moveIndex + m_listOffset]);
     m_listStrings.erase(m_listStrings.begin() + m_moveIndex + m_listOffset);
 
-    //moves the selector up if the index is the bottom one, so that "vector out of range" doesn't occur
-    if (m_listStrings.size() - m_listOffset == m_moveIndex && m_listStrings.size() - m_listOffset != 0)
+    getLength();
+
+    if ((int)m_listStrings.size() >= m_maxDisplayedLength &&
+        m_displayedLength < m_maxDisplayedLength)
+        --m_listOffset;
+    else if (m_displayedLength < m_moveIndex + 1 &&
+        m_displayedLength > 0)
         --m_moveIndex;
 
     update();
@@ -294,7 +327,6 @@ void listExt::updateSelector() {
             node::setPos(m_swapDownBtn, m_x - 55.0f, m_y - 5.0f - 20.0f * m_moveIndex);
             toggle(m_swapUpBtn, true);
             toggle(m_swapDownBtn, true);
-
         }
         else {
             node::setPos(m_moveBtn, m_x - 55.0f, m_y - 20.0f * m_moveIndex);
@@ -349,6 +381,52 @@ void listExt::exit() {
     m_entered = false;
 }
 
+bool listExt::load(void* file) {
+    using namespace cocos::xml;
+
+    if (void* list = firstChildElement(file, m_titleStr)) {
+        if (queryAttribute(list, "offset", &m_listOffset) ||
+            queryAttribute(list, "index", &m_moveIndex))
+            return false;
+        
+        for (void* i = firstChildElement(list, "entry"); i; i = nextSiblingElement(i, 0))
+            m_listStrings.push_back(getText(i));
+
+        if (m_maxDisplayedLength < (int)m_listStrings.size()) {
+            if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
+                m_listOffset = (int)m_listStrings.size() - m_maxDisplayedLength;
+            else if (m_listOffset < 0)
+                m_listOffset = 0;
+        }
+        else
+            m_listOffset = 0;
+
+        getLength();
+
+        if (m_moveIndex > m_displayedLength - 1)
+            m_moveIndex = m_displayedLength - 1;
+        else if (m_moveIndex < 0)
+            m_moveIndex = 0;
+
+        return true;
+    }
+    return false;
+}
+
+void listExt::save(void* file) {
+    using namespace cocos::xml;
+
+    void* list = newElement(file, m_titleStr);
+    setAttribute(list, "offset", m_listOffset);
+    setAttribute(list, "index", m_moveIndex);
+    insertEndChild(file, list);
+    for (std::string entry : m_listStrings) {
+        void* i = newElement(file, "entry");
+        insertEndChild(i, newText(file, entry.c_str()));
+        insertEndChild(list, i);
+    }
+}
+
 listExt::listExt(const char* title, int length, listExt* target) : list(title, length) {
     m_moveFn = listManager::move;
     m_swapFn = listManager::swap;
@@ -375,15 +453,10 @@ void listExt::removeIfNotFound(const std::vector<std::string>& other, bool isTar
         }
     }
 
-    getLength();
-
-    //make this better. if you move more than 10 items, it'll look weird. i dont think it breaks, but it just isn't very clean.
-    if (m_moveIndex + 1 > m_displayedLength) {
-        if (m_displayedLength > 1)
-            m_moveIndex = m_displayedLength - 1;
-        else
-            m_moveIndex = 0;
-    }
+    /*move to the start of the list, since you're probably going to refresh to
+    add new packs which will be added at the top*/
+    m_listOffset = 0;
+    m_moveIndex = 0;
 
     update();
 }
@@ -469,11 +542,7 @@ bool listManager::load() {
     else
         saveFile(m_saveFile, m_backupPath, false);
     for (list* i : m_vec) {
-        if (void* node = firstChildElement(m_saveFile, i->m_titleStr)) {
-            for (void* element = firstChildElement(node, 0); element; element = nextSiblingElement(element, 0))
-                i->m_listStrings.push_back(getText(element));
-        }
-        else
+        if (!i->load(m_saveFile))
             return false;
     }
     return true;
@@ -485,13 +554,7 @@ bool listManager::save() {
     deleteChildren(m_saveFile);
 
     for (list* i : m_vec) {
-        void* node = newElement(m_saveFile, i->m_titleStr);
-        insertEndChild(m_saveFile, node);
-        for (std::string pack : i->m_listStrings) {
-            void* element = newElement(m_saveFile, "pack");
-            insertEndChild(element, newText(m_saveFile, pack.c_str()));
-            insertEndChild(node, element);
-        }
+        i->save(m_saveFile);
     }
 
     if (!saveFile(m_saveFile, m_filePath, false))

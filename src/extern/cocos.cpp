@@ -109,6 +109,8 @@ namespace cocos {
 		void* (__thiscall* insertFirstChild)(void* XMLNode, void* addThis);
 		const char* (__thiscall* getText)(void* XMLElement);
 		void(__thiscall* setValue)(void* XMLElement, const char* str, bool staticMem);
+		void(__thiscall* setAttribute)(void* XMLElement, const char* name, int value);
+		int(__thiscall* queryAttribute)(void* XMLElement, const char* name, int* value);
 
 		void* create(bool processEntities, int whitespaceMode) {
 			//dont want to deal with tinyxml dependencies, so this will do
@@ -134,6 +136,8 @@ namespace cocos {
 			fcnPtrInfo.push_back({ (void*&)insertEndChild, "?InsertEndChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@@Z" });
 			fcnPtrInfo.push_back({ (void*&)insertFirstChild, "?InsertFirstChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@@Z" }); 
 			fcnPtrInfo.push_back({ (void*&)setValue, "?SetValue@XMLNode@tinyxml2@@QAEXPBD_N@Z" });
+			fcnPtrInfo.push_back({ (void*&)setAttribute, "?SetAttribute@XMLElement@tinyxml2@@QAEXPBDH@Z" });
+			fcnPtrInfo.push_back({ (void*&)queryAttribute, "?QueryIntAttribute@XMLElement@tinyxml2@@QBE?AW4XMLError@2@PBDPAH@Z" });
 		}
 	}
 

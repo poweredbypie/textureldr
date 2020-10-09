@@ -41,6 +41,9 @@ protected:
     virtual void enter(void* scene);
     virtual void exit();
 
+    virtual bool load(void* file);
+    virtual void save(void* file);
+
 public:
     list(const char* title, int length);
     void setVector(const std::vector<std::string>& vec);
@@ -83,6 +86,9 @@ protected:
     
     virtual void enter(void* scene);
     virtual void exit();
+
+    virtual bool load(void* file);
+    virtual void save(void* file);
 
 public:
     listExt(const char* title, int length, listExt* target);

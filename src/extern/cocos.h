@@ -64,6 +64,8 @@ namespace cocos {
 		extern void* (__thiscall* insertFirstChild)(void* XMLNode, void* addThis);
 		extern const char* (__thiscall* getText)(void* XMLElement);
 		extern void(__thiscall* setValue)(void* XMLElement, const char* str, bool staticMem);
+		extern void(__thiscall* setAttribute)(void* XMLElement, const char* name, int value);
+		extern int(__thiscall* queryAttribute)(void* XMLElement, const char* name, int* value);
 
 		void* create(bool processEntities, int whitespaceMode);
 	}

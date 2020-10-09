@@ -13,10 +13,11 @@ namespace gd {
 		}
 	}
 	namespace gamemanager {
-		int* ptr;
-
 		int(__thiscall* reloadAll)(void* GameManager, bool bSwitch, bool bFullscreen, bool bReloadedInSession);
 
+		void* get() {
+			return *(void**)((char*)hmodule + 0x3222D0);
+		}
 		void addTo() {
 			fcnPtrInfo.push_back({ (void*&)reloadAll, 0xCE950 });
 		}
@@ -55,7 +56,6 @@ namespace gd {
 
 		//get offsets
 		hmodule = GetModuleHandle(0);
-		gamemanager::ptr = *(int**)((char*)hmodule + 0x3222D0);
 		menuLayer::pMoreGamesStr = (void**)((char*)hmodule + 0x190EF2);
 		menuLayer::szMoreGamesBtn = (void**)((char*)hmodule + 0x190F01);
 		menuLayer::pcbMoreGames = (void**)((char*)hmodule + 0x190F13);

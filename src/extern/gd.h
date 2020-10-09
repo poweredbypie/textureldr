@@ -12,9 +12,9 @@ namespace gd {
 		extern void(__thiscall* trySaveGame)(void* AppDelegate);
 	}
 	namespace gamemanager {
-		extern int* ptr;
-
 		extern int(__thiscall* reloadAll)(void* GameManager, bool bSwitch, bool bFullscreen, bool bReloadedInSession);
+
+		void* get();
 	}
 	namespace menuLayer {
 		extern void** pMoreGamesStr;
