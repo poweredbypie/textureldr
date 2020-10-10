@@ -13,9 +13,10 @@ i'm pretty sure this is relatively stable, but i can't make any guarantees. if y
 see todo.txt.
 
 # usage
-- download the .dll in releases (to the right)
-- inject it with some dll injector (mega hack provides one). do NOT click ok on the message box that pops up, or you will exit the program.
-- find the "packs" folder in the directory where your geometry dash exe is. drag in a folder with the textures you'd like to use in-game.
+- download "textureldr.dll" and "libtiff.dll" in releases (to the right)
+- drag both dlls into the folder where "GeometryDash.exe" is located. replace the existing libtiff.dll with the new one.
+- find the "packs" folder (or create one if you haven't launched the game yet) in the directory where your geometry dash exe is. drag in folders with the textures you'd like to use in-game.
+- launch the game, if you haven't already.
 - click the folder button that is now in place of the "more games" button.
 - select a texture pack and click the apply button!
 
