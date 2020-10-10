@@ -1,9 +1,14 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ldr.h"
+
+
 
 namespace ldr {
     BTN_CALLBACK(exitScene);
     BTN_CALLBACK(apply);
+
+    //so that i can add this DLL to an import table.
+    void __declspec(dllexport) 派() {};
 
     namespace vars {
         list quality{ "Quality", 1 };
