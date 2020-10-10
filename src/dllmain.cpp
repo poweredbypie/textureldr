@@ -26,8 +26,9 @@ BOOL WINAPI attach(HMODULE hModule) {
         patch((char*)gd::menuLayer::szMoreGamesBtn, (char*)"\x00\x00\xC0\x3F", 0, 4);
         patch((char*)gd::menuLayer::pcbMoreGames, (char*)&cbEnterBtnAddr, (char*)&gd::menuLayer::cbMoreGames, 4);
 
+        #ifndef NDEBUG  //allows for the dll to be ejected and reinjected for testing; shouldn't be necessary in release mode
         //keep thread alive
-        MessageBox(0, "textureldr active.\n press OK to unhook and exit.", "textureldr", MB_OK);
+        MessageBox(0, "DEBUG: textureldr active.\n press OK to unhook and exit.", "textureldr", MB_OK);
 
         //unhook and unpatch, save the config files
         loadingFinished.unhook();
@@ -38,13 +39,16 @@ BOOL WINAPI attach(HMODULE hModule) {
         patch((char*)gd::menuLayer::pMoreGamesStr, (char*)&gd::menuLayer::oMoreGamesStr, 0, 4);
         patch((char*)gd::menuLayer::szMoreGamesBtn, (char*)"\x66\x66\x66\x3F", 0, 4);
         patch((char*)gd::menuLayer::pcbMoreGames, (char*)&gd::menuLayer::cbMoreGames, 0, 4);
+
+        FreeLibraryAndExitThread(hModule, 0);
+        #endif  
     }
     else {
-        MessageBox(0, "ERROR: could not find all functions!\n press OK to exit.", "textureldr", MB_OK | MB_ICONERROR);
+        MessageBox(0, "ERROR: could not find all functions! \n press OK to exit.", "textureldr", MB_OK | MB_ICONERROR);
+        //free library since it won't do anything anyways
+        FreeLibraryAndExitThread(hModule, 0);
     }
 
-    //free library
-    FreeLibraryAndExitThread(hModule, 0);
     return 0;
 }
 

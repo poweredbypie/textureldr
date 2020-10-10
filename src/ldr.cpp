@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "ldr.h"
 
-
-
 namespace ldr {
     BTN_CALLBACK(exitScene);
     BTN_CALLBACK(apply);
