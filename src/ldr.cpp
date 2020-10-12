@@ -73,16 +73,8 @@ namespace ldr {
         }
 
         if (!(all.getVector().empty() && applied.getVector().empty())) {
-            std::vector<std::string> oldPacks{ all.getVector() };
-            oldPacks.insert(oldPacks.end(), applied.getVector().begin(), applied.getVector().end());
-
-            for (std::string pack : packsList) {
-                if (std::find(oldPacks.begin(), oldPacks.end(), pack) == oldPacks.end()) {
-                    all.getVector().insert(all.getVector().begin(), pack);
-                }
-            }
-            all.removeIfNotFound(packsList, false);
-            applied.removeIfNotFound(packsList, false);
+            all.ifNotFound(packsList, true);
+            all.ifNotFound(packsList, false);
         }
         else {
             all.setVector(packsList);

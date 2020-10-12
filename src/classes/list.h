@@ -2,8 +2,6 @@
 
 #include "pch.h"
 #include "extern/cocos.h"
-#define FCNPTR_T void*
-#define BUTTON_T void*
 
 class listManager;
 
@@ -11,22 +9,28 @@ class listManager;
 
 class list {
 protected:
+    //for more "understandability" i guess, better than macros i think?
+    typedef void* button_t;
+    typedef void* label_t;
+    typedef void* menu_t;
+
+protected:
     const char* m_titleStr{};
-    void* m_titleLabel{};
+    label_t m_titleLabel{};
 
     std::vector<std::string> m_listStrings{};
-    void** m_pArrListLabels{};
+    label_t* m_listLabels{};
     int m_maxDisplayedLength{};
     int m_displayedLength{};
     bool m_entered{ false };
     float m_x{}, m_y{};
 
-    BUTTON_T m_upBtn{};
-    BUTTON_T m_downBtn{};
-    FCNPTR_T m_navFn{};
+    button_t m_upBtn{};
+    button_t m_downBtn{};
+    void(__stdcall* const m_navFn)(void* pSender) {};
     int m_listOffset{ 0 };
 
-    void* m_menu{};
+    menu_t m_menu{};
 
 protected:
     void getLength();
@@ -47,8 +51,8 @@ protected:
 public:
     list(const char* title, int length);
     void setVector(const std::vector<std::string>& vec);
-    virtual void removeIfNotFound(const std::vector<std::string>& other, bool isTarget);
-    std::vector<std::string>& getVector();
+    virtual void ifNotFound(const std::vector<std::string>& other, bool add);
+    const std::vector<std::string>& getVector();
     const int getCurrentIndex();
     
     void setPosition(float x, float y);
@@ -60,15 +64,13 @@ public:
 
 class listExt : public list {
 protected:
-    BUTTON_T m_swapUpBtn{};
-    BUTTON_T m_swapDownBtn{};
-    FCNPTR_T m_swapFn{};
+    button_t m_swapUpBtn{};
+    button_t m_swapDownBtn{};
+    void (__stdcall* const m_swapFn)(void* pSender){};
 
-    BUTTON_T m_moveBtn{};
-    FCNPTR_T m_moveFn{};
+    button_t m_moveBtn{};
+    void (__stdcall* const m_moveFn)(void* pSender){};
     int m_moveIndex{};
-
-    void* m_menu{};
 
     listExt* m_target;
 
@@ -92,7 +94,7 @@ protected:
 
 public:
     listExt(const char* title, int length, listExt* target);
-    virtual void removeIfNotFound(const std::vector<std::string>& other, bool isTarget);
+    virtual void ifNotFound(const std::vector<std::string>& other, bool add);
 
     friend class listManager;
 };

@@ -42,14 +42,14 @@ void list::update() {
 
     if (m_displayedLength > 0) {
         if (!m_entered) {
-            m_pArrListLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
-            node::setPos(m_pArrListLabels[0], m_x, m_y);
-            node::setScale(m_pArrListLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
-            node::addChild(m_menu, m_pArrListLabels[0]);
+            m_listLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
+            node::setPos(m_listLabels[0], m_x, m_y);
+            node::setScale(m_listLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+            node::addChild(m_menu, m_listLabels[0]);
         }
         else {
-            label::set(m_pArrListLabels[0], m_listStrings[m_listOffset].c_str(), true);
-            node::setScale(m_pArrListLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+            label::set(m_listLabels[0], m_listStrings[m_listOffset].c_str(), true);
+            node::setScale(m_listLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
         }
     }
 }
@@ -124,14 +124,12 @@ void list::save(void* file) {
     }
 }
 
-list::list(const char* title, int length) {
+list::list(const char* title, int length) : m_navFn{ listManager::navigate } {
     m_titleStr = title;
 
     m_maxDisplayedLength = length;
 
-    m_navFn = listManager::navigate;
-
-    m_pArrListLabels = new void*[length];
+    m_listLabels = new void*[length];
 
     listManager::add(this);
 }
@@ -140,14 +138,12 @@ void list::setVector(const std::vector<std::string>& vec) {
     m_listStrings = vec;
 }
 
-void list::removeIfNotFound(const std::vector<std::string>& other, bool isTarget) {
-    if (isTarget) {
+void list::ifNotFound(const std::vector<std::string>& other, bool add) {
+    if (add) {
         for (int i{}; i < (int)other.size(); ++i) {
             if (std::find(m_listStrings.begin(), m_listStrings.end(), other[i]) == m_listStrings.end()) {
-                m_listStrings.erase(m_listStrings.begin() + i);
-                --i;
+                m_listStrings.insert(m_listStrings.begin(), other[i]);
             }
-
         }
     }
     else {
@@ -155,16 +151,17 @@ void list::removeIfNotFound(const std::vector<std::string>& other, bool isTarget
             if (std::find(other.begin(), other.end(), m_listStrings[i]) == other.end()) {
                 m_listStrings.erase(m_listStrings.begin() + i);
                 --i;
+
+                //move to the start of the list, im too lazy
+                m_listOffset = 0;
             }
         }
     }
 
-    m_listOffset = 0;
-
     update();
 }
 
-std::vector<std::string>& list::getVector() {
+const std::vector<std::string>& list::getVector() {
     return m_listStrings;
 }
 
@@ -249,26 +246,26 @@ void listExt::updateLabels() {
 
         for (int i{}; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
-                m_pArrListLabels[i] = label::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
-                node::setPos(m_pArrListLabels[i], m_x, m_y - (20.0f * i));
-                node::setScale(m_pArrListLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
-                node::addChild(m_menu, m_pArrListLabels[i]);
+                m_listLabels[i] = label::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
+                node::setPos(m_listLabels[i], m_x, m_y - (20.0f * i));
+                node::setScale(m_listLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
+                node::addChild(m_menu, m_listLabels[i]);
             }
             else {
-                m_pArrListLabels[i] = label::create("", "bigFont.fnt");
-                node::setPos(m_pArrListLabels[i], m_x, m_y - (20.0f * i));
-                node::addChild(m_menu, m_pArrListLabels[i]);
+                m_listLabels[i] = label::create("", "bigFont.fnt");
+                node::setPos(m_listLabels[i], m_x, m_y - (20.0f * i));
+                node::addChild(m_menu, m_listLabels[i]);
             }
         }
     }
     else {
         for (int i{}; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
-                label::set(m_pArrListLabels[i], m_listStrings[m_listOffset + i].c_str(), true);
-                node::setScale(m_pArrListLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
+                label::set(m_listLabels[i], m_listStrings[m_listOffset + i].c_str(), true);
+                node::setScale(m_listLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
             }
             else {
-                label::set(m_pArrListLabels[i], "", true);
+                label::set(m_listLabels[i], "", true);
             }
         }
     }
@@ -427,49 +424,45 @@ void listExt::save(void* file) {
     }
 }
 
-listExt::listExt(const char* title, int length, listExt* target) : list(title, length) {
-    m_moveFn = listManager::move;
-    m_swapFn = listManager::swap;
-
+listExt::listExt(const char* title, int length, listExt* target) : 
+list(title, length), m_swapFn{ listManager::swap }, m_moveFn{ listManager::move } {
     m_target = target;
 }
 
-void listExt::removeIfNotFound(const std::vector<std::string>& other, bool isTarget) {
-    if (isTarget) {
-        for (int i{}; i < (int)other.size(); ++i) {
-            if (std::find(m_listStrings.begin(), m_listStrings.end(), other[i]) == m_listStrings.end()) {
-                m_listStrings.erase(m_listStrings.begin() + i);
-                --i;
-            }
+void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
+    std::vector<std::string> old{ m_listStrings };
+    old.insert(old.end(), m_target->m_listStrings.begin(), m_target->m_listStrings.end());
 
+    if (add) {
+        for (int i{}; i < (int)other.size(); ++i) {
+            if (std::find(old.begin(), old.end(), other[i]) == old.end()) {
+                m_listStrings.insert(m_listStrings.begin(), other[i]);
+            }
         }
     }
     else {
-        for (int i{}; i < (int)m_listStrings.size(); ++i) {
-            if (std::find(other.begin(), other.end(), m_listStrings[i]) == other.end()) {
-                m_listStrings.erase(m_listStrings.begin() + i);
-                --i;
+        for (int i{}; i < (int)old.size(); ++i) {
+            if (std::find(other.begin(), other.end(), old[i]) == other.end()) {
+                m_listStrings.erase(std::find(m_listStrings.begin(), m_listStrings.end(), old[i]));
+
+                //move to the start of the list, im too lazy to do calculation
+                m_listOffset = 0;
+                m_moveIndex = 0;
             }
         }
     }
-
-    /*move to the start of the list, since you're probably going to refresh to
-    add new packs which will be added at the top*/
-    m_listOffset = 0;
-    m_moveIndex = 0;
 
     update();
 }
 
 //listManager
-
 void listManager::add(list* list) {
     m_vec.push_back(list);
 }
 
 void __stdcall listManager::navigate(void* pSender) {
     list* target{};
-    
+
     for (list* i : m_vec) {
         if (i->isParent(pSender)) {
             target = i;

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "pch.h"
-#define PATH static inline const char*
-#define FN_T using
 
 namespace cocos {
 	struct vec2 { float x, y; };
