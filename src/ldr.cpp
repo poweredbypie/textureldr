@@ -27,6 +27,8 @@ namespace ldr {
         void COCOS_HOOK addPath(void* CCFileUtils, void* __EDX, const char* path) {
             using namespace vars;
 
+            //to refresh menuLoop.mp3.
+            gd::menuLayer::updateSound(" ");
             for (int i{}; i < (int)applied.getVector().size(); ++i) {
                 gates::addPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
             }
@@ -55,29 +57,24 @@ namespace ldr {
         path packs = current_path() / "packs";
         if (exists(packs)) {
             if (is_directory(packs)) {
-                directory_iterator packsIter{ packs };
-                for (directory_entry pack : packsIter) {
+                directory_iterator iter{ packs };
+                for (directory_entry pack : iter) {
                     if (is_directory(pack))
                         packsList.push_back(pack.path().filename().string());
                 }
             }
-            else {
+            else
                 MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
-            }
         }
-        else {
-            //TODO: change this to fading text so it doesn't exit you out of fullscreen
+        else
             create_directories(packs);
-            MessageBox(0, "created packs folder.", "textureldr", MB_OK);
-        }
 
         if (!(all.getVector().empty() && applied.getVector().empty())) {
             all.ifNotFound(packsList, true);
             all.ifNotFound(packsList, false);
         }
-        else {
+        else 
             all.setVector(packsList);
-        }
     }
 
 	BTN_CALLBACK(enterScene) {
@@ -96,9 +93,10 @@ namespace ldr {
         void* miscBtns = menu::create();
         node::addChild(ldrScene, miscBtns);
 
-        void* applyBtn = menuItem::createImg("GJ_button_01.png", "GJ_button_02.png", 0, miscBtns, apply);
-        node::setPos(applyBtn, 0.0f, 0.0f);
+        void* applyBtn = menuItem::createImg("GJ_button_04.png", "GJ_button_05.png", 0, miscBtns, apply);
         node::addChild(miscBtns, applyBtn);
+        void* checkmark = sprite::create("GJ_completesIcon_001.png");
+        node::addChild(miscBtns, checkmark);
 
         void* backSprite = sprite::create("GJ_arrow_01_001.png");
         void* backBtn = menuItem::createSpr(backSprite, backSprite, 0, miscBtns, exitScene);

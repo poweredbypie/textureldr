@@ -5,18 +5,18 @@ void list::getLength() {
     m_displayedLength = (int)(m_listStrings.size() - m_listOffset) < m_maxDisplayedLength ? (m_listStrings.size() - m_listOffset) : m_maxDisplayedLength;
 }
 
-void list::toggle(void*& button, bool enabled) {
+void list::toggle(button_t& button, bool enabled) {
     using namespace cocos;
 
     menuItem::setEnabled(button, enabled);
     node::setVisible(button, enabled);
 }
 
-bool list::isParent(void* button) {
+bool list::isParent(button_t button) {
     return (button == m_upBtn || button == m_downBtn);
 }
 
-bool list::isUp(void* button) {
+bool list::isUp(button_t button) {
     return (button == m_upBtn);
 }
 
@@ -129,7 +129,7 @@ list::list(const char* title, int length) : m_navFn{ listManager::navigate } {
 
     m_maxDisplayedLength = length;
 
-    m_listLabels = new void*[length];
+    m_listLabels = new label_t[length];
 
     listManager::add(this);
 }
@@ -176,12 +176,12 @@ void list::setPosition(float x, float y) {
 
 //listExt
 
-bool listExt::isParent(void* button) {
+bool listExt::isParent(button_t button) {
     return (button == m_upBtn || button == m_downBtn || button == m_swapUpBtn || button == m_swapDownBtn || button == m_moveBtn);
 }
 
 
-bool listExt::isUp(void* button) {
+bool listExt::isUp(button_t button) {
     return (button == m_upBtn || button == m_swapUpBtn);
 }
 
@@ -400,7 +400,7 @@ bool listExt::load(void* file) {
 
         getLength();
 
-        if (m_moveIndex > m_displayedLength - 1)
+        if (m_moveIndex > m_displayedLength - 1 && m_displayedLength)
             m_moveIndex = m_displayedLength - 1;
         else if (m_moveIndex < 0)
             m_moveIndex = 0;
@@ -456,6 +456,7 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
 }
 
 //listManager
+
 void listManager::add(list* list) {
     m_vec.push_back(list);
 }

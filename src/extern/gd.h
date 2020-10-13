@@ -23,6 +23,7 @@ namespace gd {
 		extern char* cbMoreGames;
 
 		extern void* (__stdcall* create)();
+		extern void(__stdcall* updateSound)(const char* filename);
 	}
 	namespace loadingLayer {
 		extern void(__thiscall* loadingFinished)(void* LoadingLayer);

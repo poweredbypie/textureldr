@@ -31,9 +31,11 @@ namespace gd {
 		char* cbMoreGames;
 
 		void* (__stdcall* create)();
+		void(__stdcall* updateSound)(const char* filename);
 
 		void addTo() {
 			fcnPtrInfo.push_back({ (void*&)create, 0x190550 });
+			fcnPtrInfo.push_back({ (void*&)updateSound, 0xC4BD0 });
 		}
 	}
 	namespace loadingLayer {

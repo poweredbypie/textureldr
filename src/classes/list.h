@@ -34,10 +34,10 @@ protected:
 
 protected:
     void getLength();
-    void toggle(void*& button, bool enabled);
+    void toggle(button_t& button, bool enabled);
 
-    virtual bool isParent(void* button);
-    virtual bool isUp(void* button);
+    virtual bool isParent(button_t button);
+    virtual bool isUp(button_t button);
 
     virtual void navigate(bool up);
 
@@ -75,8 +75,8 @@ protected:
     listExt* m_target;
 
 protected:
-    virtual bool isParent(void* button);
-    virtual bool isUp(void* button);
+    virtual bool isParent(button_t button);
+    virtual bool isUp(button_t button);
 
     virtual void navigate(bool up);
     void swap(bool up);
