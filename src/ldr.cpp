@@ -16,9 +16,8 @@ namespace ldr {
         listExt applied{ "Applied", 10, &all };
 
         bool bTransition{ true };
-
-        
     }
+
     namespace gates {
         void(__thiscall* addPath)(void* CCFileUtils, const char* path);
         void(__thiscall* trySaveGame)(void* AppDelegate);
@@ -147,7 +146,7 @@ namespace ldr {
 
         void* director = director::get();
         director::updateScale(director, quality.getCurrentIndex() + 1);
-        *((char*)gd::gamemanager::get() + 0x2E0) = quality.getCurrentIndex() + 1;
+        *((char*)gd::gamemanager::get() + 0x2E4) = quality.getCurrentIndex() + 1;
         gamemanager::reloadAll(gd::gamemanager::get(), 0, 0, 1);
     }
 
