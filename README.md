@@ -2,6 +2,7 @@
 open source, integrated texture pack management system for geometry dash
 
 # note
+**auto inject does not work with mega hack v6 as of now.**
 i'm pretty sure this is relatively stable, but i can't make any guarantees. if you want 0% chance of anything breaking, please do not use this mod, and if you don't trust me, please back up your savefiles (%localappdata%/GeometryDash/ + CCGameManager.dat / + CCLocalLevels.dat).
 
 # known issues
