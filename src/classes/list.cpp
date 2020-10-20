@@ -136,6 +136,8 @@ list::list(const char* title, int length) : m_navFn{ listManager::navigate } {
 
 void list::setVector(const std::vector<std::string>& vec) {
     m_listStrings = vec;
+
+    update();
 }
 
 void list::ifNotFound(const std::vector<std::string>& other, bool add) {
@@ -443,7 +445,14 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
     else {
         for (int i{}; i < (int)old.size(); ++i) {
             if (std::find(other.begin(), other.end(), old[i]) == other.end()) {
-                m_listStrings.erase(std::find(m_listStrings.begin(), m_listStrings.end(), old[i]));
+                std::vector<std::string>::iterator index = std::find(m_listStrings.begin(), m_listStrings.end(), old[i]);
+                if (index != m_listStrings.end()) {
+                    m_listStrings.erase(index);
+                }
+                else {
+                    index = std::find(m_target->m_listStrings.begin(), m_target->m_listStrings.end(), old[i]);
+                    m_target->m_listStrings.erase(index);
+                }
 
                 //move to the start of the list, im too lazy to do calculation
                 m_listOffset = 0;
@@ -453,6 +462,7 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
     }
 
     update();
+    m_target->update();
 }
 
 //listManager
