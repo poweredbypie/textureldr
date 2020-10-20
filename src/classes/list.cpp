@@ -137,7 +137,9 @@ list::list(const char* title, int length) : m_navFn{ listManager::navigate } {
 void list::setVector(const std::vector<std::string>& vec) {
     m_listStrings = vec;
 
-    update();
+    if (m_entered) {
+        update();
+    }
 }
 
 void list::ifNotFound(const std::vector<std::string>& other, bool add) {
