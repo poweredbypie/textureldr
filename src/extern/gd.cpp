@@ -57,18 +57,20 @@ namespace gd {
 		addFunctions();
 
 		//get offsets
-		hmodule = GetModuleHandle(0);
-		menuLayer::pMoreGamesStr = (void**)((char*)hmodule + 0x190EF2);
-		menuLayer::szMoreGamesBtn = (void**)((char*)hmodule + 0x190F01);
-		menuLayer::pcbMoreGames = (void**)((char*)hmodule + 0x190F13);
-		menuLayer::oMoreGamesStr = ((char*)hmodule + 0x2CD790);
-		menuLayer::oFolderBtnStr = ((char*)hmodule + 0x297B34);
+		if (hmodule = GetModuleHandle(0)) {
+			menuLayer::pMoreGamesStr = (void**)((char*)hmodule + 0x190EF2);
+			menuLayer::szMoreGamesBtn = (void**)((char*)hmodule + 0x190F01);
+			menuLayer::pcbMoreGames = (void**)((char*)hmodule + 0x190F13);
+			menuLayer::oMoreGamesStr = ((char*)hmodule + 0x2CD790);
+			menuLayer::oFolderBtnStr = ((char*)hmodule + 0x297B34);
 
-		for (std::pair<void*&, int> pair : fcnPtrInfo) {
-			pair.first = ((char*)hmodule + pair.second);
-			if (!pair.first)
-				return false;
+			for (std::pair<void*&, int> pair : fcnPtrInfo) {
+				pair.first = ((char*)hmodule + pair.second);
+				if (!pair.first)
+					return false;
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 }

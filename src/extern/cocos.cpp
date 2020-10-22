@@ -157,9 +157,7 @@ namespace cocos {
 	bool init() {
 		addFunctions();
 
-		hmodule = GetModuleHandle("libcocos2d.dll");
-
-		if (hmodule) {
+		if (hmodule = GetModuleHandle("libcocos2d.dll")) {
 			for (std::pair<void*&, const char*>& pair : fcnPtrInfo) {
 				pair.first = (void*)GetProcAddress(hmodule, pair.second);
 				if (!pair.first)
