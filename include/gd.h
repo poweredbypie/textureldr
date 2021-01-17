@@ -56,9 +56,11 @@ namespace gd {
 	class ButtonSprite : public cocos2d::CCMenuItem {
 	public:
 		#pragma runtime_checks("s", off)
-		static ButtonSprite* create(void* sprite, void* target, void(__stdcall const* callback)(void*)) {
-			static auto _create = reinterpret_cast<ButtonSprite* (__thiscall const*)(void*, void*, void(__stdcall const*)(void*))>(base + 0x18EE0);
-			auto pRet = _create(sprite, target, callback);
+		static ButtonSprite* create(cocos2d::CCSprite* sprite, cocos2d::CCMenu* target, void(__stdcall const* callback)(void*)) {
+			auto pRet = as<ButtonSprite*(__thiscall*)(cocos2d::CCSprite*, cocos2d::CCMenu*, void(__stdcall const*)(void*))>(
+				base + 0x18EE0
+				)(sprite, target, callback);
+			//fix stack before returning
 			__asm add esp, 0x8
 			return pRet;
 		}
