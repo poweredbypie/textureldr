@@ -1,7 +1,6 @@
 #pragma once
 
 #include "pch.h"
-#include "extern/cocos.h"
 
 class listManager;
 
@@ -10,9 +9,9 @@ class listManager;
 class list {
 protected:
     //for more "understandability" i guess, better than macros i think?
-    typedef void* button_t;
-    typedef void* label_t;
-    typedef void* menu_t;
+    typedef gd::ButtonSprite* button_t;
+    typedef cocos2d::CCLabelBMFont* label_t;
+    typedef cocos2d::CCMenu* menu_t;
 
 protected:
     const char* m_titleStr{};
@@ -43,11 +42,11 @@ protected:
 
     virtual void update();
 
-    virtual void enter(void* scene);
+    virtual void enter(cocos2d::CCScene* scene);
     inline void exit();
 
-    virtual bool load(void* file);
-    virtual void save(void* file);
+    virtual bool load(cocos2d::tinyxml2::XMLDocument* file);
+    virtual void save(cocos2d::tinyxml2::XMLDocument* file);
 
 public:
     list(const char* title, int length);
@@ -87,10 +86,10 @@ protected:
     void updateSelector();
     virtual void update();
     
-    virtual void enter(void* scene);
+    virtual void enter(cocos2d::CCScene* scene) override;
 
-    virtual bool load(void* file);
-    virtual void save(void* file);
+    virtual bool load(cocos2d::tinyxml2::XMLDocument* file) override;
+    virtual void save(cocos2d::tinyxml2::XMLDocument* file) override;
 
 public:
     listExt(const char* title, int length, listExt* target);
@@ -108,7 +107,7 @@ public:
 class listManager {
 private:
     static inline std::vector<list*> m_vec;
-    static inline void* m_saveFile;
+    static inline cocos2d::tinyxml2::XMLDocument* m_saveFile;
     static inline const char* m_filePath;
     static inline const char* m_backupPath;
 
@@ -123,7 +122,7 @@ private:
     static void __stdcall move(void* pSender);
 
 public:
-    static void enter(void* scene);
+    static void enter(cocos2d::CCScene* scene);
     static void exit();
     static void setSaveTargets(const char* file, const char* backup);
     static bool load();

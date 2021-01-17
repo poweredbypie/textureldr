@@ -6,10 +6,10 @@ inline void list::getLength() {
 }
 
 inline void list::toggle(button_t& button, bool enabled) {
-    using namespace cocos;
+    using namespace cocos2d;
 
-    menuItem::setEnabled(button, enabled);
-    node::setVisible(button, enabled);
+    button->setEnabled(enabled);
+    button->setVisible(enabled);
 }
 
 inline bool list::isParent(button_t button) {
@@ -36,49 +36,56 @@ void list::navigate(bool up) {
 }
 
 void list::update() {
-    using namespace cocos;
+    using namespace cocos2d;
 
     getLength();
 
     if (m_displayedLength > 0) {
         if (!m_entered) {
-            m_listLabels[0] = label::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
-            node::setPos(m_listLabels[0], m_x, m_y);
-            node::setScale(m_listLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
-            node::addChild(m_menu, m_listLabels[0]);
+            m_listLabels[0] = CCLabelBMFont::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
+            m_listLabels[0]->setPosition(m_x, m_y);
+            m_listLabels[0]->setScale(1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+            m_menu->addChild(m_listLabels[0]);
         }
         else {
-            label::set(m_listLabels[0], m_listStrings[m_listOffset].c_str(), true);
-            node::setScale(m_listLabels[0], 1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
+            m_listLabels[0]->setString(m_listStrings[m_listOffset].c_str(), true);
+            m_listLabels[0]->setScale(1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
         }
     }
 }
 
-void list::enter(void* scene) {
-    using namespace cocos;
+void list::enter(cocos2d::CCScene* scene) {
+    using namespace cocos2d;
+    using namespace gd;
 
-    m_menu = menu::create();
+    m_menu = CCMenu::create();
 
-    m_titleLabel = label::create(m_titleStr, "goldFont.fnt");
-    node::setPos(m_titleLabel, m_x, m_y + 30.0f);
-    node::addChild(m_menu, m_titleLabel);
+    m_titleLabel = CCLabelBMFont::create(m_titleStr, "goldFont.fnt");
+    m_titleLabel->setPosition(m_x, m_y + 30.0f);
+    m_menu->addChild(m_titleLabel);
 
-    void* navSprite = sprite::create("navArrowBtn_001.png");
+    m_upBtn = ButtonSprite::create(
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        m_menu,
+        m_navFn
+    );
+    m_upBtn->setPosition(m_x - 70.0f, m_y);
+    m_upBtn->setRotation(-180.0f);
+    m_upBtn->setScale(0.60f);
+    m_menu->addChild(m_upBtn);
 
-    m_upBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
-    node::setPos(m_upBtn, m_x - 70.0f, m_y);
-    node::setRot(m_upBtn, -180.0f);
-    node::setScale(m_upBtn, 0.60f);
-    node::addChild(m_menu, m_upBtn);
-
-    m_downBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
-    node::setPos(m_downBtn, m_x + 70.0f, m_y);
-    node::setScale(m_downBtn, 0.60f);
-    node::addChild(m_menu, m_downBtn);
+    m_downBtn = ButtonSprite::create(
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        m_menu,
+        m_navFn
+    );
+    m_downBtn->setPosition(m_x + 70.0f, m_y);
+    m_downBtn->setScale(0.60f);
+    m_menu->addChild(m_downBtn);
 
     update();
 
-    node::addChild(scene, m_menu);
+    scene->addChild(m_menu);
 
     m_entered = true;
 }
@@ -87,16 +94,16 @@ inline void list::exit() {
     m_entered = false;
 }
 
-bool list::load(void* file) {
-    using namespace cocos::xml;
+bool list::load(cocos2d::tinyxml2::XMLDocument* file) {
+    using namespace cocos2d::tinyxml2;
 
-    if (void* list = firstChildElement(file, m_titleStr)) {
-        if (queryAttribute(list, "offset", &m_listOffset))
+    if (auto list = file->FirstChildElement(m_titleStr)) {
+        if (list->QueryIntAttribute("offset", &m_listOffset))
             return false;
 
-        for (void* i = firstChildElement(list, "entry"); i; i = nextSiblingElement(i, 0))
-            m_listStrings.push_back(getText(i));
-        
+        for (auto i = list->FirstChildElement("entry"); i; i = i->NextSiblingElement(0))
+            m_listStrings.push_back(i->GetText());
+
         if (m_maxDisplayedLength < (int)m_listStrings.size()) {
             if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
                 m_listOffset = (int)m_listStrings.size() - m_maxDisplayedLength;
@@ -111,16 +118,16 @@ bool list::load(void* file) {
     return false;
 }
 
-void list::save(void* file) {
-    using namespace cocos::xml;
+void list::save(cocos2d::tinyxml2::XMLDocument* file) {
+    using namespace cocos2d::tinyxml2;
 
-    void* list = newElement(file, m_titleStr);
-    setAttribute(list, "offset", m_listOffset);
-    insertEndChild(file, list);
+    auto list = file->NewElement(m_titleStr);
+    list->SetAttribute("offset", m_listOffset);
+    file->InsertEndChild(list);
     for (std::string entry : m_listStrings) {
-        void* i = newElement(file, "entry");
-        insertEndChild(i, newText(file, entry.c_str()));
-        insertEndChild(list, i);
+        auto i = file->NewElement("entry");
+        i->InsertEndChild(file->NewText(entry.c_str()));
+        list->InsertEndChild(i);
     }
 }
 
@@ -242,7 +249,7 @@ void listExt::move() {
 
 
 void listExt::updateLabels() {
-    using namespace cocos;
+    using namespace cocos2d;
     
     getLength();
 
@@ -250,62 +257,71 @@ void listExt::updateLabels() {
 
         for (int i{}; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
-                m_listLabels[i] = label::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
-                node::setPos(m_listLabels[i], m_x, m_y - (20.0f * i));
-                node::setScale(m_listLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
-                node::addChild(m_menu, m_listLabels[i]);
+                m_listLabels[i] = CCLabelBMFont::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
+                m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
+                m_listLabels[i]->setScale(1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
+                m_menu->addChild(m_listLabels[i]);
             }
             else {
-                m_listLabels[i] = label::create("", "bigFont.fnt");
-                node::setPos(m_listLabels[i], m_x, m_y - (20.0f * i));
-                node::addChild(m_menu, m_listLabels[i]);
+                m_listLabels[i] = CCLabelBMFont::create("", "bigFont.fnt");
+                m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
+                m_menu->addChild(m_listLabels[i]);
             }
         }
     }
     else {
         for (int i{}; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
-                label::set(m_listLabels[i], m_listStrings[m_listOffset + i].c_str(), true);
-                node::setScale(m_listLabels[i], 1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
+                m_listLabels[i]->setString(m_listStrings[m_listOffset + i].c_str(), true);
+                m_listLabels[i]->setScale(1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
             }
             else {
-                label::set(m_listLabels[i], "", true);
+                m_listLabels[i]->setString("", true);
             }
         }
     }
 }
 
 void listExt::updateSelector() {
-    using namespace cocos;
+    using namespace cocos2d;
+    using namespace gd;
 
     if (!m_entered) {
-        void* navSprite = sprite::create("navArrowBtn_001.png");
-        m_moveBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_moveFn);
+        m_moveBtn = ButtonSprite::create(
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            m_menu,
+            m_moveFn
+        );
 
-        m_swapUpBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_swapFn);
-        m_swapDownBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_swapFn);
-        if (m_x < 0) {
-            node::setPos(m_moveBtn, m_x + 55.0f, m_y - 20.0f * m_moveIndex);
+        m_swapUpBtn = ButtonSprite::create(
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            m_menu,
+            m_swapFn
+        );
 
-            node::setPos(m_swapUpBtn, m_x - 55.0f, m_y + 5.0f - 20.0f * m_moveIndex);
-            node::setPos(m_swapDownBtn, m_x - 55.0f, m_y - 5.0f - 20.0f * m_moveIndex);
-        }
-        else {
-            node::setPos(m_moveBtn, m_x - 55.0f, m_y - 20.0f * m_moveIndex);
-            node::setRot(m_moveBtn, 180.0f);
+        m_swapDownBtn = ButtonSprite::create(
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            m_menu,
+            m_swapFn
+        );
 
-            node::setPos(m_swapUpBtn, m_x + 55.0f, m_y + 5.0f - 20.0f * m_moveIndex);
-            node::setPos(m_swapDownBtn, m_x + 55.0f, m_y - 5.0f - 20.0f * m_moveIndex);
-        }
-        node::setScale(m_moveBtn, 0.25f);
-        node::addChild(m_menu, m_moveBtn);
+        float mult = m_x < 0 ? 55.0f : -55.0f;
 
-        node::setRot(m_swapUpBtn, -90.0f);
-        node::setRot(m_swapDownBtn, 90.0f);
-        node::setScale(m_swapUpBtn, 0.25f);
-        node::setScale(m_swapDownBtn, 0.25f);
-        node::addChild(m_menu, m_swapUpBtn);
-        node::addChild(m_menu, m_swapDownBtn);
+        m_moveBtn->setPosition(m_x + mult, m_y - 20.0f * m_moveIndex);
+        m_moveBtn->setRotation(mult == -55.0f ? 180.0f : 0.0f);
+
+        m_swapUpBtn->setPosition(m_x - mult, m_y + 5.0f - 20.0f * m_moveIndex);
+        m_swapDownBtn->setPosition(m_x - mult, m_y - 5.0f - 20.0f * m_moveIndex);
+
+        m_moveBtn->setScale(0.25f);
+        m_menu->addChild(m_moveBtn);
+
+        m_swapUpBtn->setRotation(-90.0f);
+        m_swapDownBtn->setRotation(90.0f);
+        m_swapUpBtn->setScale(0.25f);
+        m_swapDownBtn->setScale(0.25f);
+        m_menu->addChild(m_swapUpBtn);
+        m_menu->addChild(m_swapDownBtn);
         if (m_listStrings.size() - m_listOffset == 0) {
             toggle(m_moveBtn, false);
             toggle(m_swapUpBtn, false);
@@ -320,25 +336,17 @@ void listExt::updateSelector() {
             toggle(m_swapDownBtn, false);
 
         }
-        else if (m_x < 0) {
-            node::setPos(m_moveBtn, m_x + 55.0f, m_y - 20.0f * m_moveIndex);
-            toggle(m_moveBtn, true);
-
-            node::setPos(m_swapUpBtn, m_x - 55.0f, m_y + 5.0f - 20.0f * m_moveIndex);
-            node::setPos(m_swapDownBtn, m_x - 55.0f, m_y - 5.0f - 20.0f * m_moveIndex);
-            toggle(m_swapUpBtn, true);
-            toggle(m_swapDownBtn, true);
-        }
         else {
-            node::setPos(m_moveBtn, m_x - 55.0f, m_y - 20.0f * m_moveIndex);
-            node::setRot(m_moveBtn, 180.0f);
+            float mult = m_x < 0 ? 55.0f : -55.0f;
+
+            m_moveBtn->setPosition(m_x + mult, m_y - 20.0f * m_moveIndex);
+            m_moveBtn->setRotation(mult == -55.0f ? 180.0f : 0.0f);
             toggle(m_moveBtn, true);
 
-            node::setPos(m_swapUpBtn, m_x + 55.0f, m_y + 5.0f - 20.0f * m_moveIndex);
-            node::setPos(m_swapDownBtn, m_x + 55.0f, m_y - 5.0f - 20.0f * m_moveIndex);
+            m_swapUpBtn->setPosition(m_x - mult, m_y + 5.0f - 20.0f * m_moveIndex);
+            m_swapDownBtn->setPosition(m_x - mult, m_y - 5.0f - 20.0f * m_moveIndex);
             toggle(m_swapUpBtn, true);
             toggle(m_swapDownBtn, true);
-
         }
     }
 }
@@ -348,46 +356,53 @@ void listExt::update() {
     updateSelector();
 }
 
-void listExt::enter(void* scene) {
-    using namespace cocos;
+void listExt::enter(cocos2d::CCScene* scene) {
+    using namespace cocos2d;
+    using namespace gd;
 
-    m_menu = menu::create();
+    m_menu = CCMenu::create();
 
-    m_titleLabel = label::create(m_titleStr, "goldFont.fnt");
-    node::setPos(m_titleLabel, m_x, m_y + 50.0f);
-    node::addChild(m_menu, m_titleLabel);
+    m_titleLabel = CCLabelBMFont::create(m_titleStr, "goldFont.fnt");
+    m_titleLabel->setPosition(m_x, m_y + 50.0f);
+    m_menu->addChild(m_titleLabel);
 
-    void* navSprite = sprite::create("navArrowBtn_001.png");
+    m_upBtn = ButtonSprite::create(
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        m_menu,
+        m_navFn
+    );
+    m_upBtn->setPosition(m_x, m_y + 25.0f);
+    m_upBtn->setRotation(-90.0f);
+    m_upBtn->setScale(0.75f);
+    m_menu->addChild(m_upBtn);
 
-    m_upBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
-    node::setPos(m_upBtn, m_x, m_y + 25.0f);
-    node::setRot(m_upBtn, -90.0f);
-    node::setScale(m_upBtn, 0.75f);
-    node::addChild(m_menu, m_upBtn);
-
-    m_downBtn = menuItem::createSpr(navSprite, navSprite, 0, m_menu, m_navFn);
-    node::setPos(m_downBtn, m_x, m_y - 205.0f);
-    node::setRot(m_downBtn, 90.0f);
-    node::setScale(m_downBtn, 0.75f);
-    node::addChild(m_menu, m_downBtn);
+    m_downBtn = ButtonSprite::create(
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        m_menu,
+        m_navFn
+    );
+    m_downBtn->setPosition(m_x, m_y - 205.0f);
+    m_downBtn->setRotation(90.0f);
+    m_downBtn->setScale(0.75f);
+    m_menu->addChild(m_downBtn);
 
     update();
 
-    node::addChild(scene, m_menu);
+    scene->addChild(m_menu);
 
     m_entered = true;
 }
 
-bool listExt::load(void* file) {
-    using namespace cocos::xml;
+bool listExt::load(cocos2d::tinyxml2::XMLDocument* file) {
+    using namespace cocos2d::tinyxml2;
 
-    if (void* list = firstChildElement(file, m_titleStr)) {
-        if (queryAttribute(list, "offset", &m_listOffset) ||
-            queryAttribute(list, "index", &m_moveIndex))
+    if (auto list = file->FirstChildElement(m_titleStr)) {
+        if (list->QueryIntAttribute("offset", &m_listOffset) ||
+            list->QueryIntAttribute("index", &m_moveIndex))
             return false;
         
-        for (void* i = firstChildElement(list, "entry"); i; i = nextSiblingElement(i, 0))
-            m_listStrings.push_back(getText(i));
+        for (auto i = list->FirstChildElement("entry"); i; i = i->NextSiblingElement(0))
+            m_listStrings.push_back(i->GetText());
 
         if (m_maxDisplayedLength < (int)m_listStrings.size()) {
             if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
@@ -410,17 +425,17 @@ bool listExt::load(void* file) {
     return false;
 }
 
-void listExt::save(void* file) {
-    using namespace cocos::xml;
+void listExt::save(cocos2d::tinyxml2::XMLDocument* file) {
+    using namespace cocos2d::tinyxml2;
 
-    void* list = newElement(file, m_titleStr);
-    setAttribute(list, "offset", m_listOffset);
-    setAttribute(list, "index", m_moveIndex);
-    insertEndChild(file, list);
+    auto list = file->NewElement(m_titleStr);
+    list->SetAttribute("offset", m_listOffset);
+    list->SetAttribute("index", m_moveIndex);
+    file->InsertEndChild(list);
     for (std::string entry : m_listStrings) {
-        void* i = newElement(file, "entry");
-        insertEndChild(i, newText(file, entry.c_str()));
-        insertEndChild(list, i);
+        auto i = file->NewElement("entry");
+        i->InsertEndChild(file->NewText(entry.c_str()));
+        list->InsertEndChild(i);
     }
 }
 
@@ -475,14 +490,14 @@ void __stdcall listManager::navigate(void* pSender) {
     list* target{};
 
     for (list* i : m_vec) {
-        if (i->isParent(pSender)) {
+        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
             target = i;
             break;
         }
     }
 
     if (target) {
-        target->navigate(target->isUp(pSender));
+        target->navigate(target->isUp(reinterpret_cast<list::button_t>(pSender)));
     }
 }
 
@@ -490,14 +505,14 @@ void __stdcall listManager::swap(void* pSender) {
     listExt* target{};
 
     for (list* i : m_vec) {
-        if (i->isParent(pSender)) {
+        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
             target = (listExt*)i;
             break;
         }
     }
 
     if (target) {
-        target->swap(target->isUp(pSender));
+        target->swap(target->isUp(reinterpret_cast<list::button_t>(pSender)));
     }
 }
 
@@ -505,7 +520,7 @@ void __stdcall listManager::move(void* pSender) {
     listExt* target{};
 
     for (list* i : m_vec) {
-        if (i->isParent(pSender)) {
+        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
             target = (listExt*)i;
             break;
         }
@@ -516,7 +531,7 @@ void __stdcall listManager::move(void* pSender) {
     }
 }
 
-void listManager::enter(void* scene) {
+void listManager::enter(cocos2d::CCScene* scene) {
     for (list* i : m_vec) {
         i->enter(scene);
     }
@@ -534,17 +549,17 @@ void listManager::setSaveTargets(const char* file, const char* backup) {
 }
 
 bool listManager::load() {
-    using namespace cocos::xml;
+    using namespace cocos2d::tinyxml2;
 
-    m_saveFile = create(true, 1);
-    if (loadFile(m_saveFile, m_filePath)) {
-        if (loadFile(m_saveFile, m_backupPath))
+    m_saveFile = XMLDocument::create(true, 1);
+    if (m_saveFile->LoadFile(m_filePath)) {
+        if (m_saveFile->LoadFile(m_backupPath))
             return false;
 
-        saveFile(m_saveFile, m_filePath, false);
+        m_saveFile->SaveFile(m_filePath, false);
     }
     else
-        saveFile(m_saveFile, m_backupPath, false);
+        m_saveFile->SaveFile(m_backupPath, false);
     for (list* i : m_vec) {
         if (!i->load(m_saveFile))
             return false;
@@ -553,15 +568,15 @@ bool listManager::load() {
 }
 
 bool listManager::save() {
-    using namespace cocos::xml;
+    using namespace cocos2d::tinyxml2;
 
-    deleteChildren(m_saveFile);
+    m_saveFile->DeleteChildren();
 
     for (list* i : m_vec) {
         i->save(m_saveFile);
     }
 
-    if (!saveFile(m_saveFile, m_filePath, false))
+    if (!m_saveFile->SaveFile(m_filePath, false))
         return false;
 
     return true;

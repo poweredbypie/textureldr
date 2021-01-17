@@ -18,31 +18,26 @@ namespace ldr {
         bool bTransition{ true };
     }
 
-    namespace gates {
-        void(__thiscall* addPath)(void* CCFileUtils, const char* path);
-        void(__thiscall* trySaveGame)(void* AppDelegate);
-    }
-
     namespace hooks {
-        void COCOS_HOOK addPath(void* CCFileUtils, void* __EDX, const char* path) {
+        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* _this, void* __EDX, const char* path) {
             using namespace vars;
 
             //to refresh menuLoop.mp3.
-            gd::menuLayer::fadeInMusic(" ");
+            gd::MenuLayer::fadeInMusic(" ");
             for (int i{}; i < (int)applied.getVector().size(); ++i) {
-                gates::addPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
+                gates::addSearchPath(_this, ("packs\\" + applied.getVector()[i]).c_str());
             }
-            return gates::addPath(CCFileUtils, path);
+            return gates::addSearchPath(_this, path);
         }
 
-        void COCOS_HOOK loadingFinished(void* LoadingLayer) {
+        void COCOS_HOOK loadingFinished(cocos2d::CCScene* LoadingLayer) {
             using namespace vars;
 
             bTransition = false;
             exitScene(LoadingLayer);
         }
 
-        void COCOS_HOOK trySaveGame(void* AppDelegate) {
+        void COCOS_HOOK trySaveGame(cocos2d::CCNode* AppDelegate) {
             listManager::save();
             return gates::trySaveGame(AppDelegate);
         }
@@ -78,73 +73,83 @@ namespace ldr {
     }
 
 	BTN_CALLBACK(enterScene) {
-        using namespace cocos;
         using namespace gd;
-        using namespace vars;
+        using namespace cocos2d;
 
         //create scene here
-        void* director = director::get();
-        vec2 winSize = director::getWinSize(director);
-
-        void* ldrScene = scene::create();
-
+        auto director = CCDirector::sharedDirector();
+        CCSize winSize = director->getWinSize();
+        auto ldrScene = CCScene::create();
         listManager::enter(ldrScene);
+        auto miscBtns = CCMenu::create();
+        ldrScene->addChild(miscBtns);
+        ButtonSprite* applyBtn = ButtonSprite::create(
+            CCSprite::create("GJ_button_04.png"),
+            miscBtns,
+            apply
+        );
+        miscBtns->addChild(applyBtn);
+        auto checkmark = CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png");
+        miscBtns->addChild(checkmark);
+        
+        auto backBtn = ButtonSprite::create(
+            CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
+            miscBtns,
+            exitScene
+        );
 
-        void* miscBtns = menu::create();
-        node::addChild(ldrScene, miscBtns);
+        backBtn->setPosition(-winSize.width / 2 + 25.0f, winSize.height / 2 - 25.0f);
+        miscBtns->addChild(backBtn);
 
-        void* applyBtn = menuItem::createImg("GJ_button_04.png", "GJ_button_05.png", 0, miscBtns, apply);
-        node::addChild(miscBtns, applyBtn);
-        void* checkmark = sprite::create("GJ_completesIcon_001.png");
-        node::addChild(miscBtns, checkmark);
+        auto reloadBtn = ButtonSprite::create(
+            CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
+            miscBtns,
+            getPacks
+        );
+        reloadBtn->setPosition(winSize.width / 2 - 35.0f, -winSize.height / 2 + 35.0f);
+        reloadBtn->setScale(1.1f);
+        miscBtns->addChild(reloadBtn);
 
-        void* backSprite = sprite::create("GJ_arrow_01_001.png");
-        void* backBtn = menuItem::createSpr(backSprite, backSprite, 0, miscBtns, exitScene);
-        node::setPos(backBtn, -winSize.x / 2 + 25.0f, winSize.y / 2 - 25.0f);
-        node::addChild(miscBtns, backBtn);
-
-        void* reloadSprite = sprite::create("GJ_updateBtn_001.png");
-        void* reloadBtn = menuItem::createSpr(reloadSprite, reloadSprite, 0, miscBtns, getPacks);
-        node::setPos(reloadBtn, winSize.x / 2 - 35.0f, -winSize.y / 2 + 35.0f);
-        node::setScale(reloadBtn, 1.1f);
-        node::addChild(miscBtns, reloadBtn);
-
-        void* transition = transition::create(0.5f, ldrScene);
-        director::replaceScene(director, transition);
+        auto transition = CCTransitionFade::create(0.5f, ldrScene);
+        director->replaceScene(transition);
 	}
 
 	BTN_CALLBACK(exitScene) {
-        using namespace cocos;
+        using namespace cocos2d;
         using namespace gd;
         using namespace vars;
 
         listManager::exit();
 
-        void* director = director::get();
+        auto director = CCDirector::sharedDirector();
 
-        void* menuLayerScene = scene::create();
+        auto menuLayerScene = CCScene::create();
 
-        void* menuLayer = menuLayer::create();
-        node::addChild(menuLayerScene, menuLayer);
+        auto menuLayer = MenuLayer::create();
+        //FIX
+        menuLayerScene->addChild((CCNode*)menuLayer);
 
         if (bTransition) {
-            void* transition = transition::create(0.5f, menuLayerScene);
-            director::replaceScene(director, transition);
+            auto transition = CCTransitionFade::create(0.5f, menuLayerScene);
+            director->replaceScene(transition);
         }
         else {
-            director::replaceScene(director, menuLayerScene);
+            director->replaceScene(menuLayerScene);
             bTransition = true;
         }
 	}
 
     BTN_CALLBACK(apply) {
-        using namespace cocos;
+        using namespace cocos2d;
         using namespace vars;
 
-        void* director = director::get();
-        director::updateScale(director, quality.getCurrentIndex() + 1);
-        *((char*)gd::gameManager::get() + 0x2E4) = quality.getCurrentIndex() + 1;
-        gd::gameManager::reloadAll(gd::gameManager::get(), 0, 0, 1);
+        auto director = CCDirector::sharedDirector();
+        director->updateContentScale(static_cast<TextureQuality>(quality.getCurrentIndex() + 1));
+        
+        auto GameManager = gd::GameManager::sharedState();
+        *(reinterpret_cast<char*>(GameManager) + 0x2E4) = quality.getCurrentIndex() + 1;
+
+        GameManager->reloadAll(false, false, true);
     }
 
     bool init() {

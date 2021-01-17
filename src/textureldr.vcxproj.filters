@@ -22,6 +22,9 @@
     <Filter Include="Header Files\extern">
       <UniqueIdentifier>{6d0d382c-d401-40c4-b459-b3fcbbae13e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{59346b42-55d7-46a6-87f8-8d6a705a8305}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -36,14 +39,14 @@
     <ClInclude Include="ldr.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="extern\cocos.h">
-      <Filter>Header Files\extern</Filter>
-    </ClInclude>
-    <ClInclude Include="extern\gd.h">
-      <Filter>Header Files\extern</Filter>
-    </ClInclude>
     <ClInclude Include="classes\list.h">
       <Filter>Source Files\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2d.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd.h">
+      <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

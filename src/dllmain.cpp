@@ -1,7 +1,5 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
-#include "extern/cocos.h"
-#include "extern/gd.h"
 #include "classes/hk.h"
 #include "classes/list.h"
 #include "ldr.h"
@@ -14,22 +12,23 @@
 
 BOOL WINAPI attach(HMODULE hModule) {
     //find cocos & gd function offsets
-    if (cocos::init() && gd::init() && ldr::init()) {
-        //hook loadingFinished, addPath, and trySaveGame
-        hk loadingFinished{ (char*)gd::loadingLayer::loadingFinished, (char*)ldr::hooks::loadingFinished, 0, 7 };
-        hk addPath{ (char*)cocos::fileUtils::addPath, (char*)ldr::hooks::addPath, (char**)&ldr::gates::addPath, 5 };
-        hk trySaveGame{ (char*)gd::appDelegate::trySaveGame, (char*)ldr::hooks::trySaveGame, (char**)&ldr::gates::trySaveGame, 11 };
+    if (cocos2d::init() && gd::init() && ldr::init()) {
+        //hook loadingFinished, addSearchPath, and trySaveGame
+        hk loadingFinished{ (char*)gd::LoadingLayer::loadingFinished, (char*)ldr::hooks::loadingFinished, 0, 7 };
+        //you can't cast member functions to addresses because virtual functions so this'll do for now
+        hk addSearchPath{ (char*)GetProcAddress(cocos2d::base, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z"), (char*)ldr::hooks::addSearchPath, (char**)&ldr::gates::addSearchPath, 5 };
+        hk trySaveGame{ (char*)gd::AppDelegate::trySaveGame, (char*)ldr::hooks::trySaveGame, (char**)&ldr::gates::trySaveGame, 11 };
         loadingFinished.hook();
-        addPath.hook();
+        addSearchPath.hook();
         trySaveGame.hook();
 
         void* cbEnterBtnAddr = &ldr::enterScene;
 
         //patch params for the "more games" button to change it into the textureldr menu button, since it's basically useless
         //save the bytes so they can be restored
-        patch((char*)gd::menuLayer::pMoreGamesStr, (char*)&gd::menuLayer::oFolderBtnStr, 0, 4);
-        patch((char*)gd::menuLayer::szMoreGamesBtn, (char*)"\x00\x00\xC0\x3F", 0, 4);
-        patch((char*)gd::menuLayer::pcbMoreGames, (char*)&cbEnterBtnAddr, (char*)&gd::menuLayer::cbMoreGames, 4);
+        patch((char*)gd::MenuLayer::pMoreGamesStr, (char*)&gd::MenuLayer::oFolderBtnStr, 0, 4);
+        patch((char*)gd::MenuLayer::szMoreGamesBtn, (char*)"\x00\x00\xC0\x3F", 0, 4);
+        patch((char*)gd::MenuLayer::pcbMoreGames, (char*)&cbEnterBtnAddr, (char*)&gd::MenuLayer::cbMoreGames, 4);
 
         #ifndef NDEBUG  //allows for the dll to be ejected and reinjected for testing; shouldn't be necessary in release mode
         //keep thread alive
@@ -37,13 +36,13 @@ BOOL WINAPI attach(HMODULE hModule) {
 
         //unhook and unpatch, save the config files
         loadingFinished.unhook();
-        addPath.unhook();
+        addSearchPath.unhook();
         trySaveGame.unhook();
         listManager::save();
 
-        patch((char*)gd::menuLayer::pMoreGamesStr, (char*)&gd::menuLayer::oMoreGamesStr, 0, 4);
-        patch((char*)gd::menuLayer::szMoreGamesBtn, (char*)"\x66\x66\x66\x3F", 0, 4);
-        patch((char*)gd::menuLayer::pcbMoreGames, (char*)&gd::menuLayer::cbMoreGames, 0, 4);
+        patch((char*)gd::MenuLayer::pMoreGamesStr, (char*)&gd::MenuLayer::oMoreGamesStr, 0, 4);
+        patch((char*)gd::MenuLayer::szMoreGamesBtn, (char*)"\x66\x66\x66\x3F", 0, 4);
+        patch((char*)gd::MenuLayer::pcbMoreGames, (char*)&gd::MenuLayer::cbMoreGames, 0, 4);
 
         FreeLibraryAndExitThread(hModule, 0);
         #endif  
