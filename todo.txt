@@ -1,15 +1,15 @@
 TODO:
 
-learn how to mid function hook so that i can simply add my button to the menulayer without worrying about
-patching wrappers
-
 add a background or something lol
 
-find out why CCNode::setColor ends up with cocos not being able to draw the node correctly
+find out why CCSprite::setColor ends up with cocos not being able to draw the node correctly
 
-change gd.h and cocos.h so that not as much of the variables are exposed for no reason, since they are unused in dllmain 
-and do not need to be available to me / listed in autocomplete 
-
-add quality selector, iterate through directories to determine which detail level each pack supports
+iterate through directories to determine which detail level each pack supports
 
 add warning for packs that don't have .fnt/.plist files for corresponding .pngs, to warn of potential garbled packs
+
+hook CCKeyboardDispatcher::dispatchKeyboardMSG for shortcut
+
+rewrite with cocos headers at some point, makes things much easier
+
+add safeguards for invalid folder names (since GD only allows english characters, and fmod crashes with non-english folder names sometimes)

@@ -9,11 +9,11 @@ char* trampoline(const char* src, const char* dst, const int len);
 
 class hk
 {
-	bool on{};
-	char* src{};
-	char* dst{};
-	char** pGate{};
-	const int len{};
+	bool on = false;
+	char* src = nullptr;
+	char* dst = nullptr;
+	char** pGate = nullptr;
+	const int len = 0;
 	char* oldInstruct[10]{};
 
 public:

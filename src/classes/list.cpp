@@ -1,22 +1,22 @@
 #include "pch.h"
 #include "list.h"
 
-void list::getLength() {
+inline void list::getLength() {
     m_displayedLength = (int)(m_listStrings.size() - m_listOffset) < m_maxDisplayedLength ? (m_listStrings.size() - m_listOffset) : m_maxDisplayedLength;
 }
 
-void list::toggle(button_t& button, bool enabled) {
+inline void list::toggle(button_t& button, bool enabled) {
     using namespace cocos;
 
     menuItem::setEnabled(button, enabled);
     node::setVisible(button, enabled);
 }
 
-bool list::isParent(button_t button) {
+inline bool list::isParent(button_t button) {
     return (button == m_upBtn || button == m_downBtn);
 }
 
-bool list::isUp(button_t button) {
+inline bool list::isUp(button_t button) {
     return (button == m_upBtn);
 }
 
@@ -83,7 +83,7 @@ void list::enter(void* scene) {
     m_entered = true;
 }
 
-void list::exit() {
+inline void list::exit() {
     m_entered = false;
 }
 
@@ -137,9 +137,8 @@ list::list(const char* title, int length) : m_navFn{ listManager::navigate } {
 void list::setVector(const std::vector<std::string>& vec) {
     m_listStrings = vec;
 
-    if (m_entered) {
+    if (m_entered)
         update();
-    }
 }
 
 void list::ifNotFound(const std::vector<std::string>& other, bool add) {
@@ -161,8 +160,9 @@ void list::ifNotFound(const std::vector<std::string>& other, bool add) {
             }
         }
     }
-
-    update();
+    
+    if (m_entered)
+        update();
 }
 
 const std::vector<std::string>& list::getVector() {
@@ -378,10 +378,6 @@ void listExt::enter(void* scene) {
     m_entered = true;
 }
 
-void listExt::exit() {
-    m_entered = false;
-}
-
 bool listExt::load(void* file) {
     using namespace cocos::xml;
 
@@ -463,8 +459,10 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
         }
     }
 
-    update();
-    m_target->update();
+    if (m_entered) {
+        update();
+        m_target->update();
+    }
 }
 
 //listManager

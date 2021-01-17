@@ -16,25 +16,25 @@ protected:
 
 protected:
     const char* m_titleStr{};
-    label_t m_titleLabel{};
+    label_t m_titleLabel = nullptr;
 
     std::vector<std::string> m_listStrings{};
     label_t* m_listLabels{};
-    int m_maxDisplayedLength{};
-    int m_displayedLength{};
-    bool m_entered{ false };
-    float m_x{}, m_y{};
+    int m_maxDisplayedLength = 0;
+    int m_displayedLength = 0;
+    bool m_entered = false;
+    float m_x = 0.0f, m_y = 0.0f;
 
-    button_t m_upBtn{};
-    button_t m_downBtn{};
-    void(__stdcall* const m_navFn)(void* pSender) {};
-    int m_listOffset{ 0 };
+    button_t m_upBtn = nullptr;
+    button_t m_downBtn = nullptr;
+    void(__stdcall* const m_navFn)(void* pSender) = nullptr;
+    int m_listOffset = 0;
 
-    menu_t m_menu{};
+    menu_t m_menu = nullptr;
 
 protected:
-    void getLength();
-    void toggle(button_t& button, bool enabled);
+    inline void getLength();
+    inline void toggle(button_t& button, bool enabled);
 
     virtual bool isParent(button_t button);
     virtual bool isUp(button_t button);
@@ -42,8 +42,9 @@ protected:
     virtual void navigate(bool up);
 
     virtual void update();
+
     virtual void enter(void* scene);
-    virtual void exit();
+    inline void exit();
 
     virtual bool load(void* file);
     virtual void save(void* file);
@@ -64,15 +65,15 @@ public:
 
 class listExt : public list {
 protected:
-    button_t m_swapUpBtn{};
-    button_t m_swapDownBtn{};
-    void (__stdcall* const m_swapFn)(void* pSender){};
+    button_t m_swapUpBtn = nullptr;
+    button_t m_swapDownBtn = nullptr;
+    void (__stdcall* const m_swapFn)(void* pSender) = nullptr;
 
-    button_t m_moveBtn{};
-    void (__stdcall* const m_moveFn)(void* pSender){};
-    int m_moveIndex{};
+    button_t m_moveBtn = nullptr;
+    void (__stdcall* const m_moveFn)(void* pSender) = nullptr;
+    int m_moveIndex = 0;
 
-    listExt* m_target;
+    listExt* m_target = nullptr;
 
 protected:
     virtual bool isParent(button_t button);
@@ -87,7 +88,6 @@ protected:
     virtual void update();
     
     virtual void enter(void* scene);
-    virtual void exit();
 
     virtual bool load(void* file);
     virtual void save(void* file);

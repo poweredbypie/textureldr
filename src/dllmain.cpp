@@ -6,6 +6,12 @@
 #include "classes/list.h"
 #include "ldr.h"
 
+#ifndef NDEBUG
+    #define LOG(x) printf(x)
+#else
+    #define LOG(x)
+#endif
+
 BOOL WINAPI attach(HMODULE hModule) {
     //find cocos & gd function offsets
     if (cocos::init() && gd::init() && ldr::init()) {
@@ -55,7 +61,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
                      )
 {
-    HANDLE dllHandle{};
+    HANDLE dllHandle = nullptr;
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:

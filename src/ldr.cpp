@@ -28,7 +28,7 @@ namespace ldr {
             using namespace vars;
 
             //to refresh menuLoop.mp3.
-            gd::menuLayer::updateSound(" ");
+            gd::menuLayer::fadeInMusic(" ");
             for (int i{}; i < (int)applied.getVector().size(); ++i) {
                 gates::addPath(CCFileUtils, ("packs\\" + applied.getVector()[i]).c_str());
             }
@@ -139,13 +139,12 @@ namespace ldr {
 
     BTN_CALLBACK(apply) {
         using namespace cocos;
-        using namespace gd;
         using namespace vars;
 
         void* director = director::get();
         director::updateScale(director, quality.getCurrentIndex() + 1);
-        *((char*)gd::gamemanager::get() + 0x2E4) = quality.getCurrentIndex() + 1;
-        gamemanager::reloadAll(gd::gamemanager::get(), 0, 0, 1);
+        *((char*)gd::gameManager::get() + 0x2E4) = quality.getCurrentIndex() + 1;
+        gd::gameManager::reloadAll(gd::gameManager::get(), 0, 0, 1);
     }
 
     bool init() {

@@ -59,12 +59,6 @@
     <ClCompile Include="ldr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="extern\cocos.cpp">
-      <Filter>Header Files\extern</Filter>
-    </ClCompile>
-    <ClCompile Include="extern\gd.cpp">
-      <Filter>Header Files\extern</Filter>
-    </ClCompile>
     <ClCompile Include="classes\list.cpp">
       <Filter>Source Files\classes</Filter>
     </ClCompile>
