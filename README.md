@@ -21,6 +21,14 @@ see todo.txt.
 - click the folder button that is now in place of the "more games" button.
 - select a texture pack and click the apply button!
 
+# usage (advanced)
+- clone this repo.
+- make sure the solution / vs project is in x86 (geometry dash is 32bit).
+- build the solution.
+- open geometry dash.
+- use a dll injector (such as [this one that i use](https://github.com/guided-hacking/GuidedHacking-Injector)) to inject the newly compiled dll into geometrydash.
+- enjoy! you can play around with the functionality all you want.
+
 
 # thanks
 thank you to absolute, italian apk downloader, and many others from the GD programming server for helping me in my learning process. especially italian apk downloader, who released a repo of all the decompiled gd classes, which was super helpful while attempting to reverse the required functionality.
