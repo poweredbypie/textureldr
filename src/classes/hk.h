@@ -2,24 +2,34 @@
 
 #include "pch.h"
 
-void patch(char* dst, char* src, char* buff, const int len);
+void patch(void* dst, void const* src, void* buff, const int len);
 
-bool detour(const char* src, const char* dst, const int len);
-char* trampoline(const char* src, const char* dst, const int len);
+bool detour(unsigned char* src, const unsigned char* dst, const int len);
+unsigned char* trampoline(unsigned char* src, const unsigned char* dst, const int len);
 
 class hk
 {
 	bool on = false;
-	char* src = nullptr;
-	char* dst = nullptr;
-	char** pGate = nullptr;
+	unsigned char* src = nullptr;
+	const unsigned char* dst = nullptr;
+	unsigned char** pGate = nullptr;
 	const int len = 0;
-	char* oldInstruct[10]{};
+	unsigned char** oldInstruct = nullptr;
 
 public:
 	void hook();
 	void unhook();
 
-	hk(char* src, char* dst, char** gate, const int len) : src{ src }, dst{ dst }, pGate{ gate }, len{ len } {};
+	template<typename T, typename U, typename V>
+	hk(T src, U dst, V gate, const int len) :
+		src{ reinterpret_cast<unsigned char*>(src) },
+		dst{ reinterpret_cast<unsigned char*>(dst) },
+		pGate{ reinterpret_cast<unsigned char**>(gate) }, len{ len } {
+		oldInstruct = new unsigned char* [len];
+	};
+
+	~hk() {
+		delete[] oldInstruct;
+	}
 };
 

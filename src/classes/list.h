@@ -9,16 +9,16 @@ class listManager;
 class list {
 protected:
     //for more "understandability" i guess, better than macros i think?
-    typedef gd::ButtonSprite* button_t;
+    typedef cocos2d::CCMenuItemSprite* button_t;
     typedef cocos2d::CCLabelBMFont* label_t;
     typedef cocos2d::CCMenu* menu_t;
 
 protected:
-    const char* m_titleStr{};
+    const char* m_titleStr = "";
     label_t m_titleLabel = nullptr;
 
-    std::vector<std::string> m_listStrings{};
-    label_t* m_listLabels{};
+    std::vector<std::string> m_listStrings = {};
+    label_t* m_listLabels = nullptr;
     int m_maxDisplayedLength = 0;
     int m_displayedLength = 0;
     bool m_entered = false;
@@ -26,36 +26,45 @@ protected:
 
     button_t m_upBtn = nullptr;
     button_t m_downBtn = nullptr;
-    void(__stdcall* const m_navFn)(void* pSender) = nullptr;
+    void(__stdcall* const m_navFn)(void* pSender);
     int m_listOffset = 0;
 
     menu_t m_menu = nullptr;
 
 protected:
-    inline void getLength();
-    inline void toggle(button_t& button, bool enabled);
+    inline void getLength() {
+        m_displayedLength = static_cast<int>(m_listStrings.size() - m_listOffset) < m_maxDisplayedLength ?
+            (m_listStrings.size() - m_listOffset)
+            : m_maxDisplayedLength;
+    }
+    inline void toggle(button_t& button, bool enabled) {
+        button->setEnabled(enabled);
+        button->setVisible(enabled);
+    }
+    virtual inline bool isParent(button_t button) { return (button == m_upBtn || button == m_downBtn); }
 
-    virtual bool isParent(button_t button);
-    virtual bool isUp(button_t button);
+    virtual inline bool isUp(button_t button) { return (button == m_upBtn); }
 
     virtual void navigate(bool up);
 
     virtual void update();
 
     virtual void enter(cocos2d::CCScene* scene);
-    inline void exit();
+    inline void exit() { m_entered = false; }
 
     virtual bool load(cocos2d::tinyxml2::XMLDocument* file);
     virtual void save(cocos2d::tinyxml2::XMLDocument* file);
 
 public:
     list(const char* title, int length);
+    ~list() { delete[] m_listLabels; }
+
     void setVector(const std::vector<std::string>& vec);
-    virtual void ifNotFound(const std::vector<std::string>& other, bool add);
-    const std::vector<std::string>& getVector();
-    const int getCurrentIndex();
+    virtual int ifNotFound(const std::vector<std::string>& other, bool add);
+    inline const std::vector<std::string>& getVector() { return m_listStrings; }
+    const inline int getCurrentIndex() { return m_listOffset; }
     
-    void setPosition(float x, float y);
+    void setPosition(float x, float y) { m_x = x; m_y = y; }
 
     friend class listManager;
 };
@@ -66,25 +75,34 @@ class listExt : public list {
 protected:
     button_t m_swapUpBtn = nullptr;
     button_t m_swapDownBtn = nullptr;
-    void (__stdcall* const m_swapFn)(void* pSender) = nullptr;
+    void (__stdcall* const m_swapFn)(void* pSender);
 
     button_t m_moveBtn = nullptr;
-    void (__stdcall* const m_moveFn)(void* pSender) = nullptr;
+    void (__stdcall* const m_moveFn)(void* pSender);
     int m_moveIndex = 0;
 
     listExt* m_target = nullptr;
 
 protected:
-    virtual bool isParent(button_t button);
-    virtual bool isUp(button_t button);
+    virtual inline bool isParent(button_t button) override {
+        return (button == m_upBtn || button == m_downBtn ||
+            button == m_swapUpBtn || button == m_swapDownBtn ||
+            button == m_moveBtn);
+    }
+    virtual inline bool isUp(button_t button) override {
+        return (button == m_upBtn || button == m_swapUpBtn);
+    }
 
-    virtual void navigate(bool up);
+    virtual void navigate(bool up) override;
     void swap(bool up);
     void move();
 
     void updateLabels();
     void updateSelector();
-    virtual void update();
+    virtual inline void update() override {
+        updateLabels();
+        updateSelector();
+}
     
     virtual void enter(cocos2d::CCScene* scene) override;
 
@@ -93,7 +111,7 @@ protected:
 
 public:
     listExt(const char* title, int length, listExt* target);
-    virtual void ifNotFound(const std::vector<std::string>& other, bool add);
+    virtual int ifNotFound(const std::vector<std::string>& other, bool add) override;
 
     friend class listManager;
 };
@@ -106,16 +124,16 @@ public:
 
 class listManager {
 private:
-    static inline std::vector<list*> m_vec;
-    static inline cocos2d::tinyxml2::XMLDocument* m_saveFile;
-    static inline const char* m_filePath;
-    static inline const char* m_backupPath;
+    static inline std::vector<list*> m_vec = {};
+    static inline cocos2d::tinyxml2::XMLDocument* m_saveFile = nullptr;
+    static inline const char* m_filePath = "";
+    static inline const char* m_backupPath = "";
 
 private:
     //you shouldn't be able to make instances of this class, as all members are static
     listManager() {};
 
-    static void add(list* list);
+    static inline void add(list* list) { m_vec.push_back(list); }
 
     static void __stdcall navigate(void* pSender);
     static void __stdcall swap(void* pSender);
@@ -124,7 +142,7 @@ private:
 public:
     static void enter(cocos2d::CCScene* scene);
     static void exit();
-    static void setSaveTargets(const char* file, const char* backup);
+    static inline void setSaveTargets(const char* file, const char* backup) { m_filePath = file; m_backupPath = backup; }
     static bool load();
     static bool save();
 

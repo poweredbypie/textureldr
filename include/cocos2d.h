@@ -11,17 +11,50 @@ GetProcAddress(base, name)
 namespace cocos2d {
 	inline auto base = GetModuleHandle("libcocos2d.dll");
 
+	//structs
 	typedef struct {
 		float width, height;
-	} CCSize;
+	} CCSize, CCPoint;
 
+	typedef struct _ccColor3B {
+		unsigned char r, g, b;
+	} ccColor3B;
+
+	//enums
 	typedef enum {
 		LOW = 1,
 		MEDIUM,
 		HIGH
 	} TextureQuality;
 
-	class CCNode {
+	typedef enum
+	{
+		kCCTextAlignmentLeft,
+		kCCTextAlignmentCenter,
+		kCCTextAlignmentRight,
+	} CCTextAlignment;
+
+	class CCFiniteTimeAction;
+
+	class CCObject {
+		//idk idc
+	};
+
+	class CCArray : public CCObject {
+	public:
+		static CCArray* create() {
+			return as<CCArray* (__cdecl*)()>(
+				FIND_EXPORT("?create@CCArray@cocos2d@@SAPAV12@XZ")
+				)();
+		}
+		void addObject(CCObject* object) {
+			return as<void(__thiscall*)(CCArray*, CCObject*)>(
+				FIND_EXPORT("?addObject@CCArray@cocos2d@@QAEXPAVCCObject@2@@Z")
+				)(this, object);
+		}
+	};
+
+	class CCNode : public CCObject {
 	public:
 		void addChild(CCNode* childNode) {
 			return as<void(__thiscall*)(CCNode*, CCNode*)>(
@@ -47,6 +80,16 @@ namespace cocos2d {
 			return as<void(__thiscall*)(CCNode*, bool)>(
 				FIND_EXPORT("?setVisible@CCNode@cocos2d@@UAEX_N@Z")
 				)(this, visible);
+		}
+		CCNode* getParent() {
+			return as<CCNode* (__thiscall*)(CCNode*)>(
+				FIND_EXPORT("?getParent@CCNode@cocos2d@@UAEPAV12@XZ")
+				)(this);
+		}
+		CCFiniteTimeAction* runAction(CCFiniteTimeAction* action) {
+			return as<CCFiniteTimeAction*(__thiscall*)(CCNode*, CCFiniteTimeAction*)>(
+				FIND_EXPORT("?runAction@CCNode@cocos2d@@QAEPAVCCAction@2@PAV32@@Z")
+				)(this, action);
 		}
 	};
 
@@ -86,6 +129,15 @@ namespace cocos2d {
 		}
 	};
 
+	class CCMenuItemSprite : public CCMenuItem {
+	public:
+		static CCMenuItemSprite* create(CCNode* normalSprite, CCNode* selectedSprite, CCNode* disabledSprite, CCObject* target, void(__stdcall* const selector)(void*)) {
+			return as<CCMenuItemSprite* (__cdecl*)(CCNode*, CCNode*, CCNode*, CCObject*, void(__stdcall* const)(void*))>(
+				FIND_EXPORT("?create@CCMenuItemSprite@cocos2d@@SAPAV12@PAVCCNode@2@00PAVCCObject@2@P842@AEX1@Z@Z")
+				)(normalSprite, selectedSprite, disabledSprite, target, selector);
+		}
+	};
+
 	class CCLabelBMFont : public CCNode {
 	public:
 		static CCLabelBMFont* create(const char* str, const char* fntFile) {
@@ -97,6 +149,11 @@ namespace cocos2d {
 			return as<void(__thiscall*)(CCLabelBMFont*, const char*, bool)>(
 				FIND_EXPORT("?setString@CCLabelBMFont@cocos2d@@UAEXPBD_N@Z")
 				)(this, str, update);
+		}
+		void setAlignment(CCTextAlignment alignment) {
+			return as<void(__thiscall*)(CCLabelBMFont*, CCTextAlignment)>(
+				FIND_EXPORT("?setAlignment@CCLabelBMFont@cocos2d@@UAEXW4CCTextAlignment@2@@Z")
+				)(this, alignment);
 		}
 	};
 
@@ -112,14 +169,26 @@ namespace cocos2d {
 				FIND_EXPORT("?create@CCSprite@cocos2d@@SAPAV12@PBD@Z")
 				)(txtrFile);
 		}
-	};
-
-	class CCFileUtils {
-	public:
-		void addSearchPath(const char* path) {
-			return as<void(__thiscall*)(CCFileUtils*, const char*)>(
-				FIND_EXPORT("?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z")
-				)(this, path);
+		//this doesnt work for some reason, gotta look into it
+		void setColor(const ccColor3B& color) {
+			return as<void(__thiscall*)(CCSprite*, const ccColor3B&)>(
+				FIND_EXPORT("?setColor@CCSprite@cocos2d@@UAEXABU_ccColor3B@2@@Z")
+				)(this, color);
+		}
+		void setAnchorPoint(const CCPoint& anchorPoint) {
+			return as<void(__thiscall*)(CCSprite*, const CCPoint&)>(
+				FIND_EXPORT("?setAnchorPoint@CCSprite@cocos2d@@UAEXABVCCPoint@2@@Z")
+				)(this, anchorPoint);
+		}
+		void setScaleX(float fScaleX) {
+			return as<void(__thiscall*)(CCSprite*, float)>(
+				FIND_EXPORT("?setScaleX@CCSprite@cocos2d@@UAEXM@Z")
+				)(this, fScaleX);
+		}
+		void setScaleY(float fScaleY) {
+			return as<void(__thiscall*)(CCSprite*, float)>(
+				FIND_EXPORT("?setScaleY@CCSprite@cocos2d@@UAEXM@Z")
+				)(this, fScaleY);
 		}
 	};
 
@@ -249,7 +318,65 @@ namespace cocos2d {
 		};
 	}
 
-	class CCDirector : public CCNode {
+	class CCFileUtils {
+	public:
+		void addSearchPath(const char* path) {
+			return as<void(__thiscall*)(CCFileUtils*, const char*)>(
+				FIND_EXPORT("?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z")
+				)(this, path);
+		}
+	};
+
+	class CCFiniteTimeAction : public CCObject {
+		//idk idc
+	};
+
+	class CCSequence : public CCFiniteTimeAction {
+	public:
+		static CCSequence* create(CCArray* arrayOfActions) {
+			return as<CCSequence* (__cdecl*)(CCArray*)>(
+				FIND_EXPORT("?create@CCSequence@cocos2d@@SAPAV12@PAVCCArray@2@@Z")
+				)(arrayOfActions);
+		}
+	};
+
+	class CCCallFunc : public CCFiniteTimeAction {
+	public:
+		static CCCallFunc* create(CCObject* pSelectorTarget, void(__thiscall* const selector)() ) {
+			return as<CCCallFunc* (__cdecl*)(CCObject*, void(__thiscall* const)())>(
+				FIND_EXPORT("?create@CCCallFunc@cocos2d@@SAPAV12@PAVCCObject@2@P832@AEXXZ@Z")
+				)(pSelectorTarget, selector);
+		}
+	};
+
+	class CCFadeIn : public CCFiniteTimeAction {
+	public:
+		static CCFadeIn* create(float d) {
+			return as<CCFadeIn* (__cdecl*)(float)>(
+				FIND_EXPORT("?create@CCFadeIn@cocos2d@@SAPAV12@M@Z")
+				)(d);
+		}
+	};
+
+	class CCDelayTime : public CCFiniteTimeAction {
+	public:
+		static CCDelayTime* create(float d) {
+			return as<CCDelayTime* (__cdecl*)(float)>(
+				FIND_EXPORT("?create@CCDelayTime@cocos2d@@SAPAV12@M@Z")
+				)(d);
+		}
+	};
+
+	class CCFadeOut : public CCFiniteTimeAction {
+	public:
+		static CCFadeOut* create(float d) {
+			return as<CCFadeOut* (__cdecl*)(float)>(
+				FIND_EXPORT("?create@CCFadeOut@cocos2d@@SAPAV12@M@Z")
+				)(d);
+		}
+	};
+
+	class CCDirector {
 	public:
 		static CCDirector* sharedDirector() {
 			return as<CCDirector* (__cdecl*)()>(
@@ -268,6 +395,11 @@ namespace cocos2d {
 		}
 		const CCSize getWinSize() {
 			return { *as<float*>(as<char*>(this) + 0xD4), *as<float*>(as<char*>(this) + 0xD8) };
+		}
+		CCScene* getRunningScene() {
+			return as<CCScene* (__thiscall*)(CCDirector*)>(
+				FIND_EXPORT("?getRunningScene@CCDirector@cocos2d@@QAEPAVCCScene@2@XZ")
+				)(this);
 		}
 	};
 

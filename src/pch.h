@@ -12,9 +12,15 @@
 #include <vector>
 //for detecting and reading packs
 #include <filesystem>
+//for making strings
+#include <sstream>
+//for filter thing
+#include <string_view>
+
 //for messagebox instantiation
 #include <windows.h>
 
+//game / engine headers
 #include <cocos2d.h>
 #include <gd.h>
 

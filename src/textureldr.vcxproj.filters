@@ -19,9 +19,6 @@
     <Filter Include="Source Files\classes">
       <UniqueIdentifier>{17676a58-bdf1-4e0a-8933-a6874a2a692e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\extern">
-      <UniqueIdentifier>{6d0d382c-d401-40c4-b459-b3fcbbae13e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\include">
       <UniqueIdentifier>{59346b42-55d7-46a6-87f8-8d6a705a8305}</UniqueIdentifier>
     </Filter>

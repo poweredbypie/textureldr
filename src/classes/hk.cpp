@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "hk.h"
 
-void patch(char* dst, char* src, char* buff, const int len) {
+
+void patch(void* dst, void const* src, void* buff, const int len) {
 	if (buff) {
 		memcpy_s(buff, len, dst, len);
 	}
@@ -11,25 +12,25 @@ void patch(char* dst, char* src, char* buff, const int len) {
 	VirtualProtect(dst, len, old, &old);
 }
 
-bool detour(char* src, char* dst, const int len) {
+bool detour(unsigned char* src, const unsigned char* dst, const int len) {
 	unsigned long old = 0;
 	if (len < 5)
 		return false;
 	VirtualProtect(src, len, PAGE_EXECUTE_READWRITE, &old);
-	int jmp = static_cast<int>(dst - src - 5) ;
+	int jmp = static_cast<int>(dst - src - 5);
 	*src = 0xE9;
-	*(int*)(src + 1) = jmp;
+	*reinterpret_cast<int*>(src + 1) = jmp;
 	VirtualProtect(src, len, old, &old);
 	return true;
 }
-char* trampoline(char* src, char* dst, const int len) {
+unsigned char* trampoline(unsigned char* src, const unsigned char* dst, const int len) {
 	if (len < 5)
 		return 0;
-	char* gateway{ (char*)VirtualAlloc(0, len, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE) };
+	unsigned char* gateway = static_cast<unsigned char*>(VirtualAlloc(0, len, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
 	memcpy_s(gateway, len, src, len);
 	int jmp = static_cast<int>(src - gateway - 5);
 	*(gateway + len) = 0xE9;
-	*(int*)(gateway + len + 1) = jmp;
+	*reinterpret_cast<int*>(gateway + len + 1) = jmp;
 	detour(src, dst, len);
 	return gateway;
 }

@@ -10,25 +10,56 @@
     #define LOG(x)
 #endif
 
-BOOL WINAPI attach(HMODULE hModule) {
+DWORD WINAPI attach(LPVOID hModule) {
     //find cocos & gd function offsets
     if (cocos2d::init() && gd::init() && ldr::init()) {
         //hook loadingFinished, addSearchPath, and trySaveGame
-        hk loadingFinished{ (char*)gd::LoadingLayer::loadingFinished, (char*)ldr::hooks::loadingFinished, 0, 7 };
+        hk loadingFinished = { 
+            gd::LoadingLayer::loadingFinished, 
+            ldr::hooks::loadingFinished, 
+            nullptr, 
+            7
+        };
         //you can't cast member functions to addresses because virtual functions so this'll do for now
-        hk addSearchPath{ (char*)GetProcAddress(cocos2d::base, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z"), (char*)ldr::hooks::addSearchPath, (char**)&ldr::gates::addSearchPath, 5 };
-        hk trySaveGame{ (char*)gd::AppDelegate::trySaveGame, (char*)ldr::hooks::trySaveGame, (char**)&ldr::gates::trySaveGame, 11 };
+        hk addSearchPath = { 
+            GetProcAddress(cocos2d::base, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z"),
+            ldr::hooks::addSearchPath,
+            &ldr::gates::addSearchPath,
+            5 
+        };
+        hk trySaveGame = { 
+            gd::AppDelegate::trySaveGame,
+            ldr::hooks::trySaveGame,
+            &ldr::gates::trySaveGame,
+            11
+        };
+
         loadingFinished.hook();
         addSearchPath.hook();
         trySaveGame.hook();
 
-        void* cbEnterBtnAddr = &ldr::enterScene;
+        auto cbEnterBtnAddr = &ldr::enterScene;
 
         //patch params for the "more games" button to change it into the textureldr menu button, since it's basically useless
         //save the bytes so they can be restored
-        patch((char*)gd::MenuLayer::pMoreGamesStr, (char*)&gd::MenuLayer::oFolderBtnStr, 0, 4);
-        patch((char*)gd::MenuLayer::szMoreGamesBtn, (char*)"\x00\x00\xC0\x3F", 0, 4);
-        patch((char*)gd::MenuLayer::pcbMoreGames, (char*)&cbEnterBtnAddr, (char*)&gd::MenuLayer::cbMoreGames, 4);
+        patch(
+            gd::MenuLayer::pMoreGamesStr,
+            &gd::MenuLayer::oFolderBtnStr,
+            0,
+            4
+        );
+        patch(
+            gd::MenuLayer::szMoreGamesBtn,
+            "\x00\x00\xC0\x3F",
+            0,
+            4
+        );
+        patch(
+            gd::MenuLayer::pcbMoreGames,
+            &cbEnterBtnAddr,
+            &gd::MenuLayer::cbMoreGames,
+            4
+        );
 
         #ifndef NDEBUG  //allows for the dll to be ejected and reinjected for testing; shouldn't be necessary in release mode
         //keep thread alive
@@ -40,18 +71,34 @@ BOOL WINAPI attach(HMODULE hModule) {
         trySaveGame.unhook();
         listManager::save();
 
-        patch((char*)gd::MenuLayer::pMoreGamesStr, (char*)&gd::MenuLayer::oMoreGamesStr, 0, 4);
-        patch((char*)gd::MenuLayer::szMoreGamesBtn, (char*)"\x66\x66\x66\x3F", 0, 4);
-        patch((char*)gd::MenuLayer::pcbMoreGames, (char*)&gd::MenuLayer::cbMoreGames, 0, 4);
+        patch(
+            gd::MenuLayer::pMoreGamesStr,
+            &gd::MenuLayer::oMoreGamesStr,
+            0,
+            4
+        );
+        patch(
+            gd::MenuLayer::szMoreGamesBtn,
+            "\x66\x66\x66\x3F",
+            0,
+            4
+        );
+        patch(
+            gd::MenuLayer::pcbMoreGames,
+            &gd::MenuLayer::cbMoreGames,
+            0,
+            4
+        );
 
-        FreeLibraryAndExitThread(hModule, 0);
+        FreeLibraryAndExitThread(static_cast<HMODULE>(hModule), 0);
         #endif  
     }
     else {
         MessageBox(0, "ERROR: could not find all functions! \n press OK to exit.", "textureldr", MB_OK | MB_ICONERROR);
         //free library since it won't do anything anyways
-        FreeLibraryAndExitThread(hModule, 0);
+        FreeLibraryAndExitThread(static_cast<HMODULE>(hModule), 0);
     }
+
     return 0;
 }
 
@@ -65,7 +112,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
         
-        if (dllHandle = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)attach, hModule, 0, 0))
+        if (dllHandle = CreateThread(0, 0, attach, hModule, 0, nullptr))
             CloseHandle(dllHandle);
         break;
     case DLL_THREAD_ATTACH:

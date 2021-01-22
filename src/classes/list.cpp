@@ -1,25 +1,6 @@
 #include "pch.h"
 #include "list.h"
 
-inline void list::getLength() {
-    m_displayedLength = (int)(m_listStrings.size() - m_listOffset) < m_maxDisplayedLength ? (m_listStrings.size() - m_listOffset) : m_maxDisplayedLength;
-}
-
-inline void list::toggle(button_t& button, bool enabled) {
-    using namespace cocos2d;
-
-    button->setEnabled(enabled);
-    button->setVisible(enabled);
-}
-
-inline bool list::isParent(button_t button) {
-    return (button == m_upBtn || button == m_downBtn);
-}
-
-inline bool list::isUp(button_t button) {
-    return (button == m_upBtn);
-}
-
 void list::navigate(bool up) {
     if (!m_listStrings.empty()) {
         if (up) {
@@ -27,7 +8,7 @@ void list::navigate(bool up) {
                 --m_listOffset;
         }
         else {
-            if (m_listOffset < (int)m_listStrings.size() - 1)
+            if (m_listOffset < static_cast<int>(m_listStrings.size()) - 1)
                 ++m_listOffset;
         }
 
@@ -64,8 +45,10 @@ void list::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 30.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = ButtonSprite::create(
+    m_upBtn = CCMenuItemSprite::create(
         CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        nullptr,
         m_menu,
         m_navFn
     );
@@ -74,8 +57,10 @@ void list::enter(cocos2d::CCScene* scene) {
     m_upBtn->setScale(0.60f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = ButtonSprite::create(
+    m_downBtn = CCMenuItemSprite::create(
         CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        nullptr,
         m_menu,
         m_navFn
     );
@@ -90,10 +75,6 @@ void list::enter(cocos2d::CCScene* scene) {
     m_entered = true;
 }
 
-inline void list::exit() {
-    m_entered = false;
-}
-
 bool list::load(cocos2d::tinyxml2::XMLDocument* file) {
     using namespace cocos2d::tinyxml2;
 
@@ -104,9 +85,9 @@ bool list::load(cocos2d::tinyxml2::XMLDocument* file) {
         for (auto i = list->FirstChildElement("entry"); i; i = i->NextSiblingElement(0))
             m_listStrings.push_back(i->GetText());
 
-        if (m_maxDisplayedLength < (int)m_listStrings.size()) {
-            if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
-                m_listOffset = (int)m_listStrings.size() - m_maxDisplayedLength;
+        if (m_maxDisplayedLength < static_cast<int>(m_listStrings.size())) {
+            if (m_listOffset > static_cast<int>(m_listStrings.size()) - m_maxDisplayedLength)
+                m_listOffset = static_cast<int>(m_listStrings.size()) - m_maxDisplayedLength;
             else if (m_listOffset < 0)
                 m_listOffset = 0;
         }
@@ -148,53 +129,37 @@ void list::setVector(const std::vector<std::string>& vec) {
         update();
 }
 
-void list::ifNotFound(const std::vector<std::string>& other, bool add) {
+int list::ifNotFound(const std::vector<std::string>& other, bool add) {
+    int count = 0;
+
     if (add) {
-        for (int i{}; i < (int)other.size(); ++i) {
+        for (int i = 0; i < static_cast<int>(other.size()); ++i) {
             if (std::find(m_listStrings.begin(), m_listStrings.end(), other[i]) == m_listStrings.end()) {
                 m_listStrings.insert(m_listStrings.begin(), other[i]);
+                ++count;
             }
         }
     }
     else {
-        for (int i{}; i < (int)m_listStrings.size(); ++i) {
+        for (int i = 0; i < static_cast<int>(m_listStrings.size()); ++i) {
             if (std::find(other.begin(), other.end(), m_listStrings[i]) == other.end()) {
                 m_listStrings.erase(m_listStrings.begin() + i);
                 --i;
 
                 //move to the start of the list, im too lazy
                 m_listOffset = 0;
+                ++count;
             }
         }
     }
     
     if (m_entered)
         update();
-}
 
-const std::vector<std::string>& list::getVector() {
-    return m_listStrings;
-}
-
-const int list::getCurrentIndex() {
-    return m_listOffset;
-}
-
-void list::setPosition(float x, float y) {
-    m_x = x;
-    m_y = y;
+    return count;
 }
 
 //listExt
-
-bool listExt::isParent(button_t button) {
-    return (button == m_upBtn || button == m_downBtn || button == m_swapUpBtn || button == m_swapDownBtn || button == m_moveBtn);
-}
-
-
-bool listExt::isUp(button_t button) {
-    return (button == m_upBtn || button == m_swapUpBtn);
-}
 
 void listExt::navigate(bool up) {
     if (up) {
@@ -206,7 +171,7 @@ void listExt::navigate(bool up) {
     else {
         if (m_moveIndex + 1 < m_displayedLength)
             ++m_moveIndex;
-        else if (m_listOffset < (int)m_listStrings.size() - m_maxDisplayedLength)
+        else if (m_listOffset < static_cast<int>(m_listStrings.size()) - m_maxDisplayedLength)
             ++m_listOffset;
     }
 
@@ -236,7 +201,7 @@ void listExt::move() {
 
     getLength();
 
-    if ((int)m_listStrings.size() >= m_maxDisplayedLength &&
+    if (static_cast<int>(m_listStrings.size()) >= m_maxDisplayedLength &&
         m_displayedLength < m_maxDisplayedLength)
         --m_listOffset;
     else if (m_displayedLength < m_moveIndex + 1 &&
@@ -255,7 +220,7 @@ void listExt::updateLabels() {
 
     if (!m_entered) {
 
-        for (int i{}; i < m_maxDisplayedLength; ++i) {
+        for (int i = 0; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
                 m_listLabels[i] = CCLabelBMFont::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
                 m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
@@ -270,7 +235,7 @@ void listExt::updateLabels() {
         }
     }
     else {
-        for (int i{}; i < m_maxDisplayedLength; ++i) {
+        for (int i = 0; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
                 m_listLabels[i]->setString(m_listStrings[m_listOffset + i].c_str(), true);
                 m_listLabels[i]->setScale(1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
@@ -287,20 +252,26 @@ void listExt::updateSelector() {
     using namespace gd;
 
     if (!m_entered) {
-        m_moveBtn = ButtonSprite::create(
+        m_moveBtn = CCMenuItemSprite::create(
             CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            nullptr,
             m_menu,
             m_moveFn
         );
 
-        m_swapUpBtn = ButtonSprite::create(
+        m_swapUpBtn = CCMenuItemSprite::create(
             CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            nullptr,
             m_menu,
             m_swapFn
         );
 
-        m_swapDownBtn = ButtonSprite::create(
+        m_swapDownBtn = CCMenuItemSprite::create(
             CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            nullptr,
             m_menu,
             m_swapFn
         );
@@ -351,11 +322,6 @@ void listExt::updateSelector() {
     }
 }
 
-void listExt::update() {
-    updateLabels();
-    updateSelector();
-}
-
 void listExt::enter(cocos2d::CCScene* scene) {
     using namespace cocos2d;
     using namespace gd;
@@ -366,8 +332,10 @@ void listExt::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 50.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = ButtonSprite::create(
+    m_upBtn = CCMenuItemSprite::create(
         CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        nullptr,
         m_menu,
         m_navFn
     );
@@ -376,8 +344,10 @@ void listExt::enter(cocos2d::CCScene* scene) {
     m_upBtn->setScale(0.75f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = ButtonSprite::create(
+    m_downBtn = CCMenuItemSprite::create(
         CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+        nullptr,
         m_menu,
         m_navFn
     );
@@ -404,9 +374,9 @@ bool listExt::load(cocos2d::tinyxml2::XMLDocument* file) {
         for (auto i = list->FirstChildElement("entry"); i; i = i->NextSiblingElement(0))
             m_listStrings.push_back(i->GetText());
 
-        if (m_maxDisplayedLength < (int)m_listStrings.size()) {
-            if (m_listOffset > (int)m_listStrings.size() - m_maxDisplayedLength)
-                m_listOffset = (int)m_listStrings.size() - m_maxDisplayedLength;
+        if (m_maxDisplayedLength < static_cast<int>(m_listStrings.size())) {
+            if (m_listOffset > static_cast<int>(m_listStrings.size()) - m_maxDisplayedLength)
+                m_listOffset = static_cast<int>(m_listStrings.size()) - m_maxDisplayedLength;
             else if (m_listOffset < 0)
                 m_listOffset = 0;
         }
@@ -444,21 +414,23 @@ list(title, length), m_swapFn{ listManager::swap }, m_moveFn{ listManager::move 
     m_target = target;
 }
 
-void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
-    std::vector<std::string> old{ m_listStrings };
+int listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
+    int count = 0;
+    std::vector<std::string> old = { m_listStrings };
     old.insert(old.end(), m_target->m_listStrings.begin(), m_target->m_listStrings.end());
 
     if (add) {
-        for (int i{}; i < (int)other.size(); ++i) {
+        for (int i = 0; i < static_cast<int>(other.size()); ++i) {
             if (std::find(old.begin(), old.end(), other[i]) == old.end()) {
                 m_listStrings.insert(m_listStrings.begin(), other[i]);
+                ++count;
             }
         }
     }
     else {
-        for (int i{}; i < (int)old.size(); ++i) {
+        for (int i = 0; i < static_cast<int>(old.size()); ++i) {
             if (std::find(other.begin(), other.end(), old[i]) == other.end()) {
-                std::vector<std::string>::iterator index = std::find(m_listStrings.begin(), m_listStrings.end(), old[i]);
+                auto index = std::find(m_listStrings.begin(), m_listStrings.end(), old[i]);
                 if (index != m_listStrings.end()) {
                     m_listStrings.erase(index);
                 }
@@ -470,6 +442,7 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
                 //move to the start of the list, im too lazy to do calculation
                 m_listOffset = 0;
                 m_moveIndex = 0;
+                ++count;
             }
         }
     }
@@ -478,50 +451,48 @@ void listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
         update();
         m_target->update();
     }
+
+    return count;
 }
 
 //listManager
 
-void listManager::add(list* list) {
-    m_vec.push_back(list);
-}
-
 void __stdcall listManager::navigate(void* pSender) {
-    list* target{};
+    list* target = nullptr;
 
     for (list* i : m_vec) {
-        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
+        if (i->isParent(static_cast<list::button_t>(pSender))) {
             target = i;
             break;
         }
     }
 
     if (target) {
-        target->navigate(target->isUp(reinterpret_cast<list::button_t>(pSender)));
+        target->navigate(target->isUp(static_cast<list::button_t>(pSender)));
     }
 }
 
 void __stdcall listManager::swap(void* pSender) {
-    listExt* target{};
+    listExt* target = nullptr;
 
     for (list* i : m_vec) {
-        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
-            target = (listExt*)i;
+        if (i->isParent(static_cast<list::button_t>(pSender))) {
+            target = static_cast<listExt*>(i);
             break;
         }
     }
 
     if (target) {
-        target->swap(target->isUp(reinterpret_cast<list::button_t>(pSender)));
+        target->swap(target->isUp(static_cast<list::button_t>(pSender)));
     }
 }
 
 void __stdcall listManager::move(void* pSender) {
-    listExt* target{};
+    listExt* target = nullptr;
 
     for (list* i : m_vec) {
-        if (i->isParent(reinterpret_cast<list::button_t>(pSender))) {
-            target = (listExt*)i;
+        if (i->isParent(static_cast<list::button_t>(pSender))) {
+            target = static_cast<listExt*>(i);
             break;
         }
     }
@@ -541,11 +512,6 @@ void listManager::exit() {
     for (list* i : m_vec) {
         i->exit();
     }
-}
-
-void listManager::setSaveTargets(const char* file, const char* backup) {
-    m_filePath = file;
-    m_backupPath = backup;
 }
 
 bool listManager::load() {
@@ -576,8 +542,5 @@ bool listManager::save() {
         i->save(m_saveFile);
     }
 
-    if (!m_saveFile->SaveFile(m_filePath, false))
-        return false;
-
-    return true;
+    return m_saveFile->SaveFile(m_filePath, false);
 }

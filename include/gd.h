@@ -4,11 +4,13 @@
 
 #define as reinterpret_cast
 
+#pragma runtime_checks("s", off)
+
 namespace gd {
 	inline auto base = as<char*>(GetModuleHandle(0));
 
 	namespace AppDelegate {
-		inline auto trySaveGame = as<void(__thiscall const*)(cocos2d::CCNode*)>(base + 0x3D5E0);
+		inline auto trySaveGame = as<void(__thiscall* const)(cocos2d::CCNode*)>(base + 0x3D5E0);
 	}
 
 	class GameManager : public cocos2d::CCNode {
@@ -28,9 +30,9 @@ namespace gd {
 
 	class MenuLayer : public cocos2d::CCScene {
 	public:
-		static inline auto pMoreGamesStr = as<void const* const*>(base + 0x190EF2);
-		static inline auto szMoreGamesBtn = as<float const* const*>(base + 0x190F01);
-		static inline auto pcbMoreGames = as<void(__stdcall const*)(void*)>(base + 0x190F13);
+		static inline auto pMoreGamesStr = as<void const**>(base + 0x190EF2);
+		static inline auto szMoreGamesBtn = as<float const**>(base + 0x190F01);
+		static inline auto pcbMoreGames = as<void(__stdcall* const)(void*)>(base + 0x190F13);
 		static inline auto oMoreGamesStr = as<char const*>(base + 0x2CD790);
 		static inline auto oFolderBtnStr = as<char const*>(base + 0x297B34);
 		static inline char* cbMoreGames = nullptr;
@@ -50,22 +52,22 @@ namespace gd {
 	};
 
 	namespace LoadingLayer {
-		inline auto loadingFinished = as<void(__thiscall const*)(cocos2d::CCScene*)>(base + 0x18C790);
+		inline auto loadingFinished = as<void(__thiscall* const)(cocos2d::CCScene*)>(base + 0x18C790);
 	}
 
+	#pragma runtime_checks("s", off)
 	class ButtonSprite : public cocos2d::CCMenuItem {
 	public:
-		#pragma runtime_checks("s", off)
-		static ButtonSprite* create(cocos2d::CCSprite* sprite, cocos2d::CCMenu* target, void(__stdcall const* callback)(void*)) {
-			auto pRet = as<ButtonSprite*(__thiscall*)(cocos2d::CCSprite*, cocos2d::CCMenu*, void(__stdcall const*)(void*))>(
+		static ButtonSprite* create(cocos2d::CCSprite* sprite, cocos2d::CCMenu* target, void(__stdcall* const callback)(void*)) {
+			auto pRet = as<ButtonSprite*(__thiscall*)(cocos2d::CCSprite*, cocos2d::CCMenu*, void(__stdcall* const)(void*))>(
 				base + 0x18EE0
 				)(sprite, target, callback);
 			//fix stack before returning
 			__asm add esp, 0x8
 			return pRet;
 		}
-		#pragma runtime_checks("s", restore)
 	};
+	#pragma runtime_checks("s", restore)
 
 	inline bool init() {
 		//if the base address is valid, all other values should be valid.
