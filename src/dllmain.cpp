@@ -13,30 +13,36 @@
 DWORD WINAPI attach(LPVOID hModule) {
     //find cocos & gd function offsets
     if (cocos2d::init() && gd::init() && ldr::init()) {
-        //hook loadingFinished, addSearchPath, and trySaveGame
+        //hook loadingFinished, dataLoaded, trySaveGame, and addSearchPath
         hk loadingFinished = { 
-            gd::LoadingLayer::loadingFinished, 
+            gd::base + 0x18C790,
             ldr::hooks::loadingFinished, 
-            nullptr, 
+            &ldr::gates::loadingFinished, 
             7
         };
-        //you can't cast member functions to addresses because virtual functions so this'll do for now
-        hk addSearchPath = { 
-            GetProcAddress(cocos2d::base, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z"),
-            ldr::hooks::addSearchPath,
-            &ldr::gates::addSearchPath,
-            5 
+        hk dataLoaded = {
+            gd::base + 0xCC500,
+            ldr::hooks::dataLoaded,
+            &ldr::gates::dataLoaded,
+            6
         };
         hk trySaveGame = { 
-            gd::AppDelegate::trySaveGame,
+            gd::base + 0x3D5E0,
             ldr::hooks::trySaveGame,
             &ldr::gates::trySaveGame,
             11
         };
+        hk addSearchPath = {
+            GetProcAddress(cocos2d::base, "?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z"),
+            ldr::hooks::addSearchPath,
+            &ldr::gates::addSearchPath,
+            5
+        };
 
         loadingFinished.hook();
-        addSearchPath.hook();
+        dataLoaded.hook();
         trySaveGame.hook();
+        addSearchPath.hook();
 
         auto cbEnterBtnAddr = &ldr::enterScene;
 

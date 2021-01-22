@@ -14,32 +14,47 @@ namespace ldr {
         extern listExt applied;
         listExt all = { "Available", 10, &applied };
         listExt applied = { "Applied", 10, &all };
-
-        bool bTransition = true;
     }
 
     namespace hooks {
-        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* _this, void* __EDX, const char* path) {
+        void COCOS_HOOK loadingFinished(cocos2d::CCScene* LoadingLayer) {
+            *reinterpret_cast<bool*>(reinterpret_cast<char*>(LoadingLayer) + 0x138) = false;
+            listManager::exit();
+            return gates::loadingFinished(LoadingLayer);
+        }
+
+        void COCOS_HOOK dataLoaded(cocos2d::CCObject* GameManager, void*, void* DS_Dictionary) {
+            using namespace cocos2d;
+            using namespace vars;
+
+            auto fileUtils = CCFileUtils::sharedFileUtils();
+            //remove all search paths that have been added.
+            fileUtils->removeAllPaths();
+            gates::addSearchPath(fileUtils, "Resources");
+            //call dataLoaded.
+            gates::dataLoaded(GameManager, DS_Dictionary);
+            //add all of 'em back lol
+            fileUtils->removeAllPaths();
+            for (std::string i : applied.getVector()) {
+                gates::addSearchPath(fileUtils, ("packs\\" + i).c_str());
+            }
+            gates::addSearchPath(fileUtils, "Resources");
+        }
+
+        void COCOS_HOOK trySaveGame(cocos2d::CCObject* AppDelegate) {
+            listManager::save();
+            return gates::trySaveGame(AppDelegate);
+        }
+
+        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* _this, void*, const char* path) {
             using namespace vars;
 
             //to refresh menuLoop.mp3.
             gd::MenuLayer::fadeInMusic(" ");
-            for (int i = 0; i < (int)applied.getVector().size(); ++i) {
-                gates::addSearchPath(_this, ("packs\\" + applied.getVector()[i]).c_str());
+            for (std::string i : applied.getVector()) {
+                gates::addSearchPath(_this, ("packs\\" + i).c_str());
             }
             return gates::addSearchPath(_this, path);
-        }
-
-        void COCOS_HOOK loadingFinished(cocos2d::CCScene* LoadingLayer) {
-            using namespace vars;
-
-            bTransition = false;
-            exitScene(LoadingLayer);
-        }
-
-        void COCOS_HOOK trySaveGame(cocos2d::CCNode* AppDelegate) {
-            listManager::save();
-            return gates::trySaveGame(AppDelegate);
         }
     }
 
@@ -65,7 +80,7 @@ namespace ldr {
                     if (is_directory(pack)) {
                         bool valid = true;
                         for (auto c : pack.path().filename().u8string()) {
-                            if (filter.find(c) == std::string_view::npos) {
+                            if (filter.find(c) == filter.npos) {
                                 valid = false;
                                 break;
                             }
@@ -203,13 +218,7 @@ namespace ldr {
         auto menuLayerScene = CCScene::create();
         menuLayerScene->addChild(menuLayer);
 
-        if (bTransition) {
-            CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, menuLayerScene));
-        }
-        else {
-            CCDirector::sharedDirector()->replaceScene(menuLayerScene);
-            bTransition = true;
-        }
+        CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, menuLayerScene));
 	}
 
     BTN_CALLBACK(apply) {
