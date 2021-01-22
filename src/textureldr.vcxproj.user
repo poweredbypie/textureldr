@@ -10,14 +10,4 @@
     <LocalDebuggerAttach>true</LocalDebuggerAttach>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommand>C:\Program Files %28x86%29\Steam\steamapps\common\Geometry Dash\GeometryDash.exe</LocalDebuggerCommand>
-    <LocalDebuggerAttach>true</LocalDebuggerAttach>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommand>C:\Program Files %28x86%29\Steam\steamapps\common\Geometry Dash\GeometryDash.exe</LocalDebuggerCommand>
-    <LocalDebuggerAttach>true</LocalDebuggerAttach>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-  </PropertyGroup>
 </Project>
