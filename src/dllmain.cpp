@@ -5,8 +5,11 @@
 #include "ldr.h"
 
 DWORD WINAPI attach(LPVOID hModule) {
+    if (!log::init()) {
+        MessageBox(0, "ERROR: could not initialize logging.", "textureldr", MB_ICONERROR | MB_OK);
+    }
     //find cocos & gd function offsets
-    if (log::init() && cocos2d::init() && gd::init() && ldr::init()) {
+    if (cocos2d::init() && gd::init() && ldr::init()) {
         log::info("Setup completed successfully. Hooking functions...");
         //hook loadingFinished, dataLoaded, trySaveGame, and addSearchPath
         hk loadingFinished = { 

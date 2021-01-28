@@ -13,7 +13,15 @@ public:
 	static inline bool init() {
 		using namespace std::filesystem;
 
-		path log = current_path() / "packs/log.txt";
+		path packs = current_path() / "packs";
+		path log = packs / "log.txt";
+
+		if (!exists(packs)) {
+			create_directories(packs);
+		}
+		else if (!is_directory(packs)) {
+			MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
+		}
 
 		if (!is_directory(log)) {
 			if (exists(log) && file_size(log) > 500000) {

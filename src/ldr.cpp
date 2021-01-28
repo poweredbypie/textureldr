@@ -77,6 +77,7 @@ namespace ldr {
         path packs = current_path() / "packs";
         if (exists(packs)) {
             if (is_directory(packs)) {
+                log::info("Packs directory found. Iterating...");
                 for (directory_entry pack : directory_iterator{ packs }) {
                     if (is_directory(pack)) {
                         bool valid = true;
