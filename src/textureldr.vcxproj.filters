@@ -45,6 +45,9 @@
     <ClInclude Include="..\include\gd.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="classes\log.h">
+      <Filter>Source Files\classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

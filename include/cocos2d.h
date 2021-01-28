@@ -320,10 +320,15 @@ namespace cocos2d {
 
 	class CCFileUtils {
 	public:
-		void addSearchPath(const char* path) {
-			return as<void(__thiscall*)(CCFileUtils*, const char*)>(
-				FIND_EXPORT("?addSearchPath@CCFileUtils@cocos2d@@UAEXPBD@Z")
-				)(this, path);
+		static CCFileUtils* sharedFileUtils() {
+			return as<CCFileUtils* (__cdecl*)()>(
+				FIND_EXPORT("?sharedFileUtils@CCFileUtils@cocos2d@@SAPAV12@XZ")
+				)();
+		}
+		void removeAllPaths() {
+			return as<void(__thiscall*)(CCFileUtils*)>(
+				FIND_EXPORT("?removeAllPaths@CCFileUtils@cocos2d@@QAEXXZ")
+				)(this);
 		}
 	};
 
@@ -404,6 +409,7 @@ namespace cocos2d {
 	};
 
 	inline bool init() {
+		log::info("Checking libcocos2d.dll base address...");
 		return base;
 	}
 }

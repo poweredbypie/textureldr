@@ -36,7 +36,7 @@ namespace ldr {
             //add all of 'em back lol
             fileUtils->removeAllPaths();
             for (std::string i : applied.getVector()) {
-                gates::addSearchPath(fileUtils, ("packs\\" + i).c_str());
+                gates::addSearchPath(fileUtils, ("packs/" + i).c_str());
             }
             gates::addSearchPath(fileUtils, "Resources");
         }
@@ -52,7 +52,7 @@ namespace ldr {
             //to refresh menuLoop.mp3.
             gd::MenuLayer::fadeInMusic(" ");
             for (std::string i : applied.getVector()) {
-                gates::addSearchPath(_this, ("packs\\" + i).c_str());
+                gates::addSearchPath(_this, ("packs/" + i).c_str());
             }
             return gates::addSearchPath(_this, path);
         }
@@ -73,6 +73,7 @@ namespace ldr {
         constexpr std::string_view filter = " !#$%&'()+,-.0123456789;=@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{}~";
         int invalid = 0;
 
+        log::info("Searching for packs...");
         path packs = current_path() / "packs";
         if (exists(packs)) {
             if (is_directory(packs)) {
@@ -92,13 +93,17 @@ namespace ldr {
                             ++invalid;
                     }
                 }
+
+                log::info(packsList.size(), " packs found.");
             }
             else
                 MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
         }
-        else
+        else {
+            log::error("No packs directory found. Creating new directory...");
             create_directories(packs);
-        
+        }
+            
         int added = 0;
         int removed = 0;
 
@@ -237,8 +242,8 @@ namespace ldr {
 
     bool init() {
         using namespace vars;
-
-        listManager::setSaveTargets("packs\\config.dat", "packs\\backup.dat");
+        
+        listManager::setSaveTargets("packs/config.dat", "packs/backup.dat");
 
         if (!listManager::load()) {
             getPacks(nullptr);

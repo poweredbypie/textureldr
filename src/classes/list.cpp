@@ -517,15 +517,23 @@ void listManager::exit() {
 bool listManager::load() {
     using namespace cocos2d::tinyxml2;
 
+    log::info("Attempting to load savefile...");
     m_saveFile = XMLDocument::create(true, 1);
     if (m_saveFile->LoadFile(m_filePath)) {
-        if (m_saveFile->LoadFile(m_backupPath))
+        log::error("Could not load config.dat. Trying backup.dat...");
+        if (m_saveFile->LoadFile(m_backupPath)) {
+            log::error("Could not load backup.dat.");
             return false;
+        }
 
+        log::info("Loaded backup.dat. Saving...");
         m_saveFile->SaveFile(m_filePath, false);
     }
-    else
+    else {
+        log::info("Loaded config.dat. Saving...");
         m_saveFile->SaveFile(m_backupPath, false);
+    }
+
     for (list* i : m_vec) {
         if (!i->load(m_saveFile))
             return false;

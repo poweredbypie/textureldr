@@ -98,6 +98,7 @@
     <ClInclude Include="..\include\gd.h" />
     <ClInclude Include="classes\hk.h" />
     <ClInclude Include="classes\list.h" />
+    <ClInclude Include="classes\log.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ldr.h" />
     <ClInclude Include="pch.h" />

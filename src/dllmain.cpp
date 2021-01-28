@@ -4,15 +4,10 @@
 #include "classes/list.h"
 #include "ldr.h"
 
-#ifndef NDEBUG
-    #define LOG(x) printf(x)
-#else
-    #define LOG(x)
-#endif
-
 DWORD WINAPI attach(LPVOID hModule) {
     //find cocos & gd function offsets
-    if (cocos2d::init() && gd::init() && ldr::init()) {
+    if (log::init() && cocos2d::init() && gd::init() && ldr::init()) {
+        log::info("Setup completed successfully. Hooking functions...");
         //hook loadingFinished, dataLoaded, trySaveGame, and addSearchPath
         hk loadingFinished = { 
             gd::base + 0x18C790,
@@ -48,6 +43,7 @@ DWORD WINAPI attach(LPVOID hModule) {
 
         //patch params for the "more games" button to change it into the textureldr menu button, since it's basically useless
         //save the bytes so they can be restored
+        log::info("Successfully hooked functions. Patching bytes...");
         patch(
             gd::MenuLayer::pMoreGamesStr,
             &gd::MenuLayer::oFolderBtnStr,
@@ -66,6 +62,7 @@ DWORD WINAPI attach(LPVOID hModule) {
             &gd::MenuLayer::cbMoreGames,
             4
         );
+        log::info("Successfully patched bytes. Initialization complete.");
 
         #ifndef NDEBUG  //allows for the dll to be ejected and reinjected for testing; shouldn't be necessary in release mode
         //keep thread alive

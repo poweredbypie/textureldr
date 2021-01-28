@@ -4,14 +4,8 @@
 
 #define as reinterpret_cast
 
-#pragma runtime_checks("s", off)
-
 namespace gd {
 	inline auto base = as<char*>(GetModuleHandle(0));
-
-	namespace AppDelegate {
-		inline auto trySaveGame = as<void(__thiscall* const)(cocos2d::CCNode*)>(base + 0x3D5E0);
-	}
 
 	class GameManager : public cocos2d::CCNode {
 	public:
@@ -51,10 +45,6 @@ namespace gd {
 		}
 	};
 
-	namespace LoadingLayer {
-		inline auto loadingFinished = as<void(__thiscall* const)(cocos2d::CCScene*)>(base + 0x18C790);
-	}
-
 	#pragma runtime_checks("s", off)
 	class ButtonSprite : public cocos2d::CCMenuItem {
 	public:
@@ -71,6 +61,7 @@ namespace gd {
 
 	inline bool init() {
 		//if the base address is valid, all other values should be valid.
+		log::info("Checking GeometryDash.exe base address...");
 		return base;
 	}
 }

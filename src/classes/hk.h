@@ -25,6 +25,7 @@ public:
 		src{ reinterpret_cast<unsigned char*>(src) },
 		dst{ reinterpret_cast<unsigned char*>(dst) },
 		pGate{ reinterpret_cast<unsigned char**>(gate) }, len{ len } {
+		log::info("New hook created.");
 		oldInstruct = new unsigned char* [len];
 	};
 

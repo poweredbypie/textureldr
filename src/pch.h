@@ -16,6 +16,10 @@
 #include <sstream>
 //for filter thing
 #include <string_view>
+//for logging
+#include <iostream>
+#include <fstream>
+#include "classes/log.h"
 
 //for messagebox instantiation
 #include <windows.h>
