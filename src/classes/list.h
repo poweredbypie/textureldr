@@ -65,6 +65,7 @@ public:
     const inline int getCurrentIndex() { return m_listOffset; }
     
     void setPosition(float x, float y) { m_x = x; m_y = y; }
+    virtual void setOffset(int offset);
 
     friend class listManager;
 };
@@ -102,7 +103,7 @@ protected:
     virtual inline void update() override {
         updateLabels();
         updateSelector();
-}
+    }
     
     virtual void enter(cocos2d::CCScene* scene) override;
 
@@ -112,6 +113,8 @@ protected:
 public:
     listExt(const char* title, int length, listExt* target);
     virtual int ifNotFound(const std::vector<std::string>& other, bool add) override;
+
+    virtual void setOffset(int offset) override;
 
     friend class listManager;
 };

@@ -249,6 +249,8 @@ namespace ldr {
         if (!listManager::load()) {
             getPacks(nullptr);
             quality.setVector({ "Low", "Medium", "High" });
+            //set to high for convenience sake. TODO: maybe autodetect, or use gd's autodetect?
+            quality.setOffset(2);
         }
         quality.setPosition(0.0f, -130.0f);
         all.setPosition(-120.0f, 95.0f);

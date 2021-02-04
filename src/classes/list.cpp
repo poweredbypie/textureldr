@@ -159,6 +159,17 @@ int list::ifNotFound(const std::vector<std::string>& other, bool add) {
     return count;
 }
 
+void list::setOffset(int offset) {
+    if (offset > m_listStrings.size() - 1) {
+        log::error("New offset is out of bounds.");
+        return;
+    }
+    m_listOffset = offset;
+
+    if (m_entered)
+        update();
+}
+
 //listExt
 
 void listExt::navigate(bool up) {
@@ -453,6 +464,15 @@ int listExt::ifNotFound(const std::vector<std::string>& other, bool add) {
     }
 
     return count;
+}
+
+void listExt::setOffset(int offset) {
+    //this isn't used; i just have it for consistency's sake.
+    if (offset > m_listStrings.size() - m_maxDisplayedLength - 1) {
+        log::error("New offset is out of bounds.");
+        return;
+    }
+    m_listOffset = offset;
 }
 
 //listManager
