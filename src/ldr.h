@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "classes/list.h"
+#include "classes/options.h"
 #define BTN_CALLBACK(__fcnName) void __stdcall __fcnName(void* pSender)
 #define COCOS_HOOK __fastcall
 

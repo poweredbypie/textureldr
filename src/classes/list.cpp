@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "list.h"
 
+#define ARROW_PNG "edit_rightBtn_001.png"
+
 void list::navigate(bool up) {
     if (!m_listStrings.empty()) {
         if (up) {
@@ -25,13 +27,12 @@ void list::update() {
         if (!m_entered) {
             m_listLabels[0] = CCLabelBMFont::create(m_listStrings[m_listOffset].c_str(), "bigFont.fnt");
             m_listLabels[0]->setPosition(m_x, m_y);
-            m_listLabels[0]->setScale(1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
             m_menu->addChild(m_listLabels[0]);
         }
         else {
             m_listLabels[0]->setString(m_listStrings[m_listOffset].c_str(), true);
-            m_listLabels[0]->setScale(1.3f / ((m_listStrings[m_listOffset].length() + 10) * 0.1f));
         }
+        m_listLabels[0]->limitLabelWidth(115.0f, 0.0f, 0.0f);
     }
 }
 
@@ -45,27 +46,21 @@ void list::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 30.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = CCMenuItemSprite::create(
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        nullptr,
+    m_upBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
     );
     m_upBtn->setPosition(m_x - 70.0f, m_y);
     m_upBtn->setRotation(-180.0f);
-    m_upBtn->setScale(0.60f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = CCMenuItemSprite::create(
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        nullptr,
+    m_downBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
     );
     m_downBtn->setPosition(m_x + 70.0f, m_y);
-    m_downBtn->setScale(0.60f);
     m_menu->addChild(m_downBtn);
 
     update();
@@ -234,26 +229,24 @@ void listExt::updateLabels() {
         for (int i = 0; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
                 m_listLabels[i] = CCLabelBMFont::create(m_listStrings[m_listOffset + i].c_str(), "bigFont.fnt");
-                m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
-                m_listLabels[i]->setScale(1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
-                m_menu->addChild(m_listLabels[i]);
             }
             else {
                 m_listLabels[i] = CCLabelBMFont::create("", "bigFont.fnt");
-                m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
-                m_menu->addChild(m_listLabels[i]);
             }
+            m_listLabels[i]->setPosition(m_x, m_y - (20.0f * i));
+            m_listLabels[i]->limitLabelWidth(95.0f, 0.6f, 0.0f);
+            m_menu->addChild(m_listLabels[i]);
         }
     }
     else {
         for (int i = 0; i < m_maxDisplayedLength; ++i) {
             if (i < m_displayedLength) {
                 m_listLabels[i]->setString(m_listStrings[m_listOffset + i].c_str(), true);
-                m_listLabels[i]->setScale(1.0f / ((m_listStrings[m_listOffset + i].length() + 10) * 0.1f));
             }
             else {
                 m_listLabels[i]->setString("", true);
             }
+            m_listLabels[i]->limitLabelWidth(95.0f, 0.6f, 0.0f);
         }
     }
 }
@@ -264,24 +257,24 @@ void listExt::updateSelector() {
 
     if (!m_entered) {
         m_moveBtn = CCMenuItemSprite::create(
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
             nullptr,
             m_menu,
             m_moveFn
         );
 
         m_swapUpBtn = CCMenuItemSprite::create(
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
             nullptr,
             m_menu,
             m_swapFn
         );
 
         m_swapDownBtn = CCMenuItemSprite::create(
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-            CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
+            CCSprite::createWithSpriteFrameName(ARROW_PNG),
             nullptr,
             m_menu,
             m_swapFn
@@ -295,13 +288,13 @@ void listExt::updateSelector() {
         m_swapUpBtn->setPosition(m_x - mult, m_y + 5.0f - 20.0f * m_moveIndex);
         m_swapDownBtn->setPosition(m_x - mult, m_y - 5.0f - 20.0f * m_moveIndex);
 
-        m_moveBtn->setScale(0.25f);
+        m_moveBtn->setScale(0.5f);
         m_menu->addChild(m_moveBtn);
 
         m_swapUpBtn->setRotation(-90.0f);
         m_swapDownBtn->setRotation(90.0f);
-        m_swapUpBtn->setScale(0.25f);
-        m_swapDownBtn->setScale(0.25f);
+        m_swapUpBtn->setScale(0.5f);
+        m_swapDownBtn->setScale(0.5f);
         m_menu->addChild(m_swapUpBtn);
         m_menu->addChild(m_swapDownBtn);
         if (m_listStrings.size() - m_listOffset == 0) {
@@ -316,7 +309,6 @@ void listExt::updateSelector() {
 
             toggle(m_swapUpBtn, false);
             toggle(m_swapDownBtn, false);
-
         }
         else {
             float mult = m_x < 0 ? 55.0f : -55.0f;
@@ -343,28 +335,22 @@ void listExt::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 50.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = CCMenuItemSprite::create(
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        nullptr,
+    m_upBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
     );
     m_upBtn->setPosition(m_x, m_y + 25.0f);
     m_upBtn->setRotation(-90.0f);
-    m_upBtn->setScale(0.75f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = CCMenuItemSprite::create(
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        CCSprite::createWithSpriteFrameName("navArrowBtn_001.png"),
-        nullptr,
+    m_downBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
     );
     m_downBtn->setPosition(m_x, m_y - 205.0f);
     m_downBtn->setRotation(90.0f);
-    m_downBtn->setScale(0.75f);
     m_menu->addChild(m_downBtn);
 
     update();
@@ -472,6 +458,7 @@ void listExt::setOffset(int offset) {
         log::error("New offset is out of bounds.");
         return;
     }
+
     m_listOffset = offset;
 }
 

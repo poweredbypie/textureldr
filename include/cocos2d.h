@@ -37,7 +37,12 @@ namespace cocos2d {
 	class CCFiniteTimeAction;
 
 	class CCObject {
-		//idk idc
+	public:
+		CCObject* autorelease() {
+			return as<CCObject* (__thiscall*)(CCObject*)>(
+				FIND_EXPORT("?autorelease@CCObject@cocos2d@@QAEPAV12@XZ")
+				)(this);
+		}
 	};
 
 	class CCArray : public CCObject {
@@ -155,6 +160,12 @@ namespace cocos2d {
 				FIND_EXPORT("?setAlignment@CCLabelBMFont@cocos2d@@UAEXW4CCTextAlignment@2@@Z")
 				)(this, alignment);
 		}
+		//i have no idea what the 3rd one is, i think it's both? idk
+		void limitLabelWidth(float width, float height, float both) {
+			return as<void(__thiscall*)(CCLabelBMFont*, float, float, float)>(
+				FIND_EXPORT("?limitLabelWidth@CCLabelBMFont@cocos2d@@QAEXMMM@Z")
+				)(this, width, height, both);
+		}
 	};
 
 	class CCSprite : public CCNode {
@@ -169,11 +180,10 @@ namespace cocos2d {
 				FIND_EXPORT("?create@CCSprite@cocos2d@@SAPAV12@PBD@Z")
 				)(txtrFile);
 		}
-		//this doesnt work for some reason, gotta look into it
 		void setColor(const ccColor3B& color) {
-			return as<void(__thiscall*)(CCSprite*, const ccColor3B&)>(
+			return as<void(__thiscall*)(char*, const ccColor3B&)>(
 				FIND_EXPORT("?setColor@CCSprite@cocos2d@@UAEXABU_ccColor3B@2@@Z")
-				)(this, color);
+				)(as<char*>(this) + 0xEC, color);
 		}
 		void setAnchorPoint(const CCPoint& anchorPoint) {
 			return as<void(__thiscall*)(CCSprite*, const CCPoint&)>(
@@ -189,6 +199,11 @@ namespace cocos2d {
 			return as<void(__thiscall*)(CCSprite*, float)>(
 				FIND_EXPORT("?setScaleY@CCSprite@cocos2d@@UAEXM@Z")
 				)(this, fScaleY);
+		}
+		CCSize getTextureSize() {
+			return *as<CCSize*>(
+				as<char*>(this) + 0x13C
+				);
 		}
 	};
 
@@ -262,12 +277,14 @@ namespace cocos2d {
 			static XMLDocument* create(bool processEntities, int whitespaceMode) {
 				XMLDocument* pRet = as<decltype(pRet)>(new char[0x170]);
 				if (pRet) {
-					pRet->init(processEntities, whitespaceMode);
+					pRet->constructor(processEntities, whitespaceMode);
+				}
+				else {
+					delete pRet;
 				}
 				return pRet;
 			}
-
-			void init(bool processEntities, int whitespaceMode) {
+			void constructor(bool processEntities, int whitespaceMode) {
 				return as<void(__thiscall*)(XMLDocument*, bool, int)>(
 					FIND_EXPORT("??0XMLDocument@tinyxml2@@QAE@_NW4Whitespace@1@@Z")
 					)(this, processEntities, whitespaceMode);

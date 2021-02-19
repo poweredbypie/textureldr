@@ -99,6 +99,7 @@
     <ClInclude Include="classes\hk.h" />
     <ClInclude Include="classes\list.h" />
     <ClInclude Include="classes\log.h" />
+    <ClInclude Include="classes\options.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ldr.h" />
     <ClInclude Include="pch.h" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="classes\hk.cpp" />
     <ClCompile Include="classes\list.cpp" />
+    <ClCompile Include="classes\options.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ldr.cpp" />
     <ClCompile Include="pch.cpp">

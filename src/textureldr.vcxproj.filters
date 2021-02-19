@@ -48,6 +48,9 @@
     <ClInclude Include="classes\log.h">
       <Filter>Source Files\classes</Filter>
     </ClInclude>
+    <ClInclude Include="classes\options.h">
+      <Filter>Source Files\classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="classes\list.cpp">
+      <Filter>Source Files\classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\options.cpp">
       <Filter>Source Files\classes</Filter>
     </ClCompile>
   </ItemGroup>

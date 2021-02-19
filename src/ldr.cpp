@@ -46,15 +46,15 @@ namespace ldr {
             return gates::trySaveGame(AppDelegate);
         }
 
-        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* _this, void*, const char* path) {
+        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* CCFileUtils, void*, const char* path) {
             using namespace vars;
 
             //to refresh menuLoop.mp3.
             gd::MenuLayer::fadeInMusic(" ");
             for (std::string i : applied.getVector()) {
-                gates::addSearchPath(_this, ("packs/" + i).c_str());
+                gates::addSearchPath(CCFileUtils, ("packs/" + i).c_str());
             }
-            return gates::addSearchPath(_this, path);
+            return gates::addSearchPath(CCFileUtils, path);
         }
     }
 
@@ -163,6 +163,10 @@ namespace ldr {
         }
     }
 
+    BTN_CALLBACK(onOptions) {
+        options::enter(pSender);
+    }
+
 	BTN_CALLBACK(enterScene) {
         using namespace gd;
         using namespace cocos2d;
@@ -173,26 +177,28 @@ namespace ldr {
         auto ldrScene = CCScene::create();
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
+        auto bgSize = bg->getTextureSize();
+
         bg->setAnchorPoint({ 0.0f, 0.0f });
         ldrScene->addChild(bg);
-        bg->setScaleX(36.267f);
-        bg->setScaleY(2.063f);
+        bg->setScaleX((winSize.width + 10.0f) / bgSize.width);
+        bg->setScaleY((winSize.height + 10.0f) / bgSize.height);
         bg->setPosition(-5.0f, -5.0f);
-        //bg->setColor({ 0, 102, 255 });
+        bg->setColor({ 0, 102, 255 });
         
         listManager::enter(ldrScene);
 
         auto miscBtns = CCMenu::create();
         ldrScene->addChild(miscBtns);
-        ButtonSprite* applyBtn = ButtonSprite::create(
-            CCSprite::create("GJ_button_04.png"),
+        CCMenuItemSpriteExtra* applyBtn = CCMenuItemSpriteExtra::create(
+            ButtonSprite::create("Apply", 0, false, "goldFont.fnt", "GJ_button_01.png", 0.0f, 1.0f),
             miscBtns,
             apply
         );
         miscBtns->addChild(applyBtn);
-        miscBtns->addChild(CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png"));
+        //miscBtns->addChild(CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png"));
         
-        auto backBtn = ButtonSprite::create(
+        auto backBtn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
             miscBtns,
             exitScene
@@ -200,14 +206,21 @@ namespace ldr {
         backBtn->setPosition(-winSize.width / 2 + 25.0f, winSize.height / 2 - 25.0f);
         miscBtns->addChild(backBtn);
 
-        auto reloadBtn = ButtonSprite::create(
+        auto reloadBtn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
             miscBtns,
             getPacks
         );
         reloadBtn->setPosition(winSize.width / 2 - 35.0f, -winSize.height / 2 + 35.0f);
-        reloadBtn->setScale(1.1f);
         miscBtns->addChild(reloadBtn);
+
+        auto optionsBtn = CCMenuItemSpriteExtra::create(
+            CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
+            miscBtns,
+            onOptions
+        );
+        optionsBtn->setPosition(-winSize.width / 2 + 35.0f, -winSize.height / 2 + 35.0f);
+        miscBtns->addChild(optionsBtn);
 
         director->replaceScene(CCTransitionFade::create(0.5f, ldrScene));
 	}
