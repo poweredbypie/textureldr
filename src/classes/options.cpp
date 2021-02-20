@@ -2,10 +2,9 @@
 #include "options.h"
 
 void options::enter(void* pSender) {
-	using namespace gd;
 	using namespace cocos2d;
 
-	m_layer = GJDropDownLayer::create("Options");
+	m_layer = gd::GJDropDownLayer::create("Options");
 	static_cast<CCNode*>(pSender)->getParent()->addChild(m_layer);
 
 

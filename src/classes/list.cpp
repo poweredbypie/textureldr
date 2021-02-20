@@ -32,13 +32,12 @@ void list::update() {
         else {
             m_listLabels[0]->setString(m_listStrings[m_listOffset].c_str(), true);
         }
-        m_listLabels[0]->limitLabelWidth(115.0f, 0.0f, 0.0f);
+        m_listLabels[0]->limitLabelWidth(90.0f, 0.8f, 0.0f);
     }
 }
 
 void list::enter(cocos2d::CCScene* scene) {
     using namespace cocos2d;
-    using namespace gd;
 
     m_menu = CCMenu::create();
 
@@ -46,7 +45,7 @@ void list::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 30.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = CCMenuItemSpriteExtra::create(
+    m_upBtn = gd::CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
@@ -55,7 +54,7 @@ void list::enter(cocos2d::CCScene* scene) {
     m_upBtn->setRotation(-180.0f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = CCMenuItemSpriteExtra::create(
+    m_downBtn = gd::CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
@@ -253,7 +252,6 @@ void listExt::updateLabels() {
 
 void listExt::updateSelector() {
     using namespace cocos2d;
-    using namespace gd;
 
     if (!m_entered) {
         m_moveBtn = CCMenuItemSprite::create(
@@ -327,7 +325,6 @@ void listExt::updateSelector() {
 
 void listExt::enter(cocos2d::CCScene* scene) {
     using namespace cocos2d;
-    using namespace gd;
 
     m_menu = CCMenu::create();
 
@@ -335,7 +332,7 @@ void listExt::enter(cocos2d::CCScene* scene) {
     m_titleLabel->setPosition(m_x, m_y + 50.0f);
     m_menu->addChild(m_titleLabel);
 
-    m_upBtn = CCMenuItemSpriteExtra::create(
+    m_upBtn = gd::CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn
@@ -344,7 +341,7 @@ void listExt::enter(cocos2d::CCScene* scene) {
     m_upBtn->setRotation(-90.0f);
     m_menu->addChild(m_upBtn);
 
-    m_downBtn = CCMenuItemSpriteExtra::create(
+    m_downBtn = gd::CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName(ARROW_PNG),
         m_menu,
         m_navFn

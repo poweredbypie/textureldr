@@ -14,15 +14,19 @@ namespace gd {
 				base + 0xC4A50
 				)();
 		}
-
 		void reloadAll(bool bSwitch, bool bFullscreen, bool bReloadedInSession) {
 			return as<void(__thiscall*)(GameManager*, bool, bool, bool)>(
 				base + 0xCE950
 				)(this, bSwitch, bFullscreen, bReloadedInSession);
 		}
+		void setQuality(cocos2d::TextureQuality quality) {
+			*reinterpret_cast<cocos2d::TextureQuality*>(
+				reinterpret_cast<char*>(this) + 0x2E4
+				) = quality;
+		}
 	};
 
-	class MenuLayer : public cocos2d::CCScene {
+	class MenuLayer : public cocos2d::CCLayer {
 	public:
 		static inline auto pMoreGamesStr = as<void const**>(base + 0x190EF2);
 		static inline auto szMoreGamesBtn = as<float const**>(base + 0x190F01);
@@ -37,7 +41,6 @@ namespace gd {
 				base + 0x190550
 				)();
 		}
-
 		static void fadeInMusic(const char* filename) {
 			return as<void(__stdcall*)(const char*)>(
 				base + 0xC4BD0
@@ -45,11 +48,22 @@ namespace gd {
 		}
 	};
 
+	class LoadingLayer : public cocos2d::CCLayer {
+	public:
+		void setWillFadeIn(bool willFadeIn) {
+			*reinterpret_cast<bool*>(
+				reinterpret_cast<char*>(this) + 0x138
+				) = willFadeIn;
+		}
+	};
+
 	#pragma runtime_checks("s", off)
 	class CCMenuItemSpriteExtra : public cocos2d::CCMenuItemSprite {
 	public:
-		static CCMenuItemSpriteExtra* create(cocos2d::CCSprite* sprite, cocos2d::CCMenu* target, void(__stdcall* const callback)(void*)) {
-			auto pRet = as<CCMenuItemSpriteExtra*(__thiscall*)(cocos2d::CCSprite*, cocos2d::CCMenu*, void(__stdcall* const)(void*))>(
+		static CCMenuItemSpriteExtra* create(cocos2d::CCSprite* sprite,
+			cocos2d::CCMenu* target, void(__stdcall* const callback)(void*)) {
+			auto pRet = as<CCMenuItemSpriteExtra*(__thiscall*)(cocos2d::CCSprite*,
+				cocos2d::CCMenu*, void(__stdcall* const)(void*))>(
 				base + 0x18EE0
 				)(sprite, target, callback);
 			//fix stack before returning
@@ -69,11 +83,13 @@ namespace gd {
 		* height - height of button. put 0 for auto.
 		* scale - scale of the caption.
 		*/
-		static ButtonSprite* create(const char* caption, int width, bool absolute, const char* font, const char* texture, float height, float scale) {
+		static ButtonSprite* create(const char* caption, int width, bool absolute,
+			const char* font, const char* texture, float height, float scale) {
 			//scale is passed in lower 4 bytes of xmm3
 			__asm movss xmm3, scale
 			//arg 3 is always 0. dunno why it's not optimized out as a param
-			auto pRet = as<ButtonSprite* (__fastcall*)(const char*, int, int, bool, const char*, const char*, float)>(
+			auto pRet = as<ButtonSprite* (__fastcall*)(const char*,
+				int, int, bool, const char*, const char*, float)>(
 				base + 0x137D0
 				)(caption, width, 0, absolute, font, texture, height);
 			//clean stack before returning
@@ -81,9 +97,37 @@ namespace gd {
 			return pRet;
 		}
 	};
+
+	class FLAlertLayer : public cocos2d::CCLayer {
+	public:
+		/*FLAlertLayer supports colors of text for the caption. wrap desired text in "<cx></c>"
+		* where x is the color desired. colors are:
+		* r - red
+		* l - lime
+		* g - green
+		* y - yellow
+		* o - orange?
+		* and more that i'm too lazy to find.
+		*/
+		static FLAlertLayer* create(cocos2d::CCObject* target, const char* title,
+			const char* btn1, const char* btn2, std::string caption) {
+			static_assert(sizeof(std::string) == 24, "std::string in debug mode does not work correctly with FLAlertLayer!");
+			auto pRet = as<FLAlertLayer* (__fastcall*)(cocos2d::CCObject*, const char*,
+				const char*, const char*, std::string)>(
+					base + 0x22680
+					)(target, title, btn1, btn2, caption);
+			//clean stack.
+			__asm add esp, 0x20
+		}
+		void show() {
+			return as<void(__thiscall*)(FLAlertLayer*)>(
+				base + 0x23560
+				)(this);
+		}
+	};
 	#pragma runtime_checks("s", restore)
 
-	class GJDropDownLayer : public cocos2d::CCNode {
+	class GJDropDownLayer : public cocos2d::CCLayer {
 	public:
 		static GJDropDownLayer* create(const char* title) {
 			GJDropDownLayer* pRet = as<decltype(pRet)>(new char[0x1C0]());

@@ -98,6 +98,11 @@ namespace cocos2d {
 		}
 	};
 
+	class CCLayer : public CCNode {
+	public:
+		//idk
+	};
+
 	class CCScene : public CCNode {
 	public:
 		static CCScene* create() {
@@ -200,6 +205,16 @@ namespace cocos2d {
 				FIND_EXPORT("?setScaleY@CCSprite@cocos2d@@UAEXM@Z")
 				)(this, fScaleY);
 		}
+		void setFlipX(bool bFlipX) {
+			return as<void(__thiscall*)(CCSprite*, bool)>(
+				FIND_EXPORT("?setFlipX@CCSprite@cocos2d@@QAEX_N@Z")
+				)(this, bFlipX);
+		}
+		void setFlipY(bool bFlipY) {
+			return as<void(__thiscall*)(CCSprite*, bool)>(
+				FIND_EXPORT("?setFlipY@CCSprite@cocos2d@@QAEX_N@Z")
+				)(this, bFlipY);
+		}
 		CCSize getTextureSize() {
 			return *as<CCSize*>(
 				as<char*>(this) + 0x13C
@@ -275,7 +290,7 @@ namespace cocos2d {
 		class XMLDocument : public XMLNode {
 		public:
 			static XMLDocument* create(bool processEntities, int whitespaceMode) {
-				XMLDocument* pRet = as<decltype(pRet)>(new char[0x170]);
+				XMLDocument* pRet = as<decltype(pRet)>(new char[0x174]);
 				if (pRet) {
 					pRet->constructor(processEntities, whitespaceMode);
 				}

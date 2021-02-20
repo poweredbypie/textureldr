@@ -17,13 +17,13 @@ namespace ldr {
     }
 
     namespace hooks {
-        void COCOS_HOOK loadingFinished(cocos2d::CCScene* LoadingLayer) {
-            *reinterpret_cast<bool*>(reinterpret_cast<char*>(LoadingLayer) + 0x138) = false;
+        void COCOS_HOOK loadingFinished(gd::LoadingLayer* This) {
+            This->setWillFadeIn(false);
             listManager::exit();
-            return gates::loadingFinished(LoadingLayer);
+            return gates::loadingFinished(This);
         }
 
-        void COCOS_HOOK dataLoaded(cocos2d::CCObject* GameManager, void*, void* DS_Dictionary) {
+        void COCOS_HOOK dataLoaded(gd::GameManager* This, void*, void* DS_Dictionary) {
             using namespace cocos2d;
             using namespace vars;
 
@@ -32,7 +32,7 @@ namespace ldr {
             fileUtils->removeAllPaths();
             gates::addSearchPath(fileUtils, "Resources");
             //call dataLoaded.
-            gates::dataLoaded(GameManager, DS_Dictionary);
+            gates::dataLoaded(This, DS_Dictionary);
             //add all of 'em back lol
             fileUtils->removeAllPaths();
             for (std::string i : applied.getVector()) {
@@ -46,15 +46,15 @@ namespace ldr {
             return gates::trySaveGame(AppDelegate);
         }
 
-        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* CCFileUtils, void*, const char* path) {
+        void COCOS_HOOK addSearchPath(cocos2d::CCFileUtils* This, void*, const char* path) {
             using namespace vars;
 
             //to refresh menuLoop.mp3.
             gd::MenuLayer::fadeInMusic(" ");
             for (std::string i : applied.getVector()) {
-                gates::addSearchPath(CCFileUtils, ("packs/" + i).c_str());
+                gates::addSearchPath(This, ("packs/" + i).c_str());
             }
-            return gates::addSearchPath(CCFileUtils, path);
+            return gates::addSearchPath(This, path);
         }
     }
 
@@ -123,43 +123,27 @@ namespace ldr {
 
             std::stringstream text = {};
             if (added > 0 || removed > 0) {
-                text << added << ' ' << ((added == 1) ? "pack" : "packs") << " added.\n";
-                text << removed << ' ' << ((removed == 1) ? "pack" : "packs") << " removed.\n";
+                text << "<cg>" << added << "</c> " << ((added == 1) ? "pack" : "packs") << " added.\n";
+                //for some silly reason, color markers don't work directly after a newline!
+                //@robtop fix???
+                text << " <cr>" << removed << "</c> " << ((removed == 1) ? "pack" : "packs") << " removed.\n";
             }
             else {
-                text << "Nothing changed!\n";
+                text << "<cy>Nothing changed!</c>\n";
             }
 
             if (invalid > 0) {
                 text << '\n';
                 if (invalid == 1) {
-                    text << "1 pack had an invalid name, and was ignored.\n";
+                    text << "1 pack had an <co>invalid</c> name, and was ignored.\n";
                 }
                 else {
-                    text << invalid << " packs had invalid names, and were ignored.\n";
+                    text << invalid << " packs had <co>invalid</c> names, and were ignored.\n";
                 }
             }
 
-            auto label = CCLabelBMFont::create(text.str().c_str(), "goldFont.fnt");
-            label->setScale(0.7f);
-            label->setAlignment(kCCTextAlignmentCenter);
-            label->setPosition(winSize.width / 2, winSize.height / 2 + 50.0f);
-            director->getRunningScene()->addChild(label);
-
-            //workaround; idfk how va_arg functions work when compiled
-            auto arr = CCArray::create();
-            arr->addObject(CCFadeIn::create(0.5f));
-            arr->addObject(CCDelayTime::create(1.0f));
-            arr->addObject(CCFadeOut::create(0.5f));
-            arr->addObject(CCCallFunc::create(
-                label,
-                //this is a removeMeAndCleanup callback that rob setup so imma use it
-                reinterpret_cast<void(__thiscall*)()>(gd::base + 0x10A3A)
-            ));
-            //END workaround
-
-            //change this to use CCSequence::create(CCObject*, ...) plz
-            label->runAction(CCSequence::create(arr));
+            auto alert = gd::FLAlertLayer::create(nullptr, "Update", "OK", nullptr, text.str());
+            alert->show();
         }
     }
 
@@ -168,37 +152,46 @@ namespace ldr {
     }
 
 	BTN_CALLBACK(enterScene) {
-        using namespace gd;
         using namespace cocos2d;
 
         //create scene here
         auto director = CCDirector::sharedDirector();
-        CCSize winSize = director->getWinSize();
+        auto winSize = director->getWinSize();
         auto ldrScene = CCScene::create();
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
         auto bgSize = bg->getTextureSize();
 
         bg->setAnchorPoint({ 0.0f, 0.0f });
-        ldrScene->addChild(bg);
         bg->setScaleX((winSize.width + 10.0f) / bgSize.width);
         bg->setScaleY((winSize.height + 10.0f) / bgSize.height);
         bg->setPosition(-5.0f, -5.0f);
         bg->setColor({ 0, 102, 255 });
+        ldrScene->addChild(bg);
         
+        auto bottomLeft = CCSprite::createWithSpriteFrameName("GJ_sideArt_001.png");
+        auto cornerSize = bottomLeft->getTextureSize();
+        bottomLeft->setPosition(cornerSize.width / 2, cornerSize.height / 2);
+        auto bottomRight = CCSprite::createWithSpriteFrameName("GJ_sideArt_001.png");
+        bottomRight->setFlipX(true);
+        bottomRight->setPosition(winSize.width - cornerSize.width / 2, cornerSize.height / 2);
+        ldrScene->addChild(bottomLeft);
+        ldrScene->addChild(bottomRight);
+
         listManager::enter(ldrScene);
 
+        //buttons
         auto miscBtns = CCMenu::create();
         ldrScene->addChild(miscBtns);
-        CCMenuItemSpriteExtra* applyBtn = CCMenuItemSpriteExtra::create(
-            ButtonSprite::create("Apply", 0, false, "goldFont.fnt", "GJ_button_01.png", 0.0f, 1.0f),
+        auto applyBtn = gd::CCMenuItemSpriteExtra::create(
+            gd::ButtonSprite::create("Apply", 0, false, "goldFont.fnt", "GJ_button_01.png", 0.0f, 1.0f),
             miscBtns,
             apply
         );
+        applyBtn->setPosition(0.0f, 0.0f);
         miscBtns->addChild(applyBtn);
-        //miscBtns->addChild(CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png"));
         
-        auto backBtn = CCMenuItemSpriteExtra::create(
+        auto backBtn = gd::CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
             miscBtns,
             exitScene
@@ -206,7 +199,7 @@ namespace ldr {
         backBtn->setPosition(-winSize.width / 2 + 25.0f, winSize.height / 2 - 25.0f);
         miscBtns->addChild(backBtn);
 
-        auto reloadBtn = CCMenuItemSpriteExtra::create(
+        auto reloadBtn = gd::CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
             miscBtns,
             getPacks
@@ -214,7 +207,7 @@ namespace ldr {
         reloadBtn->setPosition(winSize.width / 2 - 35.0f, -winSize.height / 2 + 35.0f);
         miscBtns->addChild(reloadBtn);
 
-        auto optionsBtn = CCMenuItemSpriteExtra::create(
+        auto optionsBtn = gd::CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
             miscBtns,
             onOptions
@@ -227,12 +220,11 @@ namespace ldr {
 
 	BTN_CALLBACK(exitScene) {
         using namespace cocos2d;
-        using namespace gd;
         using namespace vars;
 
         listManager::exit();
 
-        auto menuLayer = MenuLayer::create();
+        auto menuLayer = gd::MenuLayer::create();
 
         auto menuLayerScene = CCScene::create();
         menuLayerScene->addChild(menuLayer);
@@ -248,8 +240,7 @@ namespace ldr {
         director->updateContentScale(static_cast<TextureQuality>(quality.getCurrentIndex() + 1));
         
         auto GameManager = gd::GameManager::sharedState();
-        *reinterpret_cast<int*>
-            (reinterpret_cast<char*>(GameManager) + 0x2E4) = quality.getCurrentIndex() + 1;
+        GameManager->setQuality(static_cast<TextureQuality>(quality.getCurrentIndex() + 1));
 
         GameManager->reloadAll(false, false, true);
     }
