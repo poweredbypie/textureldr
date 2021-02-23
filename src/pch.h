@@ -19,7 +19,7 @@
 //for logging
 #include <iostream>
 #include <fstream>
-#include "classes/log.h"
+#include "log.h"
 
 //for messagebox instantiation
 #include <windows.h>

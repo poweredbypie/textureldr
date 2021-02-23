@@ -16,60 +16,735 @@
     <Filter Include="misc">
       <UniqueIdentifier>{6c7fd7d2-3c7e-4a06-bb15-1a8375b27580}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\classes">
-      <UniqueIdentifier>{17676a58-bdf1-4e0a-8933-a6874a2a692e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\include">
       <UniqueIdentifier>{59346b42-55d7-46a6-87f8-8d6a705a8305}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cocos2d">
+      <UniqueIdentifier>{9a143109-1567-4829-a870-047703ff33af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\actions">
+      <UniqueIdentifier>{8a092f31-8db4-4dca-82ad-75864812f7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\base_nodes">
+      <UniqueIdentifier>{49e837ba-07f1-4607-99c9-b8a6678545bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\cocoa">
+      <UniqueIdentifier>{0e820837-e5b2-49b8-b94b-4784d300ae57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\draw_nodes">
+      <UniqueIdentifier>{7f1f2fde-30c8-4acf-92ca-faaa03eac7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\effects">
+      <UniqueIdentifier>{581d03d9-9b60-4532-8e9b-94cfd670a383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\include">
+      <UniqueIdentifier>{41d63c3e-9d81-4fe6-99d4-9b7ed18686ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\kazmath">
+      <UniqueIdentifier>{91e0ca28-8c41-4b1b-80f6-dca979feefff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\kazmath\GL">
+      <UniqueIdentifier>{85b79a6b-9ace-4e25-a8b1-b7c92baa7818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\keypad_dispatcher">
+      <UniqueIdentifier>{47504fba-95c0-488d-9a6c-c95c8693e790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\label_nodes">
+      <UniqueIdentifier>{f29a7084-5b47-4679-945a-258b92e0dd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\layers_scenes_transitions_nodes">
+      <UniqueIdentifier>{52e65b23-90a6-491a-96f8-43f1545579d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\menu_nodes">
+      <UniqueIdentifier>{d6bdfca4-fc08-42ae-b739-fb0187b82b27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\misc_nodes">
+      <UniqueIdentifier>{a0dc62bf-d9ea-426b-bd45-859fb7666743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\particle_nodes">
+      <UniqueIdentifier>{a6ba8b19-46e9-4604-a087-ac9985e1d262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\platform">
+      <UniqueIdentifier>{6e52f969-f30e-4c59-a62a-cff565b7ced1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\platform\win32">
+      <UniqueIdentifier>{7674016d-d5fc-44a3-a9e3-3371db8a7c63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop">
+      <UniqueIdentifier>{275f779e-4a75-4440-99a3-a691c406cbc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop\keyboard_dispatcher">
+      <UniqueIdentifier>{fb5efad7-ac2b-42ea-8ed7-09a292a346de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop\mouse_dispatcher">
+      <UniqueIdentifier>{3ac5eb91-4914-420a-9abb-7b2ebbe3bc5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop\scene_nodes">
+      <UniqueIdentifier>{e64f14b4-6239-43dd-9455-cec9cadd3cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\script_support">
+      <UniqueIdentifier>{3c701a20-3388-43c8-a4a6-d2ed4d40509c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\shaders">
+      <UniqueIdentifier>{fa195a76-af3c-482b-9694-c42bfacc2109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\sprite_nodes">
+      <UniqueIdentifier>{6f3f8730-be51-4e83-8a2b-bdf9cad9c8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support">
+      <UniqueIdentifier>{8368a42f-094d-47fe-ae23-12d6832b8b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\component">
+      <UniqueIdentifier>{1c20bbd3-34d4-4520-8180-5db8fb81a9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\data_support">
+      <UniqueIdentifier>{1176b8aa-e959-474c-84cb-e571a0d23c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\image_support">
+      <UniqueIdentifier>{12731273-c0d2-4a0a-8935-c697d8012a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\zip_support">
+      <UniqueIdentifier>{07325d46-5990-45e4-9ff9-6e4a4c23f49f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\tinyxml2">
+      <UniqueIdentifier>{011c6954-aa5d-4deb-bdac-fa75de7a7d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\support\user_default">
+      <UniqueIdentifier>{77c5cf1a-e1df-49fe-87a2-29a4a2e07601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\text_input_node">
+      <UniqueIdentifier>{e5dac79c-c25f-4fb9-9133-ded280164c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\textures">
+      <UniqueIdentifier>{e45dd6d8-752c-48e5-81f2-9798499b6abd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\tilemap_parallax_nodes">
+      <UniqueIdentifier>{652eaec0-0a20-454f-bc77-82f08c5f9312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cocos2d\touch_dispatcher">
+      <UniqueIdentifier>{2d5a3593-59af-4e97-8b1c-5df955fdd14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\memory">
+      <UniqueIdentifier>{7ca24d18-0db7-4b15-b97d-adabaf6aee8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\logic">
+      <UniqueIdentifier>{aa1e58dd-b51f-4626-bb7f-0f5f5c5bb7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\logic\layers">
+      <UniqueIdentifier>{f298d31e-0cff-41dd-ad6b-5d8e9fee4e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\logic\nodes">
+      <UniqueIdentifier>{5dfa7dfe-63a6-4eb0-88d3-5780f31a9c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd">
+      <UniqueIdentifier>{8cbd8f7e-f532-45a0-99fe-8a2615a81253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\include">
+      <UniqueIdentifier>{10a52713-ae8b-4790-9501-48be68d17f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\layers_scenes_transitions_nodes">
+      <UniqueIdentifier>{1daac526-7dbe-488e-88c2-ee837dd4a316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\manager_nodes">
+      <UniqueIdentifier>{d83e40a7-521d-42c0-88f2-d88b14d22780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\menu_nodes">
+      <UniqueIdentifier>{ace865fc-8164-47a9-91ef-1e26f7a88a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\sprite_nodes">
+      <UniqueIdentifier>{0df54374-65c9-4b8f-a5c1-0bb8ba12ba5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\cocos2dx\actions\CCAction.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionCamera.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionCatmullRom.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionEase.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionGrid.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionGrid3D.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionInstant.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionInterval.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionManager.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionPageTurn3D.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionProgressTimer.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionTiledGrid.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\actions\CCActionTween.h">
+      <Filter>Header Files\include\cocos2d\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\base_nodes\CCAtlasNode.h">
+      <Filter>Header Files\include\cocos2d\base_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\base_nodes\CCGLBufferedNode.h">
+      <Filter>Header Files\include\cocos2d\base_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\base_nodes\CCNode.h">
+      <Filter>Header Files\include\cocos2d\base_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCAffineTransform.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCArray.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCAutoreleasePool.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCBool.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCDataVisitor.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCDictionary.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCDouble.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCFloat.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCGeometry.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCInteger.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCNS.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCObject.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCSet.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCString.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\cocoa\CCZone.h">
+      <Filter>Header Files\include\cocos2d\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\draw_nodes\CCDrawingPrimitives.h">
+      <Filter>Header Files\include\cocos2d\draw_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\draw_nodes\CCDrawNode.h">
+      <Filter>Header Files\include\cocos2d\draw_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\effects\CCGrabber.h">
+      <Filter>Header Files\include\cocos2d\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\effects\CCGrid.h">
+      <Filter>Header Files\include\cocos2d\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\ccConfig.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\CCEventType.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\ccMacros.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\CCProtocols.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\ccTypeInfo.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\ccTypes.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\include\cocos2d.h">
+      <Filter>Header Files\include\cocos2d\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\aabb.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\kazmath.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\mat3.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\mat4.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\neon_matrix_impl.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\plane.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\quaternion.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\ray2.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\utility.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\vec2.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\vec3.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\vec4.h">
+      <Filter>Header Files\include\cocos2d\kazmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\GL\mat4stack.h">
+      <Filter>Header Files\include\cocos2d\kazmath\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\kazmath\include\kazmath\GL\matrix.h">
+      <Filter>Header Files\include\cocos2d\kazmath\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\keypad_dispatcher\CCKeypadDelegate.h">
+      <Filter>Header Files\include\cocos2d\keypad_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\keypad_dispatcher\CCKeypadDispatcher.h">
+      <Filter>Header Files\include\cocos2d\keypad_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\label_nodes\CCLabelAtlas.h">
+      <Filter>Header Files\include\cocos2d\label_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\label_nodes\CCLabelBMFont.h">
+      <Filter>Header Files\include\cocos2d\label_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\label_nodes\CCLabelTTF.h">
+      <Filter>Header Files\include\cocos2d\label_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\layers_scenes_transitions_nodes\CCLayer.h">
+      <Filter>Header Files\include\cocos2d\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\layers_scenes_transitions_nodes\CCScene.h">
+      <Filter>Header Files\include\cocos2d\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\layers_scenes_transitions_nodes\CCTransition.h">
+      <Filter>Header Files\include\cocos2d\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\layers_scenes_transitions_nodes\CCTransitionPageTurn.h">
+      <Filter>Header Files\include\cocos2d\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\layers_scenes_transitions_nodes\CCTransitionProgress.h">
+      <Filter>Header Files\include\cocos2d\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\menu_nodes\CCMenu.h">
+      <Filter>Header Files\include\cocos2d\menu_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\menu_nodes\CCMenuItem.h">
+      <Filter>Header Files\include\cocos2d\menu_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\misc_nodes\CCClippingNode.h">
+      <Filter>Header Files\include\cocos2d\misc_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\misc_nodes\CCMotionStreak.h">
+      <Filter>Header Files\include\cocos2d\misc_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\misc_nodes\CCProgressTimer.h">
+      <Filter>Header Files\include\cocos2d\misc_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\misc_nodes\CCRenderTexture.h">
+      <Filter>Header Files\include\cocos2d\misc_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\particle_nodes\CCParticleBatchNode.h">
+      <Filter>Header Files\include\cocos2d\particle_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\particle_nodes\CCParticleExamples.h">
+      <Filter>Header Files\include\cocos2d\particle_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\particle_nodes\CCParticleSystem.h">
+      <Filter>Header Files\include\cocos2d\particle_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\particle_nodes\CCParticleSystemQuad.h">
+      <Filter>Header Files\include\cocos2d\particle_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\particle_nodes\firePngData.h">
+      <Filter>Header Files\include\cocos2d\particle_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCAccelerometer.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCApplication.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCEGLView.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCFileUtilsWin32.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCGL.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCPlatformDefine.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\CCStdC.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\win32\compat\stdint.h">
+      <Filter>Header Files\include\cocos2d\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCAccelerometerDelegate.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCApplicationProtocol.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCCommon.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCDevice.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCEGLViewProtocol.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCFileUtils.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCImage.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCImageCommon_cpp.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCPlatformConfig.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCPlatformMacros.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCSAXParser.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\CCThread.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\platform\platform.h">
+      <Filter>Header Files\include\cocos2d\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\keyboard_dispatcher\CCKeyboardDelegate.h">
+      <Filter>Header Files\include\cocos2d\robtop\keyboard_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\keyboard_dispatcher\CCKeyboardDispatcher.h">
+      <Filter>Header Files\include\cocos2d\robtop\keyboard_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\mouse_dispatcher\CCMouseDelegate.h">
+      <Filter>Header Files\include\cocos2d\robtop\mouse_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\mouse_dispatcher\CCMouseDispatcher.h">
+      <Filter>Header Files\include\cocos2d\robtop\mouse_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\scene_nodes\CCSceneTransitionDelegate.h">
+      <Filter>Header Files\include\cocos2d\robtop\scene_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\script_support\CCScriptSupport.h">
+      <Filter>Header Files\include\cocos2d\script_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShaders.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\CCGLProgram.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccGLStateCache.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_Position_uColor_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_Position_uColor_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionColor_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionColor_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionColorLengthTexture_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionColorLengthTexture_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTexture_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTexture_uColor_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTexture_uColor_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTexture_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTextureA8Color_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTextureA8Color_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTextureColor_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTextureColor_vert.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShader_PositionTextureColorAlphaTest_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\CCShaderCache.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\shaders\ccShaderEx_SwitchMask_frag.h">
+      <Filter>Header Files\include\cocos2d\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCAnimation.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCAnimationCache.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCSprite.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCSpriteBatchNode.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCSpriteFrame.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\sprite_nodes\CCSpriteFrameCache.h">
+      <Filter>Header Files\include\cocos2d\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\component\CCComponent.h">
+      <Filter>Header Files\include\cocos2d\support\component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\component\CCComponentContainer.h">
+      <Filter>Header Files\include\cocos2d\support\component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\data_support\ccCArray.h">
+      <Filter>Header Files\include\cocos2d\support\data_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\data_support\uthash.h">
+      <Filter>Header Files\include\cocos2d\support\data_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\data_support\utlist.h">
+      <Filter>Header Files\include\cocos2d\support\data_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\image_support\TGAlib.h">
+      <Filter>Header Files\include\cocos2d\support\image_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\tinyxml2\tinyxml2.h">
+      <Filter>Header Files\include\cocos2d\support\tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\user_default\CCUserDefault.h">
+      <Filter>Header Files\include\cocos2d\support\user_default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\zip_support\ioapi.h">
+      <Filter>Header Files\include\cocos2d\support\zip_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\zip_support\unzip.h">
+      <Filter>Header Files\include\cocos2d\support\zip_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\zip_support\ZipUtils.h">
+      <Filter>Header Files\include\cocos2d\support\zip_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\base64.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\CCNotificationCenter.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\CCPointExtension.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\CCProfiling.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\ccUTF8.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\ccUtils.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\CCVertex.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\support\TransformUtils.h">
+      <Filter>Header Files\include\cocos2d\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\text_input_node\CCIMEDelegate.h">
+      <Filter>Header Files\include\cocos2d\text_input_node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\text_input_node\CCIMEDispatcher.h">
+      <Filter>Header Files\include\cocos2d\text_input_node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\text_input_node\CCTextFieldTTF.h">
+      <Filter>Header Files\include\cocos2d\text_input_node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\textures\CCTexture2D.h">
+      <Filter>Header Files\include\cocos2d\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\textures\CCTextureAtlas.h">
+      <Filter>Header Files\include\cocos2d\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\textures\CCTextureCache.h">
+      <Filter>Header Files\include\cocos2d\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\textures\CCTextureETC.h">
+      <Filter>Header Files\include\cocos2d\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\textures\CCTexturePVR.h">
+      <Filter>Header Files\include\cocos2d\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCParallaxNode.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCTileMapAtlas.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCTMXLayer.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCTMXObjectGroup.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCTMXTiledMap.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\tilemap_parallax_nodes\CCTMXXMLParser.h">
+      <Filter>Header Files\include\cocos2d\tilemap_parallax_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouch.h">
+      <Filter>Header Files\include\cocos2d\touch_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchDelegateProtocol.h">
+      <Filter>Header Files\include\cocos2d\touch_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchDispatcher.h">
+      <Filter>Header Files\include\cocos2d\touch_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchHandler.h">
+      <Filter>Header Files\include\cocos2d\touch_dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\Tools.h">
+      <Filter>Source Files\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\Hooks.h">
+      <Filter>Source Files\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\layers\LoaderLayer.h">
+      <Filter>Source Files\logic\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\CCCamera.h">
+      <Filter>Header Files\include\cocos2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\CCConfiguration.h">
+      <Filter>Header Files\include\cocos2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\CCDirector.h">
+      <Filter>Header Files\include\cocos2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\ccFPSImages.h">
+      <Filter>Header Files\include\cocos2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\CCScheduler.h">
+      <Filter>Header Files\include\cocos2d</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\nodes\List.h">
+      <Filter>Source Files\logic\nodes</Filter>
+    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="classes\hk.h">
-      <Filter>Source Files\classes</Filter>
+    <ClInclude Include="logic\layers\LoaderOptionsLayer.h">
+      <Filter>Source Files\logic\layers</Filter>
     </ClInclude>
-    <ClInclude Include="ldr.h">
+    <ClInclude Include="Log.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="classes\list.h">
-      <Filter>Source Files\classes</Filter>
+    <ClInclude Include="..\include\gd\include\gd.h">
+      <Filter>Header Files\include\gd\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\cocos2d.h">
-      <Filter>Header Files\include</Filter>
+    <ClInclude Include="..\include\gd\sprite_nodes\ButtonSprite.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\gd.h">
-      <Filter>Header Files\include</Filter>
+    <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemSpriteExtra.h">
+      <Filter>Header Files\include\gd\menu_nodes</Filter>
     </ClInclude>
-    <ClInclude Include="classes\log.h">
-      <Filter>Source Files\classes</Filter>
+    <ClInclude Include="..\include\gd\manager_nodes\GameManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
     </ClInclude>
-    <ClInclude Include="classes\options.h">
-      <Filter>Source Files\classes</Filter>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\FLAlertLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJDropDownLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJListLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\MenuLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\ScrollingLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\GManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="classes\hk.cpp">
-      <Filter>Source Files\classes</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="Entry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ldr.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="logic\layers\LoaderLayer.cpp">
+      <Filter>Source Files\logic\layers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\list.cpp">
-      <Filter>Source Files\classes</Filter>
+    <ClCompile Include="logic\nodes\List.cpp">
+      <Filter>Source Files\logic\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="classes\options.cpp">
-      <Filter>Source Files\classes</Filter>
+    <ClCompile Include="logic\layers\LoaderOptionsLayer.cpp">
+      <Filter>Source Files\logic\layers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
