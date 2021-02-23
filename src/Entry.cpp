@@ -3,12 +3,12 @@
 #include "memory/Hooks.h"
 #include "logic/layers/LoaderLayer.h"
 
-DWORD WINAPI entry(LPVOID hModule) {
+DWORD WINAPI Entry(LPVOID hModule) {
     if (!Log::init()) {
-        MessageBox(0, "ERROR: could not initialize logging.", "textureldr", MB_ICONERROR | MB_OK);
+        MessageBox(0, "ERROR: Could not initialize logging.", "textureldr", MB_ICONERROR | MB_OK);
     }
     if (gd::init() && init()) {
-        Log::info("Setting up hooks...");
+        Log::info("Setting up hooks.");
 
         Hook LoadingLayer_loadingFinished = {
         gd::base + 0x18C790,
@@ -33,7 +33,7 @@ DWORD WINAPI entry(LPVOID hModule) {
 
         HMODULE cocosBase = GetModuleHandleA("libcocos2d.dll");
         if (!cocosBase) {
-            Log::error("could not find cocos library");
+            Log::error("Could not find cocos library.");
             goto exit;
         }
 
@@ -49,7 +49,7 @@ DWORD WINAPI entry(LPVOID hModule) {
         AppDelegate_trySaveGame.enable();
         CCFileUtils_addSearchPath.enable();
 
-        Log::info("Patching bytes...");
+        Log::info("Patching bytes.");
         patch(
             addrs::ppMoreGamesBtn,
             &addrs::pFolderBtn,
@@ -83,7 +83,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 )
 {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
-        HANDLE _ = CreateThread(0, 0, entry, hModule, 0, nullptr);
+        HANDLE _ = CreateThread(0, 0, Entry, hModule, 0, nullptr);
         if (_)
             CloseHandle(_);
     }

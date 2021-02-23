@@ -4,9 +4,14 @@
 #include "pch.h"
 
 class LoaderOptionsLayer : public gd::GJDropDownLayer {
-	//virtual void customSetup() override;
+protected:
 
-	static LoaderOptionsLayer* create(const char* title);
+
+protected:
+	virtual void customSetup();
+
+public:
+	static LoaderOptionsLayer* create();
 };
 
 #endif

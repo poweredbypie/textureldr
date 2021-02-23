@@ -4,6 +4,7 @@
 #include <gd.h>
 
 namespace gd {
+	#pragma runtime_checks("s", off)
 	class ButtonSprite : public cocos2d::CCSprite {
 	public:
 		/*PARAMS:
@@ -29,6 +30,7 @@ namespace gd {
 			return pRet;
 		}
 	};
+	#pragma runtime_checks("s", restore)
 }
 
 #endif

@@ -2,6 +2,7 @@
 #define __LOADERLAYER_H__
 
 #include "pch.h"
+#include "LoaderOptionsLayer.h"
 #include "../nodes/List.h"
 
 class HorizontalList;

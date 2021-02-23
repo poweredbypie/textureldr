@@ -4,18 +4,18 @@
 #include "pch.h"
 
 inline void patch(void* dst, const void* src, void* buff, const int len) {
-	//log::info("Attempting to patch bytes at ", std::hex, dst);
+	Log::info("Attempting to patch bytes at ", std::hex, dst, '.');
 	if (buff) {
 		patch(buff, dst, nullptr, len);
 	}
 	if (!WriteProcessMemory(GetCurrentProcess(), dst, src, len, nullptr)) {
-		Log::error("writeprocessmemory failed with error ", std::hex, GetLastError());
+		Log::error("WriteProcessMemory failed with error ", std::hex, GetLastError(), '.');
 	}
 }
 
 inline bool detour(void* src, void* dst, const int len) {
 	if (len < 5) {
-		Log::error("length of buffer passed to detour is too small");
+		Log::error("Length of buffer passed to detour is too small.");
 		return false;
 	}
 	patch(src, "\xE9", nullptr, 1);
@@ -37,7 +37,7 @@ void* trampoline(void* src, void* dst, const int len) {
 		return gate;
 	}
 	else {
-		Log::error("virtualalloc failed with error ", GetLastError());
+		Log::error("VirtualAlloc failed with error ", GetLastError(), '.');
 		return nullptr;
 	}
 }
@@ -53,14 +53,14 @@ private:
 
 public:
 	inline void enable() {
-		Log::info("Attempting to enable hook...");
+		Log::info("Attempting to enable hook.");
 		patch(oldBytes, src, nullptr, len);
 		*pGate = trampoline(src, dst, len);
 		on = true;
 	}
 
 	inline void disable() {
-		Log::info("Attempting to disable hook...");
+		Log::info("Attempting to disable hook.");
 		patch(src, oldBytes, nullptr, len);
 		VirtualFree(*pGate, 0, MEM_RELEASE);
 	}

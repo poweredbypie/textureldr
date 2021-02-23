@@ -102,7 +102,10 @@ void LoaderLayer::onApply(cocos2d::CCObject*) {
 }
 
 void LoaderLayer::onOptions(cocos2d::CCObject*) {
-	//EDIT
+	auto options = LoaderOptionsLayer::create();
+	this->addChild(options);
+	options->setPosition(0.0f, 0.0f);
+	options->showLayer(false);
 }
 
 void LoaderLayer::onExit(cocos2d::CCObject*) {
@@ -135,11 +138,11 @@ std::string LoaderLayer::getPacks(bool generate) {
 	constexpr std::string_view filter = " !#$%&'()+,-.0123456789;=@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{}~";
 	unsigned int invalid = 0;
 
-	Log::info("Searching for packs...");
+	Log::info("Searching for packs.");
 	path packs = current_path() / "packs";
 	if (exists(packs)) {
 		if (is_directory(packs)) {
-			Log::info("Packs directory found. Iterating...");
+			Log::info("Packs directory found. Iterating.");
 			for (directory_entry pack : directory_iterator{ packs }) {
 				if (is_directory(pack)) {
 					bool valid = true;
@@ -163,7 +166,7 @@ std::string LoaderLayer::getPacks(bool generate) {
 			MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
 	}
 	else {
-		Log::error("No packs directory found. Creating new directory...");
+		Log::error("No packs directory found. Creating new directory.");
 		create_directories(packs);
 	}
 
@@ -210,20 +213,20 @@ std::string LoaderLayer::getPacks(bool generate) {
 bool LoaderLayer::load() {
 	using namespace tinyxml2;
 
-	Log::info("Attempting to load savefile...");
+	Log::info("Attempting to load savefile.");
 	s_pFile = new XMLDocument();
 	if (s_pFile->LoadFile(s_sFilePath)) {
-		Log::error("Could not load config.dat. Trying backup.dat...");
+		Log::error("Could not load config.dat. Trying backup.dat.");
 		if (s_pFile->LoadFile(s_sBackupPath)) {
 			Log::error("Could not load backup.dat.");
 			return false;
 		}
 
-		Log::info("Loaded backup.dat. Saving...");
+		Log::info("Loaded backup.dat. Saving.");
 		s_pFile->SaveFile(s_sFilePath, false);
 	}
 	else {
-		Log::info("Loaded config.dat. Saving...");
+		Log::info("Loaded config.dat. Saving.");
 		s_pFile->SaveFile(s_sBackupPath, false);
 	}
 
