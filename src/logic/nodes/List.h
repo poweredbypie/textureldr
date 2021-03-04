@@ -2,30 +2,39 @@
 #define __LIST_H__
 
 #include "pch.h"
-#include "../layers/LoaderLayer.h"
 
 class LoaderLayer;
 
+struct ListData {
+	const char* m_sTitle;
+	std::vector<std::string> m_vEntries;
+	unsigned int m_uMaxLength;
+	unsigned int m_uLength;
+	unsigned int m_uOffset;
+	unsigned int m_uIndex;
+	ListData* m_pTarget;
+
+	ListData(const char* title, unsigned int length, ListData* target);
+	ListData() { /*doesn't matter since only used in default ctor of LoaderManager*/ };
+};
+
 class HorizontalList : public cocos2d::CCNode {
 protected:
-	const char* m_sTitle = "";
-	std::vector<std::string> m_vEntries = {};
+	ListData& m_pData;
 	cocos2d::CCLabelBMFont** m_pLabels = nullptr;
-	unsigned int m_uMaxLength = 1;
-	unsigned int m_uLength = 0;
-	unsigned int m_uOffset = 0;
-
 	cocos2d::CCMenu* m_pMenu = nullptr;
 
-	bool m_bEntered = false;
-
 protected:
-	HorizontalList() = default;
+	HorizontalList(ListData& data) : m_pData{ data } {}
+	virtual ~HorizontalList() { delete[] m_pLabels; }
+
+	virtual bool init();
 
 	inline void getLength() {
-		m_uLength = m_vEntries.size() - m_uOffset < m_uMaxLength ?
-			(m_vEntries.size() - m_uOffset)
-			: m_uMaxLength;
+		m_pData.m_uLength = m_pData.m_vEntries.size() - 
+			m_pData.m_uOffset < m_pData.m_uMaxLength ?
+			(m_pData.m_vEntries.size() - m_pData.m_uOffset)
+			: m_pData.m_uMaxLength;
 	}
 	inline void toggle(std::vector<cocos2d::CCMenuItemSprite*> btns, bool enable) {
 		for (auto btn : btns) {
@@ -33,60 +42,40 @@ protected:
 			btn->setEnabled(enable);
 		}
 	}
-
-public:
 	virtual void navigate(cocos2d::CCObject* btn);
 
+public:
+	static HorizontalList* create(ListData& data);
+
 	virtual void updateList();
-
-	virtual void enter(LoaderLayer* parent);
-	inline void exit() { 
-		this->removeAllChildren();
-		m_pMenu = nullptr;
-		m_bEntered = false; 
-	}
-
-	HorizontalList(const char* title);
-
-	virtual bool load(tinyxml2::XMLDocument* file);
-	virtual bool save(tinyxml2::XMLDocument* file);
-
-	void setEntries(const std::vector<std::string>& vec);
-	virtual void setOffset(unsigned int offset);
-	virtual unsigned int ifNotFound(const std::vector<std::string>& other, bool add);
-
-	const inline unsigned int getIndex() { return m_uOffset; };
-	const inline std::vector<std::string>& getEntries() { return m_vEntries; };
+	virtual void setPosition(float x, float y);
 };
 
 class VerticalList : public HorizontalList {
-protected:
-	unsigned int m_uIndex = 0;
 	VerticalList* m_pTarget;
 
 protected:
+	VerticalList(ListData& data) : HorizontalList(data) {}
+
+	virtual bool init();
+
 	virtual void navigate(cocos2d::CCObject* btn) override;
 	void swap(cocos2d::CCObject* btn);
 	void move(cocos2d::CCObject*);
 
 	void updateLabels();
 	void updateSelector();
+
+public:
+	static VerticalList* create(ListData& data);
+
 	virtual inline void updateList() override {
 		updateLabels();
 		updateSelector();
 	}
+	virtual void setPosition(float x, float y);
 
-public:
-	virtual void enter(LoaderLayer* parent) override;
-
-	VerticalList(const char* title, unsigned int length, VerticalList* target);
-	
-	virtual bool load(tinyxml2::XMLDocument* file) override;
-	virtual bool save(tinyxml2::XMLDocument* file) override;
-
-	virtual void setOffset(unsigned int offset) override;
-
-	virtual unsigned int ifNotFound(const std::vector<std::string>& other, bool add) override;
+	void setTarget(VerticalList* target) { m_pTarget = target; }
 };
 
 #endif

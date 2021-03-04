@@ -19,7 +19,8 @@ public:
     /**
     @brief    Run the message loop.
     */
-    virtual int run();
+    RT_REMOVE(  virtual int run();  )
+    RT_ADD(     virtual void gameDidSave(); )
 
     /**
     @brief    Get current applicaiton instance.
@@ -35,6 +36,13 @@ public:
      @brief Get target platform
      */
     virtual TargetPlatform getTargetPlatform();
+
+    RT_ADD(
+        virtual void openURL(const char* url);
+        virtual int run();
+        virtual void setupGLView();
+        virtual void platformShutdown();
+    )
 
     /**
      *  Sets the Resource root path.

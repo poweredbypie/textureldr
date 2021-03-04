@@ -64,13 +64,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)include\cocos2dx\libcocos2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)include\cocos2dx\libcocos2d.lib;$(SolutionDir)include\extensions\libExtensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,7 +84,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,7 +92,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>$(SolutionDir)include\cocos2dx\libcocos2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)include\cocos2dx\libcocos2d.lib;$(SolutionDir)include\extensions\libExtensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -204,6 +204,9 @@
     <ClInclude Include="..\include\cocos2dx\robtop\mouse_dispatcher\CCMouseDelegate.h" />
     <ClInclude Include="..\include\cocos2dx\robtop\mouse_dispatcher\CCMouseDispatcher.h" />
     <ClInclude Include="..\include\cocos2dx\robtop\scene_nodes\CCSceneTransitionDelegate.h" />
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\DS_Dictionary.h" />
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\pugiconfig.hpp" />
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\pugixml.hpp" />
     <ClInclude Include="..\include\cocos2dx\script_support\CCScriptSupport.h" />
     <ClInclude Include="..\include\cocos2dx\shaders\CCGLProgram.h" />
     <ClInclude Include="..\include\cocos2dx\shaders\ccGLStateCache.h" />
@@ -268,7 +271,44 @@
     <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchDelegateProtocol.h" />
     <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchDispatcher.h" />
     <ClInclude Include="..\include\cocos2dx\touch_dispatcher\CCTouchHandler.h" />
+    <ClInclude Include="..\include\extensions\AssetsManager\AssetsManager.h" />
+    <ClInclude Include="..\include\extensions\cocos-ext.h" />
+    <ClInclude Include="..\include\extensions\ExtensionMacros.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControl.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlButton.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlColourPicker.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlExtensions.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlHuePicker.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlPotentiometer.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSaturationBrightnessPicker.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSlider.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlStepper.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSwitch.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlUtils.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCInvocation.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCScale9Sprite.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBox.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImpl.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplAndroid.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplIOS.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplMac.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplTizen.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplWin.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplWp8.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCScrollView.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCSorting.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCTableView.h" />
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCTableViewCell.h" />
+    <ClInclude Include="..\include\extensions\LocalStorage\LocalStorage.h" />
+    <ClInclude Include="..\include\extensions\network\HttpClient.h" />
+    <ClInclude Include="..\include\extensions\network\HttpRequest.h" />
+    <ClInclude Include="..\include\extensions\network\HttpResponse.h" />
+    <ClInclude Include="..\include\extensions\network\WebSocket.h" />
+    <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsDebugNode.h" />
+    <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsSprite.h" />
+    <ClInclude Include="..\include\gd\audio_nodes\FMODAudioEngine.h" />
     <ClInclude Include="..\include\gd\include\gd.h" />
+    <ClInclude Include="..\include\gd\include\GDProtocols.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\FLAlertLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJDropDownLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJListLayer.h" />
@@ -276,14 +316,19 @@
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\MenuLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\ScrollingLayer.h" />
     <ClInclude Include="..\include\gd\manager_nodes\GameManager.h" />
+    <ClInclude Include="..\include\gd\manager_nodes\GameSoundManager.h" />
     <ClInclude Include="..\include\gd\manager_nodes\GManager.h" />
     <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemSpriteExtra.h" />
+    <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemToggler.h" />
     <ClInclude Include="..\include\gd\sprite_nodes\ButtonSprite.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="logic\layers\LoaderLayer.h" />
-    <ClInclude Include="logic\layers\LoaderOptionsLayer.h" />
+    <ClInclude Include="logic\layers\more\LoaderAboutLayer.h" />
+    <ClInclude Include="logic\layers\more\LoaderDropDownLayer.h" />
+    <ClInclude Include="logic\layers\more\LoaderOptionsLayer.h" />
     <ClInclude Include="logic\nodes\List.h" />
+    <ClInclude Include="logic\nodes\LoaderManager.h" />
     <ClInclude Include="memory\Hooks.h" />
     <ClInclude Include="memory\Tools.h" />
     <ClInclude Include="pch.h" />
@@ -291,15 +336,17 @@
   <ItemGroup>
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="logic\layers\LoaderLayer.cpp" />
-    <ClCompile Include="logic\layers\LoaderOptionsLayer.cpp" />
+    <ClCompile Include="logic\layers\more\LoaderAboutLayer.cpp" />
+    <ClCompile Include="logic\layers\more\LoaderDropDownLayer.cpp" />
+    <ClCompile Include="logic\layers\more\LoaderOptionsLayer.cpp" />
     <ClCompile Include="logic\nodes\List.cpp" />
+    <ClCompile Include="logic\nodes\LoaderManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\dependencies.txt" />
     <Text Include="..\todo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

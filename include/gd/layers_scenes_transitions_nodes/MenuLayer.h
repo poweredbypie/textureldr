@@ -4,7 +4,10 @@
 #include <gd.h>
 
 namespace gd {
-	class MenuLayer : public cocos2d::CCLayer {
+
+	class FLAlertLayerProtocol;
+
+	class MenuLayer : public cocos2d::CCLayer, public gd::FLAlertLayerProtocol {
 	public:
 		static MenuLayer* create() {
 			return reinterpret_cast<MenuLayer* (__stdcall*)()>(

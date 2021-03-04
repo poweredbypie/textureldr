@@ -302,9 +302,13 @@ THE SOFTWARE.
 //robtop
 #include "robtop/keyboard_dispatcher/CCKeyboardDelegate.h"
 #include "robtop/keyboard_dispatcher/CCKeyboardDispatcher.h"
+
 #include "robtop/mouse_dispatcher/CCMouseDelegate.h"
 #include "robtop/mouse_dispatcher/CCMouseDispatcher.h"
+
 #include "robtop/scene_nodes/CCSceneTransitionDelegate.h"
+
+#include "robtop/xml/DS_Dictionary.h"
 
 NS_CC_BEGIN
 

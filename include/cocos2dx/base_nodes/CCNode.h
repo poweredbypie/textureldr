@@ -418,9 +418,6 @@ public:
      * @return The anchor point in absolute pixels.
      */
     virtual const CCPoint& getAnchorPointInPoints();
-
-    RT_ADD( virtual CCSize getScaledContentSize(void);  )
-    
     
     /**
      * Sets the untransformed size of the node.
@@ -440,7 +437,8 @@ public:
      */
     virtual const CCSize& getContentSize() const;
 
-    
+    RT_ADD(virtual CCSize getScaledContentSize(void); )
+
     /**
      * Sets whether the node is visible
      *

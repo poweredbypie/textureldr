@@ -26,6 +26,11 @@
 
 //game / engine headers
 #include <cocos2d.h>
+#include <cocos-ext.h>
+
 #include <gd.h>
+
+//version string
+#define VERSION "v2.0a"
 
 #endif //PCH_H

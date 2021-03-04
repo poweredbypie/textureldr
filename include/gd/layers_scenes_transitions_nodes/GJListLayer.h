@@ -10,16 +10,13 @@ namespace gd {
 		CCObject* m_pTarget;
 
 	public:
-		virtual ~GJListLayer() {
-			reinterpret_cast<void(__thiscall*)(GJListLayer*, bool)>(
-				base + 0x12DFD0
-				)(this, true);
-		}
 		static GJListLayer* create(CCObject* target, const char* title, cocos2d::ccColor4B color, float width, float height) {
 			__asm movss xmm3, width
 			auto pRet = reinterpret_cast<GJListLayer * (__fastcall*)(CCObject*, const char*, cocos2d::ccColor4B, float)>(
 				base + 0x12E000
 				)(target, title, color, height);
+			__asm add esp, 0x8
+			return pRet;
 		}
 	};
 	#pragma runtime_checks("s", restore)

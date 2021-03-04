@@ -87,6 +87,17 @@ namespace gd {
 				base + 0x113940
 				)(this);
 		}
+		GJDropDownLayer() {
+			reinterpret_cast<void(__thiscall*)(GJDropDownLayer*)>(
+				base + 0x038470
+				)(this);
+		}
+		bool init(const char* title, float height) {
+			__asm movss xmm2, height
+			return reinterpret_cast<bool(__thiscall*)(GJDropDownLayer*, const char*)>(
+				base + 0x113530
+				)(this, title);
+		}
 
 		static GJDropDownLayer* create(const char* title, float height) {
 			GJDropDownLayer* pRet = new GJDropDownLayer();
@@ -98,17 +109,6 @@ namespace gd {
 				CC_SAFE_DELETE(pRet);
 				return nullptr;
 			}
-		}
-		GJDropDownLayer() {
-			reinterpret_cast<void(__thiscall*)(GJDropDownLayer*)>(
-				base + 0x038470
-				)(this);
-		}
-		bool init(const char* title, float height) {
-			__asm movss xmm2, height
-			return reinterpret_cast<bool(__thiscall*)(GJDropDownLayer*, const char*)>(
-				base + 0x113530
-				)(this, title);
 		}
 	};
 }

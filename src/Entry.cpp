@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "memory/Tools.h"
 #include "memory/Hooks.h"
-#include "logic/layers/LoaderLayer.h"
+#include "logic/nodes/LoaderManager.h"
 
 DWORD WINAPI Entry(LPVOID hModule) {
     if (!Log::init()) {
         MessageBox(0, "ERROR: Could not initialize logging.", "textureldr", MB_ICONERROR | MB_OK);
     }
-    if (gd::init() && init()) {
+    if (gd::init() && LoaderManager::sharedState()) {
         Log::info("Setting up hooks.");
 
         Hook LoadingLayer_loadingFinished = {
@@ -84,8 +84,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
         HANDLE _ = CreateThread(0, 0, Entry, hModule, 0, nullptr);
-        if (_)
-            CloseHandle(_);
+        if (_) CloseHandle(_);
     }
     return TRUE;
 }

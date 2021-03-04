@@ -13,12 +13,12 @@
     #define CC_DLL     __declspec(dllimport)
 #endif*/
 
-/** @mod CC_DLL
-* Since we want to use the functions exported by
-* libcocos2d.dll used by GeometryDash.exe, we have to
-* change the classes to import DLL functions, not export them.
+/** CC_DLL
+* Since we are linking a lib containing the functions
+* provided by libcocos2d.dll used by GeometryDash.exe, 
+* we do not need to define this macro to do anything.
 */
-#define CC_DLL 
+#define CC_DLL
 
 #include <assert.h>
 

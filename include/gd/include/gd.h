@@ -12,6 +12,8 @@ namespace gd {
 	}
 }
 
+#include "GDProtocols.h"
+
 #include "layers_scenes_transitions_nodes/FLAlertLayer.h"
 #include "layers_scenes_transitions_nodes/GJDropDownLayer.h"
 #include "layers_scenes_transitions_nodes/GJListLayer.h"
@@ -21,8 +23,12 @@ namespace gd {
 
 #include "manager_nodes/GManager.h"
 #include "manager_nodes/GameManager.h"
+#include "manager_nodes/GameSoundManager.h"
 
 #include "menu_nodes/CCMenuItemSpriteExtra.h"
+#include "menu_nodes/CCMenuItemToggler.h"
+
+#include "audio_nodes/FMODAudioEngine.h"
 
 #include "sprite_nodes/ButtonSprite.h"
 

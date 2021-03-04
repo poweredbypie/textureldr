@@ -264,7 +264,7 @@ private: \
  */
 #if defined(__GNUC__) && (__GNUC__ >= 4)
 #define CC_FORMAT_PRINTF(formatPos, argPos) __attribute__((__format__(printf, formatPos, argPos)))
-/** @mod CC_FORMAT_PRINTF
+/** CC_FORMAT_PRINTF
 * Visual Studio 2019 has __has_attribute,
 * but __has_attribute(format) is undefined,
 * leaving CC_FORMAT_PRINTF undefined by default.

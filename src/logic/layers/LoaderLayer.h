@@ -2,47 +2,35 @@
 #define __LOADERLAYER_H__
 
 #include "pch.h"
-#include "LoaderOptionsLayer.h"
+#include "more/LoaderDropDownLayer.h"
 #include "../nodes/List.h"
+#include "../nodes/LoaderManager.h"
 
-class HorizontalList;
-class VerticalList;
+class LoaderLayer : public cocos2d::CCLayer, gd::FLAlertLayerProtocol {
+protected:
+	HorizontalList* m_plQuality;
+	VerticalList* m_plAll;
+	VerticalList* m_plApplied;
 
-class LoaderLayer : public cocos2d::CCLayer {
-private:
-	static HorizontalList s_lQuality;
-	static VerticalList s_lAll, s_lApplied;
-	static inline tinyxml2::XMLDocument* s_pFile = nullptr;
-	static inline constexpr char s_sFilePath[] = "packs/config.dat";
-	static inline constexpr char s_sBackupPath[] = "packs/backup.dat";
+protected:
+	virtual bool init();
 
-private:
-	virtual bool init() override;
+	virtual void keyBackClicked();
 
-	static LoaderLayer* create();
-
-	virtual void keyBackClicked() override;
+	virtual void FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2);
 
 	void onApply(cocos2d::CCObject*);
-	void onOptions(cocos2d::CCObject*);
+	void onDropDown(cocos2d::CCObject*);
 	void onExit(cocos2d::CCObject*);
+	void onRefresh(cocos2d::CCObject*);
+	void onFolder(cocos2d::CCObject*);
 
-	void getPacks(cocos2d::CCObject*);
-
-	static std::string getPacks(bool generate);
+	void reloadAll();
 
 public:
-	static bool load();
-	static bool save();
-
-	static const std::vector<std::string>& getApplied();
-
-	friend bool init();
-	friend void __stdcall enter(cocos2d::CCObject*);
+	static LoaderLayer* create();
+	static void __fastcall scene(gd::MenuLayer* This, void*, cocos2d::CCObject* btn);
 };
-
-bool init();
-void __stdcall enter(cocos2d::CCObject*);
 
 #endif
 

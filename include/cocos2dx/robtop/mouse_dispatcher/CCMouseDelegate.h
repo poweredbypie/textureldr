@@ -7,12 +7,6 @@
 RT_ADD(
 	NS_CC_BEGIN
 
-	/*no clue if this is accurate.
-	* https://github.com/cocos2d/cocos2d-x/blob/cocos2d-x-3.13/cocos/base/CCEventMouse.h#L48
-	* https://github.com/reneklacan/cocos2d-x/wiki/Mouse-keycodes-enum
-	* not sure which one is which
-	*/
-
 	class CC_DLL CCMouseDelegate 
 	{
 	public:

@@ -154,6 +154,42 @@
     <Filter Include="Header Files\include\gd\sprite_nodes">
       <UniqueIdentifier>{0df54374-65c9-4b8f-a5c1-0bb8ba12ba5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop\xml">
+      <UniqueIdentifier>{e7c63b72-db53-4059-bb0f-48144ee40e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\audio_nodes">
+      <UniqueIdentifier>{78408c16-9ca2-4164-99cd-64163067da3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions">
+      <UniqueIdentifier>{c9388b38-88b8-43ff-ab35-0aa893049836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\AssetsManager">
+      <UniqueIdentifier>{b9eccd79-1668-445c-8e53-c8b897df79ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\GUI">
+      <UniqueIdentifier>{8114714a-6437-494c-82d0-9f2a517ad547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\GUI\CCControlExtension">
+      <UniqueIdentifier>{5558773b-cdce-43d9-9f7f-8341b8d3b0b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\GUI\CCEditBox">
+      <UniqueIdentifier>{723cd6c5-0301-4545-a0d9-fc12b3ca80c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\GUI\CCScrollView">
+      <UniqueIdentifier>{d4e0d9f1-b13f-4514-9ae7-518d6a689489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\LocalStorage">
+      <UniqueIdentifier>{8661d32a-0478-41a4-93b8-0eec95369e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\network">
+      <UniqueIdentifier>{8f9ac076-7c5a-45f2-840f-75776153d7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\extensions\physics_nodes">
+      <UniqueIdentifier>{15cd10d1-f1b6-4e8d-897a-ccd44687fcec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\logic\layers\more">
+      <UniqueIdentifier>{c4eb58d2-9aea-4720-90fe-08d87f454cfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\cocos2dx\actions\CCAction.h">
@@ -690,9 +726,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="logic\layers\LoaderOptionsLayer.h">
-      <Filter>Source Files\logic\layers</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -729,6 +762,144 @@
     <ClInclude Include="..\include\gd\manager_nodes\GManager.h">
       <Filter>Header Files\include\gd\manager_nodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemToggler.h">
+      <Filter>Header Files\include\gd\menu_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\nodes\LoaderManager.h">
+      <Filter>Source Files\logic\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\pugiconfig.hpp">
+      <Filter>Header Files\include\cocos2d\robtop\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\pugixml.hpp">
+      <Filter>Header Files\include\cocos2d\robtop\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\xml\DS_Dictionary.h">
+      <Filter>Header Files\include\cocos2d\robtop\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\audio_nodes\FMODAudioEngine.h">
+      <Filter>Header Files\include\gd\audio_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\GameSoundManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\AssetsManager\AssetsManager.h">
+      <Filter>Header Files\include\extensions\AssetsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControl.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlButton.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlColourPicker.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlExtensions.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlHuePicker.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlPotentiometer.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSaturationBrightnessPicker.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSlider.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlStepper.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlSwitch.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCControlUtils.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCInvocation.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCControlExtension\CCScale9Sprite.h">
+      <Filter>Header Files\include\extensions\GUI\CCControlExtension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBox.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImpl.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplAndroid.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplIOS.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplMac.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplTizen.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplWin.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCEditBox\CCEditBoxImplWp8.h">
+      <Filter>Header Files\include\extensions\GUI\CCEditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCScrollView.h">
+      <Filter>Header Files\include\extensions\GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCSorting.h">
+      <Filter>Header Files\include\extensions\GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCTableView.h">
+      <Filter>Header Files\include\extensions\GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\GUI\CCScrollView\CCTableViewCell.h">
+      <Filter>Header Files\include\extensions\GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\LocalStorage\LocalStorage.h">
+      <Filter>Header Files\include\extensions\LocalStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\network\HttpClient.h">
+      <Filter>Header Files\include\extensions\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\network\HttpRequest.h">
+      <Filter>Header Files\include\extensions\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\network\HttpResponse.h">
+      <Filter>Header Files\include\extensions\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\network\WebSocket.h">
+      <Filter>Header Files\include\extensions\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\cocos-ext.h">
+      <Filter>Header Files\include\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\ExtensionMacros.h">
+      <Filter>Header Files\include\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsDebugNode.h">
+      <Filter>Header Files\include\extensions\physics_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsSprite.h">
+      <Filter>Header Files\include\extensions\physics_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\include\GDProtocols.h">
+      <Filter>Header Files\include\gd\include</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\layers\more\LoaderAboutLayer.h">
+      <Filter>Source Files\logic\layers\more</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\layers\more\LoaderDropDownLayer.h">
+      <Filter>Source Files\logic\layers\more</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\layers\more\LoaderOptionsLayer.h">
+      <Filter>Source Files\logic\layers\more</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -743,14 +914,20 @@
     <ClCompile Include="logic\nodes\List.cpp">
       <Filter>Source Files\logic\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="logic\layers\LoaderOptionsLayer.cpp">
-      <Filter>Source Files\logic\layers</Filter>
+    <ClCompile Include="logic\nodes\LoaderManager.cpp">
+      <Filter>Source Files\logic\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\layers\more\LoaderAboutLayer.cpp">
+      <Filter>Source Files\logic\layers\more</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\layers\more\LoaderDropDownLayer.cpp">
+      <Filter>Source Files\logic\layers\more</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\layers\more\LoaderOptionsLayer.cpp">
+      <Filter>Source Files\logic\layers\more</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\dependencies.txt">
-      <Filter>misc</Filter>
-    </Text>
     <Text Include="..\todo.txt">
       <Filter>misc</Filter>
     </Text>
