@@ -9,10 +9,7 @@ i'm pretty sure this is relatively stable, but i can't make any guarantees. if y
 # known issues
 - it's ugly.
 - not much customization.
-
-# to do
-see todo.txt.
-
+- 
 # usage
 - download "textureldr.dll" and "libtiff.dll" in releases (to the right)
 - drag both dlls into the folder where "GeometryDash.exe" is located. replace the existing libtiff.dll with the new one.
