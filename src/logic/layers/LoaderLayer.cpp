@@ -106,12 +106,28 @@ bool LoaderLayer::init() {
 	this->addChild(m_plApplied);
 
 	this->setKeypadEnabled(true);
+	this->setMouseEnabled(true);
+	//this->scheduleUpdate();
 
 	return true;
 }
 
+void LoaderLayer::update(float dt) {
+	auto gl = CCEGLView::sharedOpenGLView();
+	auto list = gl->getMousePosition().x > gl->getFrameSize().width / 2
+		? m_plApplied : m_plAll;
+	list->update(dt);
+}
+
 void LoaderLayer::keyBackClicked() {
 	this->onExit(nullptr);
+}
+
+void LoaderLayer::scrollWheel(float x, float y) {
+	auto gl = CCEGLView::sharedOpenGLView();
+	auto list = gl->getMousePosition().x > gl->getFrameSize().width / 2 
+		? m_plApplied : m_plAll;
+	list->scroll(x);
 }
 
 void LoaderLayer::FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2) {

@@ -30,13 +30,15 @@ THE SOFTWARE.
 #include "cocoa/CCGeometry.h"
 #include "platform/CCEGLViewProtocol.h"
 
+#include "robtop/glfw/glfw3.h"
+
 NS_CC_BEGIN
 
 typedef LRESULT (*CUSTOM_WND_PROC)(UINT message, WPARAM wParam, LPARAM lParam, BOOL* pProcessed);
 
 class CCEGL;
 
-class CC_DLL CCEGLView : public CCEGLViewProtocol
+class CC_DLL CCEGLView : public CCEGLViewProtocol RT_ADD(, public CCObject)
 {
 public:
     CCEGLView();
@@ -86,21 +88,44 @@ public:
     @brief    get the shared main open gl window
     */
     static CCEGLView* sharedOpenGLView();
-    RT_ADD(static CCEGLView* create(const std::string&); )
+    RT_ADD( static CCEGLView* create(const std::string&);   )
+
+    RT_ADD(
+        //actually this is my function but i dont wanna make a new macro for it
+        inline CCPoint getMousePosition() { return { m_fMouseX, m_fMouseY }; }
+    )
 
 protected:
 	static CCEGLView* s_pEglView;
     bool m_bCaptured;
+    RT_REMOVE(
     HWND m_hWnd;
     HDC  m_hDC;
     HGLRC m_hRC;
     LPFN_ACCELEROMETER_KEYHOOK m_lpfnAccelerometerKeyHook;
+    )
     bool m_bSupportTouch;
-
+    RT_ADD(
+        bool m_bInRetinaMonitor;
+        bool m_bRetinaEnabled;
+        int m_nRetinaFactor;
+        bool m_bCursorHidden;
+    )
+    RT_REMOVE(
     LPCWSTR m_menu;
     CUSTOM_WND_PROC m_wndproc;
-
+    )
     float m_fFrameZoomFactor;
+    RT_ADD(
+        GLFWwindow* m_pMainWindow;
+        GLFWmonitor* m_pPrimaryMonitor;
+        CCSize m_obWindowedSize;
+        float m_fMouseX;
+        float m_fMouseY;
+        bool m_bIsFullscreen;
+        bool m_bShouldHideCursor;
+        bool m_bShouldCallGLFinish;
+    )
 };
 
 NS_CC_END

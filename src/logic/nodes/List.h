@@ -12,13 +12,12 @@ struct ListData {
 	unsigned int m_uLength;
 	unsigned int m_uOffset;
 	unsigned int m_uIndex;
-	ListData* m_pTarget;
 
-	ListData(const char* title, unsigned int length, ListData* target);
+	ListData(const char* title, unsigned int length);
 	ListData() { /*doesn't matter since only used in default ctor of LoaderManager*/ };
 };
 
-class HorizontalList : public cocos2d::CCNode {
+class HorizontalList : public cocos2d::CCLayer {
 protected:
 	ListData& m_pData;
 	cocos2d::CCLabelBMFont** m_pLabels = nullptr;
@@ -74,8 +73,10 @@ public:
 		updateSelector();
 	}
 	virtual void setPosition(float x, float y);
-
 	void setTarget(VerticalList* target) { m_pTarget = target; }
+
+	void scroll(float x);
+	virtual void update(float dt);
 };
 
 #endif

@@ -199,6 +199,7 @@
     <ClInclude Include="..\include\cocos2dx\platform\win32\CCPlatformDefine.h" />
     <ClInclude Include="..\include\cocos2dx\platform\win32\CCStdC.h" />
     <ClInclude Include="..\include\cocos2dx\platform\win32\compat\stdint.h" />
+    <ClInclude Include="..\include\cocos2dx\robtop\glfw\glfw3.h" />
     <ClInclude Include="..\include\cocos2dx\robtop\keyboard_dispatcher\CCKeyboardDelegate.h" />
     <ClInclude Include="..\include\cocos2dx\robtop\keyboard_dispatcher\CCKeyboardDispatcher.h" />
     <ClInclude Include="..\include\cocos2dx\robtop\mouse_dispatcher\CCMouseDelegate.h" />

@@ -310,6 +310,8 @@ THE SOFTWARE.
 
 #include "robtop/xml/DS_Dictionary.h"
 
+#include "robtop/glfw/glfw3.h"
+
 NS_CC_BEGIN
 
 CC_DLL const char* cocos2dVersion();

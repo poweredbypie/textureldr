@@ -9,7 +9,7 @@ class CC_DLL DS_Dictionary {
 private:
 	pugi::xml_document doc;
 	std::vector<pugi::xml_node> dictTree;
-	bool m_bCompatible;
+	bool compatible;
 
 private:
 	std::string cleanStringWhiteSpace(const std::string&);

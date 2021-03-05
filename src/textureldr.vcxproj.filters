@@ -190,6 +190,9 @@
     <Filter Include="Source Files\logic\layers\more">
       <UniqueIdentifier>{c4eb58d2-9aea-4720-90fe-08d87f454cfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cocos2d\robtop\glfw">
+      <UniqueIdentifier>{e5cf9ff1-8102-4b8b-af2b-a18be5a9f018}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\cocos2dx\actions\CCAction.h">
@@ -899,6 +902,9 @@
     </ClInclude>
     <ClInclude Include="logic\layers\more\LoaderOptionsLayer.h">
       <Filter>Source Files\logic\layers\more</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cocos2dx\robtop\glfw\glfw3.h">
+      <Filter>Header Files\include\cocos2d\robtop\glfw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,9 @@ enum {
 };
 
 //ListData
-ListData::ListData(const char* title, unsigned int length, ListData* target) {
+ListData::ListData(const char* title, unsigned int length) {
 	m_sTitle = title;
 	m_uMaxLength = length;
-	m_pTarget = target;
 	m_uLength = 0;
 	m_uOffset = 0;
 	m_uIndex = 0;
@@ -149,7 +148,7 @@ void VerticalList::swap(cocos2d::CCObject* btn) {
 }
 
 void VerticalList::move(cocos2d::CCObject*) {
-	m_pData.m_pTarget->m_vEntries.insert(m_pData.m_pTarget->m_vEntries.begin(),
+	m_pTarget->m_pData.m_vEntries.insert(m_pTarget->m_pData.m_vEntries.begin(),
 		m_pData.m_vEntries[m_pData.m_uIndex + m_pData.m_uOffset]);
 	m_pData.m_vEntries.erase(m_pData.m_vEntries.begin() + m_pData.m_uIndex + m_pData.m_uOffset);
 
@@ -298,6 +297,10 @@ bool VerticalList::init() {
 	return true;
 }
 
+void VerticalList::update(float dt) {
+
+}
+
 VerticalList* VerticalList::create(ListData& data) {
 	VerticalList* pRet = new VerticalList(data);
 	if (pRet && pRet->init()) {
@@ -316,4 +319,9 @@ void VerticalList::setPosition(float x, float y) {
 	moveBtn->setRotation(m_obPosition.x > 0 ? 180.0f : 0.0f);
 
 	this->updateList();
+}
+
+void VerticalList::scroll(float x) {
+	auto tag = x > 0.0f ? kListDownBtn : kListUpBtn;
+	this->navigate(m_pMenu->getChildByTag(tag));
 }

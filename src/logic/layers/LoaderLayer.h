@@ -15,7 +15,10 @@ protected:
 protected:
 	virtual bool init();
 
+	virtual void update(float dt);
+
 	virtual void keyBackClicked();
+	virtual void scrollWheel(float x, float y);
 
 	virtual void FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2);
 

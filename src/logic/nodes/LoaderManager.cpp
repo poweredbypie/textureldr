@@ -10,9 +10,9 @@ using namespace cocos2d;
 bool LoaderManager::init() {
 	m_sFileName = "CCLoaderManager.dat";
 
-	m_dAll = { ALL, 10, &m_dApplied };
-	m_dApplied = { APPLIED, 10, &m_dAll };
-	m_dQuality = { QUALITY, 1, nullptr };
+	m_dAll = { ALL, 10 };
+	m_dApplied = { APPLIED, 10 };
+	m_dQuality = { QUALITY, 1 };
 
 	this->setup();
 
