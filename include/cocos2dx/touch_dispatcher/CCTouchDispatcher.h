@@ -217,6 +217,11 @@ protected:
 
     // 4, 1 for each type of event
     struct ccTouchHandlerHelperData m_sHandlerHelperData[ccTouchMax];
+
+    RT_ADD(
+        CC_SYNTHESIZE_NV(bool, m_bForcePrio, ForcePrio);
+        CC_SYNTHESIZE_NV(int, m_nTargetPrio, TargetPrio);
+    )
 };
 
 // end of input group

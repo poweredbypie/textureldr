@@ -25,6 +25,17 @@ void LoaderDropDownLayer::customSetup() {
 	menu->alignItemsVerticallyWithPadding(20.0f);
 }
 
+void LoaderDropDownLayer::exitLayer(cocos2d::CCObject*) {
+	auto parent = static_cast<LoaderLayer*>(this->getParent());
+	parent->scheduleUpdate();
+	parent->setMouseEnabled(true);
+
+	this->setKeypadEnabled(false);
+	CCDirector::sharedDirector()->getTouchDispatcher()->setForcePrio(false);
+	this->disableUI();
+	this->hideLayer(false);
+}
+
 void LoaderDropDownLayer::onOptions(cocos2d::CCObject*) {
 	auto options = LoaderOptionsLayer::create();
 	options->show();

@@ -105,29 +105,28 @@ bool LoaderLayer::init() {
 	this->addChild(m_plAll);
 	this->addChild(m_plApplied);
 
-	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	//this->scheduleUpdate();
+	this->setKeyboardEnabled(true);
+	this->scheduleUpdate();
 
 	return true;
 }
 
 void LoaderLayer::update(float dt) {
-	auto gl = CCEGLView::sharedOpenGLView();
-	auto list = gl->getMousePosition().x > gl->getFrameSize().width / 2
-		? m_plApplied : m_plAll;
-	list->update(dt);
+	this->listForMousePos()->update(dt);
 }
 
-void LoaderLayer::keyBackClicked() {
-	this->onExit(nullptr);
+void LoaderLayer::keyDown(enumKeyCodes key) {
+	if (key == KEY_Up || key == KEY_Down) {
+		this->listForMousePos()->navigate(key == KEY_Up);
+	}
+	else if (key == KEY_Escape) {
+		this->onExit(nullptr);
+	}
 }
 
 void LoaderLayer::scrollWheel(float x, float y) {
-	auto gl = CCEGLView::sharedOpenGLView();
-	auto list = gl->getMousePosition().x > gl->getFrameSize().width / 2 
-		? m_plApplied : m_plAll;
-	list->scroll(x);
+	this->listForMousePos()->navigate(x < 0.0f);
 }
 
 void LoaderLayer::FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2) {
@@ -137,7 +136,8 @@ void LoaderLayer::FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2) {
 		if (loaderManager->m_bCheckQuality) {
 			if (!loaderManager->checkQuality()) {
 				auto alert = gd::FLAlertLayer::create(
-					this, "Warning", "Cancel", "Yes", 300.0f, "Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
+					this, "Warning", "Cancel", "Yes", 300.0f, 
+					"Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
 				);
 				alert->setTag(kQualityWarningLayer);
 				alert->show();
@@ -153,7 +153,8 @@ void LoaderLayer::onApply(cocos2d::CCObject*) {
 	if (loaderManager->m_bCheckPlists) {
 		if (!loaderManager->checkPlists()) {
 			auto alert = gd::FLAlertLayer::create(
-				this, "Warning", "Cancel", "Yes", 300.0f, "Packs may display <cr>incorrectly</c>.\nDo you want to <cg>Continue</c>?"
+				this, "Warning", "Cancel", "Yes", 300.0f, 
+				"Packs may display <cr>incorrectly</c>.\nDo you want to <cg>Continue</c>?"
 			);
 			alert->setTag(kPlistWarningLayer);
 			alert->show();
@@ -163,7 +164,8 @@ void LoaderLayer::onApply(cocos2d::CCObject*) {
 	if (loaderManager->m_bCheckQuality) {
 		if (!loaderManager->checkQuality()) {
 			auto alert = gd::FLAlertLayer::create(
-				this, "Warning", "Cancel", "Yes", 300.0f, "Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
+				this, "Warning", "Cancel", "Yes", 300.0f, 
+				"Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
 			);
 			alert->setTag(kQualityWarningLayer);
 			alert->show();
@@ -174,6 +176,9 @@ void LoaderLayer::onApply(cocos2d::CCObject*) {
 }
 
 void LoaderLayer::onDropDown(cocos2d::CCObject*) {
+	this->unscheduleUpdate();
+	this->setMouseEnabled(false);
+
 	auto dropDown = LoaderDropDownLayer::create();
 	this->addChild(dropDown);
 	dropDown->setPosition(0.0f, 0.0f);

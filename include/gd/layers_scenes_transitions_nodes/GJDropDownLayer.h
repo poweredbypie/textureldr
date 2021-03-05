@@ -51,10 +51,10 @@ namespace gd {
 				base + 0x16970
 				)(this);
 		}
-		virtual void exitLayer() {
-			return reinterpret_cast<void(__thiscall*)(GJDropDownLayer*)>(
+		virtual void exitLayer(cocos2d::CCObject* btn) {
+			return reinterpret_cast<void(__thiscall*)(GJDropDownLayer*, cocos2d::CCObject*)>(
 				base + 0x113980
-				)(this);
+				)(this, btn);
 		}
 		virtual void showLayer(bool noTransition) {
 			return reinterpret_cast<void(__thiscall*)(GJDropDownLayer*, bool)>(

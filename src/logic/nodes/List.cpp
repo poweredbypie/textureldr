@@ -110,19 +110,27 @@ void HorizontalList::setPosition(float x, float y) {
 }
 
 //VerticalList
+void VerticalList::toggle(bool enable) {
+	auto moveBtn = static_cast<CCMenuItemSprite*>(m_pMenu->getChildByTag(kVerticalListMoveBtn));
+	moveBtn->setVisible(enable);
+	moveBtn->setEnabled(enable);
+	auto swapUpBtn = static_cast<CCMenuItemSprite*>(m_pMenu->getChildByTag(kVerticalListSwapUpBtn));
+	swapUpBtn->setVisible(enable);
+	swapUpBtn->setEnabled(enable);
+	auto swapDownBtn = static_cast<CCMenuItemSprite*>(m_pMenu->getChildByTag(kVerticalListSwapDownBtn));
+	swapDownBtn->setVisible(enable);
+	swapDownBtn->setEnabled(enable);
+}
+
 void VerticalList::navigate(cocos2d::CCObject* btn) {
-	if (btn->getTag() == kListUpBtn) {
-		if (m_pData.m_uIndex > 0)
-			--m_pData.m_uIndex;
-		else if (m_pData.m_uOffset > 0)
-			--m_pData.m_uOffset;
+	if (btn->getTag() == kListUpBtn &&
+		m_pData.m_uOffset > 0) {
+		--m_pData.m_uOffset;
 	}
-	else if (btn->getTag() == kListDownBtn) {
-		if (m_pData.m_uIndex + 1 < m_pData.m_uLength)
-			++m_pData.m_uIndex;
-		else if (m_pData.m_uMaxLength < m_pData.m_vEntries.size() &&
-			m_pData.m_uOffset < m_pData.m_vEntries.size() - m_pData.m_uMaxLength)
-			++m_pData.m_uOffset;
+	else if (btn->getTag() == kListDownBtn &&
+		m_pData.m_uMaxLength < m_pData.m_vEntries.size() &&
+		m_pData.m_uOffset < m_pData.m_vEntries.size() - m_pData.m_uMaxLength) {
+		++m_pData.m_uOffset;
 	}
 
 	this->updateList();
@@ -187,13 +195,11 @@ void VerticalList::updateSelector() {
 	auto swapDownBtn = static_cast<CCMenuItemSprite*>(m_pMenu->getChildByTag(kVerticalListSwapDownBtn));
 
 	if (m_pData.m_vEntries.size() - m_pData.m_uOffset == 0)
-		toggle({ moveBtn, swapUpBtn, swapDownBtn }, false);
+		toggle(false);
 	else {
 		moveBtn->setPosition(mult, -20.0f * m_pData.m_uIndex);
 		swapUpBtn->setPosition(-mult, 5.0f - 20.0f * m_pData.m_uIndex);
 		swapDownBtn->setPosition(-mult, -5.0f - 20.0f * m_pData.m_uIndex);
-
-		toggle({ moveBtn, swapUpBtn, swapDownBtn }, true);
 	}
 }
 
@@ -293,12 +299,34 @@ bool VerticalList::init() {
 	m_pMenu->addChild(swapDownBtn);
 
 	this->updateSelector();
+	this->toggle(false);
 
 	return true;
 }
 
 void VerticalList::update(float dt) {
-
+	auto gl = CCEGLView::sharedOpenGLView();
+	auto absMousePos = gl->getMousePosition();
+	auto absWinSize = gl->getFrameSize();
+	auto winSize = CCDirector::sharedDirector()->getWinSize();
+	CCPoint mousePos = {
+	absMousePos.x / absWinSize.width * winSize.width - winSize.width / 2,
+	winSize.height / 2 - absMousePos.y / absWinSize.height * winSize.height
+	};
+	if (mousePos.x > m_obPosition.x - 60.0f &&
+		mousePos.x < m_obPosition.x + 60.0f &&
+		mousePos.y > m_obPosition.y - 90.0f - 20.0f * m_pData.m_uMaxLength / 2 &&
+		mousePos.y < m_obPosition.y - 90.0f + 20.0f * m_pData.m_uMaxLength / 2) {
+		int index = (110.0f - mousePos.y) / 20.0f;
+		this->getLength();
+		if (index < m_pData.m_uLength) {
+			this->toggle(true);
+			m_pData.m_uIndex = index;
+		}
+		else this->toggle(false);
+	}
+	else this->toggle(false);
+	this->updateSelector();
 }
 
 VerticalList* VerticalList::create(ListData& data) {
@@ -321,7 +349,7 @@ void VerticalList::setPosition(float x, float y) {
 	this->updateList();
 }
 
-void VerticalList::scroll(float x) {
-	auto tag = x > 0.0f ? kListDownBtn : kListUpBtn;
+void VerticalList::navigate(bool up) {
+	auto tag = up ? kListUpBtn : kListDownBtn;
 	this->navigate(m_pMenu->getChildByTag(tag));
 }

@@ -17,8 +17,14 @@ protected:
 
 	virtual void update(float dt);
 
-	virtual void keyBackClicked();
+	virtual void keyDown(cocos2d::enumKeyCodes key);
 	virtual void scrollWheel(float x, float y);
+
+	inline VerticalList* listForMousePos() {
+		auto gl = cocos2d::CCEGLView::sharedOpenGLView();
+		return gl->getMousePosition().x > gl->getFrameSize().width / 2
+			? m_plApplied : m_plAll;
+	}
 
 	virtual void FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2);
 
@@ -33,6 +39,8 @@ protected:
 public:
 	static LoaderLayer* create();
 	static void __fastcall scene(gd::MenuLayer* This, void*, cocos2d::CCObject* btn);
+
+	friend class LoaderDropDownLayer;
 };
 
 #endif

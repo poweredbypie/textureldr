@@ -17,7 +17,7 @@ struct ListData {
 	ListData() { /*doesn't matter since only used in default ctor of LoaderManager*/ };
 };
 
-class HorizontalList : public cocos2d::CCLayer {
+class HorizontalList : public cocos2d::CCNode {
 protected:
 	ListData& m_pData;
 	cocos2d::CCLabelBMFont** m_pLabels = nullptr;
@@ -34,12 +34,6 @@ protected:
 			m_pData.m_uOffset < m_pData.m_uMaxLength ?
 			(m_pData.m_vEntries.size() - m_pData.m_uOffset)
 			: m_pData.m_uMaxLength;
-	}
-	inline void toggle(std::vector<cocos2d::CCMenuItemSprite*> btns, bool enable) {
-		for (auto btn : btns) {
-			btn->setVisible(enable);
-			btn->setEnabled(enable);
-		}
 	}
 	virtual void navigate(cocos2d::CCObject* btn);
 
@@ -58,6 +52,7 @@ protected:
 
 	virtual bool init();
 
+	void toggle(bool enable);
 	virtual void navigate(cocos2d::CCObject* btn) override;
 	void swap(cocos2d::CCObject* btn);
 	void move(cocos2d::CCObject*);
@@ -75,7 +70,7 @@ public:
 	virtual void setPosition(float x, float y);
 	void setTarget(VerticalList* target) { m_pTarget = target; }
 
-	void scroll(float x);
+	void navigate(bool up);
 	virtual void update(float dt);
 };
 
