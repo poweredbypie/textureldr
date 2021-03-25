@@ -109,7 +109,6 @@ namespace gd {
 			*/
 		static FLAlertLayer* create(FLAlertLayerProtocol* target, const char* title,
 			const char* btn1, const char* btn2, std::string caption) {
-			static_assert(sizeof(std::string) == 24, "std::string in debug mode does not work correctly with FLAlertLayer!");
 			auto pRet = reinterpret_cast<FLAlertLayer* (__fastcall*)(FLAlertLayerProtocol*, const char*,
 				const char*, const char*, std::string)>(
 					base + 0x22680
@@ -120,7 +119,6 @@ namespace gd {
 		}
 		static FLAlertLayer* create(FLAlertLayerProtocol* target, const char* title,
 			const char* btn1, const char* btn2, float width, std::string caption) {
-			static_assert(sizeof(std::string) == 24, "std::string in debug mode does not work correctly with FLAlertLayer!");
 			auto pRet = reinterpret_cast<FLAlertLayer* (__fastcall*)(FLAlertLayerProtocol*, const char*,
 				const char*, const char*, float, std::string)>(
 					base + 0x22730

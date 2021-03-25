@@ -1,6 +1,6 @@
-[submodule "include/megahack"]
-	path = include/megahack
-	url = https://github.com/absoIute/Mega-Hack-Extensions.git
 [submodule "include/gd"]
 	path = include/gd
 	url = https://github.com/poweredbypie/gd.h.git
+[submodule "include/megahack"]
+	path = include/megahack
+	url = https://github.com/absoIute/Mega-Hack-Extensions.git
