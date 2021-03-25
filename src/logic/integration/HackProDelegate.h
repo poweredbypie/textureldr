@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include <hackpro_ext.hpp>
-#include <hackpro_ext.h>
 #include "../nodes/LoaderManager.h"
 
 class HackProDelegate : public Hackpro::Extension {
