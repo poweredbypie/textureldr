@@ -40,8 +40,13 @@ bool LoaderOptionsLayer::init() {
 	this->createToggler("Check Quality",
 		loaderManager->m_bCheckQuality,
 		"Check quality of applied packs on Apply.\n"
-		"Will warn user if current quality does not line up with pack quality.\n"
+		"Will warn user if current quality doesn't line up with packs.\n"
 		"Increases performance if toggled off.");
+	this->createToggler("Enhance Quality",
+		loaderManager->m_bEnhanceQuality,
+		"Enhance texture quality.\n"
+		"Changes CCTexture2D pixel format to use 32-bit color.\n"
+		"Seems to increase performance if toggled on. (unsure)");
 
 	auto closeBtn = gd::CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
@@ -126,7 +131,7 @@ void LoaderOptionsLayer::toggleToggler(cocos2d::CCObject* toggler) {
 }
 
 void LoaderOptionsLayer::viewTogglerDescription(cocos2d::CCObject* info) {
-	auto alert = gd::FLAlertLayer::create(nullptr, "Info", "OK", 0, 350.0f,
+	auto alert = gd::FLAlertLayer::create(nullptr, "Info", "OK", 0, 425.0f,
 		static_cast<const char*>(static_cast<CCNode*>(info)->getUserData()));
 	alert->show();
 }

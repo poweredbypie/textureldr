@@ -19,6 +19,7 @@ namespace gates {
 	inline void(__thiscall* GameManager_dataLoaded)(gd::GameManager*, void*);
 	inline void(__thiscall* AppDelegate_trySaveGame)(cocos2d::CCObject*);
 	inline void(__thiscall* CCFileUtils_addSearchPath)(cocos2d::CCFileUtils*, const char*);
+	inline void(__cdecl* CCTexture2D_setDefaultAlphaPixelFormat)(cocos2d::CCTexture2DPixelFormat);
 }
 
 namespace hooks {
@@ -60,6 +61,13 @@ namespace hooks {
 			gates::CCFileUtils_addSearchPath(This, ("packs/" + i).c_str());
 		}
 		return gates::CCFileUtils_addSearchPath(This, path);
+	}
+
+	void __cdecl CCTexture2D_setDefaultAlphaPixelFormat(cocos2d::CCTexture2DPixelFormat format) {
+		if (LoaderManager::sharedState()->m_bEnhanceQuality) {
+			return gates::CCTexture2D_setDefaultAlphaPixelFormat(cocos2d::kCCTexture2DPixelFormat_RGBA8888);
+		}
+		return gates::CCTexture2D_setDefaultAlphaPixelFormat(format);
 	}
 }
 

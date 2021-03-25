@@ -193,6 +193,12 @@
     <Filter Include="Header Files\include\cocos2d\robtop\glfw">
       <UniqueIdentifier>{e5cf9ff1-8102-4b8b-af2b-a18be5a9f018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\logic\integration">
+      <UniqueIdentifier>{51bd7866-73f6-45ed-bf7a-b30e50ecaa42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\megahack">
+      <UniqueIdentifier>{8debbe1d-3aef-4df4-869c-72e932113244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\cocos2dx\actions\CCAction.h">
@@ -906,6 +912,18 @@
     <ClInclude Include="..\include\cocos2dx\robtop\glfw\glfw3.h">
       <Filter>Header Files\include\cocos2d\robtop\glfw</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\gd\include\gdMacros.h">
+      <Filter>Header Files\include\gd\include</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\integration\HackProDelegate.h">
+      <Filter>Source Files\logic\integration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\megahack\incl\hackpro_ext.h">
+      <Filter>Header Files\include\megahack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\megahack\incl\hackpro_ext.hpp">
+      <Filter>Header Files\include\megahack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -931,6 +949,9 @@
     </ClCompile>
     <ClCompile Include="logic\layers\more\LoaderOptionsLayer.cpp">
       <Filter>Source Files\logic\layers\more</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\integration\HackProDelegate.cpp">
+      <Filter>Source Files\logic\integration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

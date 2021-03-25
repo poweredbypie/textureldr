@@ -4,12 +4,12 @@
 #include "pch.h"
 
 inline void patch(void* dst, const void* src, void* buff, const int len) {
-	Log::info("Attempting to patch bytes at ", std::hex, dst, '.');
+	Log::info("Attempting to patch bytes at ", std::hex, dst, '.', std::dec);
 	if (buff) {
 		patch(buff, dst, nullptr, len);
 	}
 	if (!WriteProcessMemory(GetCurrentProcess(), dst, src, len, nullptr)) {
-		Log::error("WriteProcessMemory failed with error ", std::hex, GetLastError(), '.');
+		Log::error("WriteProcessMemory failed with error ", std::hex, GetLastError(), '.', std::dec);
 	}
 }
 

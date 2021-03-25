@@ -317,7 +317,7 @@ void VerticalList::update(float dt) {
 		mousePos.x < m_obPosition.x + 60.0f &&
 		mousePos.y > m_obPosition.y - 90.0f - 20.0f * m_pData.m_uMaxLength / 2 &&
 		mousePos.y < m_obPosition.y - 90.0f + 20.0f * m_pData.m_uMaxLength / 2) {
-		int index = (110.0f - mousePos.y) / 20.0f;
+		unsigned int index = static_cast<unsigned int>((110.0f - mousePos.y) / 20.0f);
 		this->getLength();
 		if (index < m_pData.m_uLength) {
 			this->toggle(true);

@@ -133,36 +133,7 @@ void LoaderLayer::FLAlert_Clicked(gd::FLAlertLayer* layer, bool btn2) {
 	if (!btn2) return;
 	if (layer->getTag() == kPlistWarningLayer) {
 		auto loaderManager = LoaderManager::sharedState();
-		if (loaderManager->m_bCheckQuality) {
-			if (!loaderManager->checkQuality()) {
-				auto alert = gd::FLAlertLayer::create(
-					this, "Warning", "Cancel", "Yes", 300.0f, 
-					"Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
-				);
-				alert->setTag(kQualityWarningLayer);
-				alert->show();
-				return;
-			}
-		}
-	}
-	this->reloadAll();
-}
-
-void LoaderLayer::onApply(cocos2d::CCObject*) {
-	auto loaderManager = LoaderManager::sharedState();
-	if (loaderManager->m_bCheckPlists) {
-		if (!loaderManager->checkPlists()) {
-			auto alert = gd::FLAlertLayer::create(
-				this, "Warning", "Cancel", "Yes", 300.0f, 
-				"Packs may display <cr>incorrectly</c>.\nDo you want to <cg>Continue</c>?"
-			);
-			alert->setTag(kPlistWarningLayer);
-			alert->show();
-			return;
-		}
-	}
-	if (loaderManager->m_bCheckQuality) {
-		if (!loaderManager->checkQuality()) {
+		if (loaderManager->m_bCheckQuality && !loaderManager->checkQuality()) {
 			auto alert = gd::FLAlertLayer::create(
 				this, "Warning", "Cancel", "Yes", 300.0f, 
 				"Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
@@ -171,6 +142,29 @@ void LoaderLayer::onApply(cocos2d::CCObject*) {
 			alert->show();
 			return;
 		}
+	}
+	this->reloadAll();
+}
+
+void LoaderLayer::onApply(cocos2d::CCObject*) {
+	auto loaderManager = LoaderManager::sharedState();
+	if (loaderManager->m_bCheckPlists && !loaderManager->checkPlists()) {
+		auto alert = gd::FLAlertLayer::create(
+			this, "Warning", "Cancel", "Yes", 300.0f, 
+			"Packs may display <cr>incorrectly</c>.\nDo you want to <cg>Continue</c>?"
+		);
+		alert->setTag(kPlistWarningLayer);
+		alert->show();
+		return;
+	}
+	if (loaderManager->m_bCheckQuality && !loaderManager->checkQuality()) {
+		auto alert = gd::FLAlertLayer::create(
+			this, "Warning", "Cancel", "Yes", 300.0f, 
+			"Packs may not line up with <cy>quality</c>.\nDo you want to <cg>Continue</c>?"
+		);
+		alert->setTag(kQualityWarningLayer);
+		alert->show();
+		return;
 	}
 	this->reloadAll();
 }
@@ -197,8 +191,7 @@ void LoaderLayer::onRefresh(cocos2d::CCObject*) {
 	m_plAll->updateList();
 	m_plApplied->updateList();
 
-	auto alert = gd::FLAlertLayer::create(nullptr, "Update", "OK", nullptr, 350.0f, text);
-	alert->show();
+	gd::FLAlertLayer::create(nullptr, "Update", "OK", nullptr, 350.0f, text)->show();
 }
 
 void LoaderLayer::onFolder(cocos2d::CCObject*) {
@@ -216,6 +209,7 @@ void LoaderLayer::reloadAll() {
 	gameManager->setQuality(
 		static_cast<TextureQuality>(loaderManager->m_dQuality.m_uOffset + 1)
 	);
+	CCTexture2D::setDefaultAlphaPixelFormat(kCCTexture2DPixelFormat_RGBA4444);
 	gameManager->reloadAll(false, false, true);
 }
 

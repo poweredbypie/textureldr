@@ -22,7 +22,7 @@ public:
 			create_directories(packs);
 		}
 		else if (!is_directory(packs)) {
-			MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
 		}
 
 		if (!is_directory(log)) {
@@ -36,7 +36,7 @@ public:
 			}
 		}
 		else {
-			MessageBox(0, "ERROR: log.txt is an existing directory.\n could not initialize logging.", "textureldr", MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, "ERROR: log.txt is an existing directory.\n could not initialize logging.", "textureldr", MB_OK | MB_ICONERROR);
 		}
 		
 		std::cout.rdbuf(file.rdbuf());

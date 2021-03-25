@@ -16,6 +16,7 @@ public:
 	bool m_bReloadMusic;
 	bool m_bCheckPlists;
 	bool m_bCheckQuality;
+	bool m_bEnhanceQuality;
 
 protected:
 	virtual bool init();

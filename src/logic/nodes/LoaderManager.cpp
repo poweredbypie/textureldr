@@ -40,6 +40,8 @@ bool LoaderManager::loadListFrom(DS_Dictionary* data, ListData& list) {
 	//handle error checking in GUI class.
 		
 	data->stepOutOfSubDict();
+
+	return true;
 }
 
 void LoaderManager::encodeDataTo(DS_Dictionary* data) {
@@ -53,6 +55,7 @@ void LoaderManager::encodeDataTo(DS_Dictionary* data) {
 	data->setBoolForKey("reloadMusic", m_bReloadMusic);
 	data->setBoolForKey("checkPlists", m_bCheckPlists);
 	data->setBoolForKey("checkQuality", m_bCheckQuality);
+	data->setBoolForKey("enhanceQuality", m_bEnhanceQuality);
 }
 
 void LoaderManager::dataLoaded(DS_Dictionary* data) {
@@ -68,6 +71,7 @@ void LoaderManager::dataLoaded(DS_Dictionary* data) {
 	m_bReloadMusic = data->getBoolForKey("reloadMusic");
 	m_bCheckPlists = data->getBoolForKey("checkPlists");
 	m_bCheckQuality = data->getBoolForKey("checkQuality");
+	m_bEnhanceQuality = data->getBoolForKey("enhanceQuality");
 }
 
 void LoaderManager::firstLoad() {
@@ -79,6 +83,7 @@ void LoaderManager::firstLoad() {
 	m_bReloadMusic = true;
 	m_bCheckPlists = true;
 	m_bCheckQuality = true;
+	m_bEnhanceQuality = false;
 }
 
 void LoaderManager::syncVectors(const std::vector<std::string>& other, unsigned int& added, unsigned int& removed) {
@@ -116,104 +121,120 @@ void LoaderManager::syncVectors(const std::vector<std::string>& other, unsigned 
 bool LoaderManager::checkPlists() {
 	using namespace std::filesystem;
 
-	std::vector<path> plists = {};
+	try {
+		Log::info("Verifying applied pack plists.");
+		/*checks for all plists in applied pack folders. then looks for pngs
+		* that don't have corresponding plists, and sees if it's in the plists vector.
+		* if so, and if the plist is at a higher index than the png, warn.
+		* does not check for if plists are standalone; that is slower to do, and
+		* a normal texture pack should always have a corresponding png for a modded
+		* plist. otherwise it would always mess up lol
+		*/
+		std::vector<path> plists = {};
 
-	/*checks for all plists in applied pack folders. then looks for pngs
-	* that don't have corresponding plists, and sees if it's in the plists vector.
-	* if so, and if the plist is at a higher index than the png, warn.
-	* does not check for if plists are standalone; that is slower to do, and
-	* a normal texture pack should always have a corresponding png for a modded
-	* plist. otherwise it would always mess up lol
-	*/
-	for (auto packName : m_dApplied.m_vEntries) {
-		path pack = current_path() / "packs" / packName;
-		if (exists(pack)) {
-			for (directory_entry file : directory_iterator{ pack }) {
-				if (file.path().extension() == ".plist" ||
-					file.path().extension() == ".fnt") {
-					plists.push_back(file.path());
+		for (auto packName : m_dApplied.m_vEntries) {
+			path pack = current_path() / "packs" / packName;
+			if (exists(pack)) {
+				for (directory_entry file : directory_iterator{ pack }) {
+					if (file.path().extension() == ".plist" ||
+						file.path().extension() == ".fnt") {
+						plists.push_back(file.path());
+					}
 				}
 			}
 		}
-	}
-	for (unsigned int i = 0; i < m_dApplied.m_vEntries.size(); ++i) {
-		path pack = current_path() / "packs" / m_dApplied.m_vEntries[i];
-		if (exists(pack)) {
-			for (directory_entry file : directory_iterator{ pack }) {
-				if (file.path().extension() == ".png") {
-					if (!exists(file.path().stem().replace_extension(".plist")) &&
-						!exists(file.path().stem().replace_extension(".fnt"))) {
-						auto index = std::find_if(plists.begin(), plists.end(), [file](path x) {
-							return x.stem() == file.path().stem();
-							});
-						if (index != plists.end()) {
-							if (std::find(m_dApplied.m_vEntries.begin(),
-								m_dApplied.m_vEntries.end(),
-								plists[index - plists.begin()].parent_path().filename().string())
-								- m_dApplied.m_vEntries.begin() > i) {
-								return false;
+		for (unsigned int i = 0; i < m_dApplied.m_vEntries.size(); ++i) {
+			path pack = current_path() / "packs" / m_dApplied.m_vEntries[i];
+			if (exists(pack)) {
+				for (directory_entry file : directory_iterator{ pack }) {
+					if (file.path().extension() == ".png") {
+						if (!exists(file.path().stem().replace_extension(".plist")) &&
+							!exists(file.path().stem().replace_extension(".fnt"))) {
+							auto index = std::find_if(plists.begin(), plists.end(), [file](path x) {
+								return x.stem() == file.path().stem();
+								});
+							//check index of entry to see if the plist is below on the priority list
+							if (index != plists.end()) {
+								if (std::find(m_dApplied.m_vEntries.begin(),
+									m_dApplied.m_vEntries.end(),
+									plists[index - plists.begin()].parent_path().filename().string())
+									- m_dApplied.m_vEntries.begin() > i) {
+									return false;
+								}
 							}
 						}
+
 					}
-					
 				}
 			}
 		}
+		return true;
 	}
-	return true;
+	catch (const std::exception& err) {
+		Log::error("Plist verification failed with error: ", err.what());
+		return true;
+	}
 }
 
 bool LoaderManager::checkQuality() {
 	using namespace std::filesystem;
 	
-	/*imo an invalid pack is one that has textures that have uhd variants,
-	* that don't align with your current quality. if it just has like music
-	* or textures that dont have uhd variants, i shouldn't warn you cuz then
-	* it'd warn you like everytime lol
-	*/
-	bool valid = true;
-	std::vector<std::string> pngs = {};
-	path defaults = current_path() / "Resources";
-	for (auto file : directory_iterator{ defaults }) {
-		if (file.path().extension() == ".png") {
-			auto filename = file.path().stem().string();
-			if (filename.substr(filename.size() - 3) == "uhd") {
-				//check this pointer arithmetic, idk if 5 is correct
-				//trying to remove uhd thing
-				pngs.push_back(filename.substr(0, filename.size() - 4));
-			}	
+	try {
+		Log::info("Verifying applied pack qualities.");
+		/*imo an invalid pack is one that has textures that have uhd variants,
+		* that don't align with your current quality. if it just has like music
+		* or textures that dont have uhd variants, i shouldn't warn you cuz then
+		* it'd warn you like everytime lol
+		*/
+		bool valid = true;
+		std::vector<std::string> pngs = {};
+		path defaults = current_path() / "Resources";
+
+		for (auto file : directory_iterator{ defaults }) {
+			if (file.path().extension() == ".png") {
+				auto filename = file.path().stem().string();
+				if (filename.size() >= 3 &&
+					filename.substr(filename.size() - 3) == "uhd") {
+					pngs.push_back(filename.substr(0, filename.size() - 4));
+				}
+			}
 		}
-	}
-	for (auto packName : m_dApplied.m_vEntries) {
-		path pack = current_path() / "packs" / packName;
-		if (exists(pack)) {
-			for (auto file : directory_iterator{ pack }) {
-				if (file.path().extension() == ".png") {
-					auto filename = file.path().stem().string();
-					if (std::find_if(pngs.begin(), pngs.end(), [filename](std::string x) {
-						return x == filename.substr(0, x.size());
-						}) != pngs.end()) {
-						switch (m_dQuality.m_uOffset) {
-						case 0:
-							if (filename.substr(filename.size() - 2) != "hd") return true;
-							else valid = false;
-							break;
-						case 1:
-							if (filename.substr(filename.size() - 3) == "-hd") return true;
-							else valid = false;
-							break;
-						case 2:
-							if (filename.substr(filename.size() - 4) == "-uhd") return true;
-							else valid = false;
-							break;
+		for (auto packName : m_dApplied.m_vEntries) {
+			path pack = current_path() / "packs" / packName;
+			if (exists(pack)) {
+				for (auto file : directory_iterator{ pack }) {
+					if (file.path().extension() == ".png") {
+						auto filename = file.path().stem().string();
+						if (filename.size() >= 4 &&
+							std::find_if(pngs.begin(), pngs.end(), [filename](std::string x) {
+								return x == filename.substr(0, x.size());
+							}) != pngs.end()) {
+							switch (m_dQuality.m_uOffset) {
+							case 0:
+								if (filename.substr(filename.size() - 2) != "hd") return true;
+								else valid = false;
+								break;
+							case 1:
+								if (filename.substr(filename.size() - 3) == "-hd") return true;
+								else valid = false;
+								break;
+							case 2:
+								if (filename.substr(filename.size() - 4) == "-uhd") return true;
+								else valid = false;
+								break;
+							}
 						}
 					}
 				}
 			}
 		}
-	}
 
-	return valid;
+		return valid;
+	}
+	catch (const std::exception& err) {
+		Log::error("Quality verification failed with error: ", err.what());
+		return true;
+	}
 }
 
 LoaderManager* LoaderManager::sharedState() {
@@ -263,7 +284,7 @@ std::string LoaderManager::updatePacks(bool generate) {
 			Log::info(packsList.size(), " packs found.");
 		}
 		else
-			MessageBox(0, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, "ERROR: packs is an existing file.\n please remove it to use textureldr.", "textureldr", MB_OK | MB_ICONERROR);
 	}
 	else {
 		Log::error("No packs directory found. Creating new directory.");
