@@ -55,7 +55,7 @@ namespace hooks {
 
 	void __fastcall CCFileUtils_addSearchPath(cocos2d::CCFileUtils* This, void*, const char* path) {
 		if (LoaderManager::sharedState()->m_bReloadMusic) {
-			gd::MenuLayer::fadeInMusic(" ");
+			gd::GameManager::sharedState()->fadeInMusic(" ");
 		}
 		for (auto i : LoaderManager::sharedState()->m_dApplied.m_vEntries) {
 			gates::CCFileUtils_addSearchPath(This, ("packs/" + i).c_str());
