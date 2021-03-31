@@ -24,7 +24,7 @@ namespace gates {
 
 namespace hooks {
 	void __fastcall LoadingLayer_loadingFinished(gd::LoadingLayer* This) {
-		This->setWillFadeIn(false);
+		This->setFromRefresh(false);
 		if (LoaderManager::sharedState()->m_bReloadSFX) {
 			gd::FMODAudioEngine::sharedEngine()->reloadEffects();
 		}

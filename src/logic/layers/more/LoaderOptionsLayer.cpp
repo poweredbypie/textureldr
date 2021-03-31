@@ -131,9 +131,8 @@ void LoaderOptionsLayer::toggleToggler(cocos2d::CCObject* toggler) {
 }
 
 void LoaderOptionsLayer::viewTogglerDescription(cocos2d::CCObject* info) {
-	auto alert = gd::FLAlertLayer::create(nullptr, "Info", "OK", 0, 425.0f,
-		static_cast<const char*>(static_cast<CCNode*>(info)->getUserData()));
-	alert->show();
+	gd::FLAlertLayer::create(nullptr, "Info", "OK", 0, 425.0f,
+		static_cast<const char*>(static_cast<CCNode*>(info)->getUserData()))->show();
 }
 
 LoaderOptionsLayer* LoaderOptionsLayer::create() {

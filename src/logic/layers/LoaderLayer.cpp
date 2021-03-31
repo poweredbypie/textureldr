@@ -181,7 +181,7 @@ void LoaderLayer::onDropDown(cocos2d::CCObject*) {
 
 void LoaderLayer::onExit(cocos2d::CCObject*) {
 	auto scene = CCScene::create();
-	scene->addChild(gd::MenuLayer::create());
+	scene->addChild(gd::MenuLayer::node());
 
 	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, scene));
 }

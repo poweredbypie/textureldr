@@ -199,6 +199,18 @@
     <Filter Include="Header Files\include\megahack">
       <UniqueIdentifier>{8debbe1d-3aef-4df4-869c-72e932113244}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\gd\achievement_nodes">
+      <UniqueIdentifier>{a7ddb4c2-82cb-4d40-bbc1-2911ab13b876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\actions">
+      <UniqueIdentifier>{2e7e3cad-6413-4d77-9167-949fe0c15388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\scroll_nodes">
+      <UniqueIdentifier>{9a2b08d6-e9f4-42bf-bc44-4f099fb2c785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\gd\text_input_nodes">
+      <UniqueIdentifier>{df704c6e-7f87-479d-ab11-855009cdca7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\cocos2dx\actions\CCAction.h">
@@ -741,35 +753,8 @@
     <ClInclude Include="..\include\gd\include\gd.h">
       <Filter>Header Files\include\gd\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\gd\sprite_nodes\ButtonSprite.h">
-      <Filter>Header Files\include\gd\sprite_nodes</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemSpriteExtra.h">
       <Filter>Header Files\include\gd\menu_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\manager_nodes\GameManager.h">
-      <Filter>Header Files\include\gd\manager_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\FLAlertLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJDropDownLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJListLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\MenuLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\ScrollingLayer.h">
-      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\manager_nodes\GManager.h">
-      <Filter>Header Files\include\gd\manager_nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemToggler.h">
       <Filter>Header Files\include\gd\menu_nodes</Filter>
@@ -788,9 +773,6 @@
     </ClInclude>
     <ClInclude Include="..\include\gd\audio_nodes\FMODAudioEngine.h">
       <Filter>Header Files\include\gd\audio_nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\gd\manager_nodes\GameSoundManager.h">
-      <Filter>Header Files\include\gd\manager_nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\include\extensions\AssetsManager\AssetsManager.h">
       <Filter>Header Files\include\extensions\AssetsManager</Filter>
@@ -923,6 +905,102 @@
     </ClInclude>
     <ClInclude Include="..\include\megahack\incl\hackpro_ext.hpp">
       <Filter>Header Files\include\megahack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\achievement_nodes\AchievementBar.h">
+      <Filter>Header Files\include\gd\achievement_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\achievement_nodes\AchievementNotifier.h">
+      <Filter>Header Files\include\gd\achievement_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\actions\CCCircleWave.h">
+      <Filter>Header Files\include\gd\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\CCBlockLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\FLAlertLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJBaseGameLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJDropDownLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJListLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingCircle.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\MenuLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\PauseLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\PlayLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\ScrollingLayer.h">
+      <Filter>Header Files\include\gd\layers_scenes_transitions_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\AchievementManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\GameManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\GameSoundManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\manager_nodes\GManager.h">
+      <Filter>Header Files\include\gd\manager_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\BoomListView.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\CCContentLayer.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\CCIndexPath.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\CCScrollLayerExt.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\CustomListView.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\scroll_nodes\TableView.h">
+      <Filter>Header Files\include\gd\scroll_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\AnimatedShopKeeper.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\ButtonSprite.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\CCAnimatedSprite.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\CCSpritePlus.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\GameObject.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\PlayerObject.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\sprite_nodes\TextArea.h">
+      <Filter>Header Files\include\gd\sprite_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gd\text_input_nodes\CCTextInputNode.h">
+      <Filter>Header Files\include\gd\text_input_nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

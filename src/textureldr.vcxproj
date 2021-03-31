@@ -64,7 +64,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;$(SolutionDir)include\megahack\incl</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,7 +84,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;$(SolutionDir)include\megahack\incl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\cocos2dx\kazmath\include;$(SolutionDir)include\cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)include\cocos2dx\platform\third_party\win32\pthread;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libwebp;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libtiff;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libjpeg;$(SolutionDir)include\cocos2dx\platform\third_party\win32\libpng;$(SolutionDir)include\cocos2dx\platform\third_party\win32\zlib;$(SolutionDir)include\cocos2dx\platform\third_party\win32\iconv;$(SolutionDir)include\cocos2dx\platform\win32;$(SolutionDir)include\cocos2dx\;$(SolutionDir)include\cocos2dx\include;$(SolutionDir)include\gd\include;$(SolutionDir)include\gd;$(SolutionDir)include\extensions;$(SolutionDir)include\megahack\incl</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -307,22 +307,44 @@
     <ClInclude Include="..\include\extensions\network\WebSocket.h" />
     <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsDebugNode.h" />
     <ClInclude Include="..\include\extensions\physics_nodes\CCPhysicsSprite.h" />
+    <ClInclude Include="..\include\gd\achievement_nodes\AchievementBar.h" />
+    <ClInclude Include="..\include\gd\achievement_nodes\AchievementNotifier.h" />
+    <ClInclude Include="..\include\gd\actions\CCCircleWave.h" />
     <ClInclude Include="..\include\gd\audio_nodes\FMODAudioEngine.h" />
     <ClInclude Include="..\include\gd\include\gd.h" />
     <ClInclude Include="..\include\gd\include\gdMacros.h" />
     <ClInclude Include="..\include\gd\include\GDProtocols.h" />
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\CCBlockLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\FLAlertLayer.h" />
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJBaseGameLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJDropDownLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\GJListLayer.h" />
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingCircle.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\LoadingLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\MenuLayer.h" />
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\PauseLayer.h" />
+    <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\PlayLayer.h" />
     <ClInclude Include="..\include\gd\layers_scenes_transitions_nodes\ScrollingLayer.h" />
+    <ClInclude Include="..\include\gd\manager_nodes\AchievementManager.h" />
     <ClInclude Include="..\include\gd\manager_nodes\GameManager.h" />
     <ClInclude Include="..\include\gd\manager_nodes\GameSoundManager.h" />
     <ClInclude Include="..\include\gd\manager_nodes\GManager.h" />
     <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemSpriteExtra.h" />
     <ClInclude Include="..\include\gd\menu_nodes\CCMenuItemToggler.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\BoomListView.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\CCContentLayer.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\CCIndexPath.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\CCScrollLayerExt.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\CustomListView.h" />
+    <ClInclude Include="..\include\gd\scroll_nodes\TableView.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\AnimatedShopKeeper.h" />
     <ClInclude Include="..\include\gd\sprite_nodes\ButtonSprite.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\CCAnimatedSprite.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\CCSpritePlus.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\GameObject.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\PlayerObject.h" />
+    <ClInclude Include="..\include\gd\sprite_nodes\TextArea.h" />
+    <ClInclude Include="..\include\gd\text_input_nodes\CCTextInputNode.h" />
     <ClInclude Include="..\include\megahack\incl\hackpro_ext.h" />
     <ClInclude Include="..\include\megahack\incl\hackpro_ext.hpp" />
     <ClInclude Include="framework.h" />

@@ -37,13 +37,11 @@ void LoaderDropDownLayer::exitLayer(cocos2d::CCObject*) {
 }
 
 void LoaderDropDownLayer::onOptions(cocos2d::CCObject*) {
-	auto options = LoaderOptionsLayer::create();
-	options->show();
+	LoaderOptionsLayer::create()->show();
 }
 
 void LoaderDropDownLayer::onAbout(cocos2d::CCObject*) {
-	auto about = LoaderAboutLayer::create();
-	about->show();
+	LoaderAboutLayer::create()->show();
 }
 
 LoaderDropDownLayer* LoaderDropDownLayer::create() {

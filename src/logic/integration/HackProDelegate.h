@@ -13,8 +13,6 @@ protected:
 	static HackProDelegate* create();
 	void init();
 
-	void __stdcall reloadAll();
-
 public:
 	static HackProDelegate* sharedDelegate();
 };
